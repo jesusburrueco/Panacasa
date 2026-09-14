@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Breadly | Customer Profile</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=EB+Garamond:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#934b19",
+                    "surface": "#fefccf",
+                    "surface-container": "#f2f0c4",
+                    "primary": "#6c2f00",
+                    "on-surface": "#1d1d03",
+                    "on-error": "#ffffff",
+                    "primary-container": "#8b4513",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#f5f3c7",
+                    "on-primary": "#ffffff",
+                    "outline": "#877369",
+                    "on-surface-variant": "#54433a",
+                    "on-primary-fixed": "#321200",
+                    "secondary": "#5e604d",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#ffb68c",
+                    "on-background": "#1d1d03",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed": "#ffdf98",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#636451",
+                    "tertiary-container": "#6f5400",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#e4e4cc",
+                    "secondary-container": "#e1e1c9",
+                    "primary-fixed": "#ffdbc9",
+                    "surface-container-low": "#f8f6c9",
+                    "tertiary": "#523e00",
+                    "surface-container-high": "#eceabe",
+                    "surface-dim": "#dedcb1",
+                    "outline-variant": "#dac2b6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e6e5b9",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-primary-container": "#ffc29f",
+                    "on-tertiary-container": "#fec72c",
+                    "inverse-primary": "#ffb68c",
+                    "background": "#fefccf",
+                    "surface-variant": "#e6e5b9",
+                    "on-secondary-fixed-variant": "#474836",
+                    "tertiary-fixed-dim": "#f5bf22",
+                    "on-secondary-fixed": "#1b1d0e",
+                    "on-primary-fixed-variant": "#753401",
+                    "inverse-surface": "#323214",
+                    "surface-bright": "#fefccf",
+                    "secondary-fixed-dim": "#c8c8b0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-margin-mobile": "20px",
+                    "section-gap": "64px",
+                    "container-margin-desktop": "80px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-md": ["EB Garamond"],
+                    "display-lg": ["EB Garamond"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "headline-sm": ["EB Garamond"],
+                    "body-lg": ["Be Vietnam Pro"],
+                    "display-lg-mobile": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fefccf; /* Theme surface */
+            color: #1d1d03; /* Theme on-surface */
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .bento-card {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+        .bento-card:hover {
+            transform: scale(1.01);
+        }
+        /* Custom scrollbar for order history */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #dac2b6;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="w-full top-0 sticky bg-surface dark:bg-surface-dim shadow-[0_4px_20px_-5px_rgba(139,69,19,0.08)] z-50">
+<div class="flex justify-between items-center h-20 px-container-margin-desktop max-w-[1440px] mx-auto w-full">
+<div class="font-display-lg text-display-lg text-primary dark:text-primary-fixed tracking-tight">Breadly</div>
+<div class="hidden md:flex gap-gutter items-center">
+<a class="text-on-surface-variant dark:text-on-surface hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">Catalog</a>
+<a class="text-on-surface-variant dark:text-on-surface hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">Subscriptions</a>
+<a class="text-on-surface-variant dark:text-on-surface hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">Locations</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container-low rounded-full transition-all">shopping_basket</button>
+<div class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary-fixed cursor-pointer hover:scale-[1.02] transition-transform">
+<img class="w-full h-full object-cover" data-alt="A professional and friendly portrait of a middle-aged urban professional man with a warm smile, wearing a cream-colored linen shirt. The lighting is soft and natural, coming from a large window. The background is a blurred high-end kitchen with artisanal pottery and wooden accents, maintaining the warm and tactile bakery aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwhl98h7dVPBUsXjREfwZX9UDJ4qcmHcIuA6z1kfR0fqqQ4AKoRvm2EEDlz3S8PjvDr-meHi2ALIdbAv_EWWoe0t7ukAkOp4zx__cEHr_c06QLAPH4wZSJtdm7jTKrsSIDt2g7Z83loZAiUW7AtfAtZPbSUwqguJQBt3l4WiDs0CYqv4yWxh_FK5Smud3Jcz6ho_3WpF_rdjvTs6KkSy3E-TJQojFxBwePAW5MiERm_a1-r96IKjtg"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow max-w-[1440px] mx-auto w-full px-container-margin-desktop py-12">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row justify-between items-end md:items-center mb-12 gap-gutter">
+<div class="flex items-center gap-6">
+<div class="w-24 h-24 rounded-full overflow-hidden shadow-lg border-4 border-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Close up of a friendly person's face, radiant skin, natural lighting, smiling warmly. The aesthetic is clean, organic, and premium, consistent with a high-end artisanal lifestyle brand. Soft focus background featuring warm wood and wheat tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa0q7NTJcnwkGGzdG3xBMbivt42Ag5_4KQXX88m8OE9RPc3qnSnVdG-qfq5hcknvmRhquPcPKUpRrI5Ri1tGnMxUJv9gDreCq4ui96AP7cKQNq97o36tyM-CV4zAdscR4dSAaRffAAiwCfI51J56YKF0dQVtJaF9NoWoskK1eXZHgBmFa_OAeedmz-tXVB1jcRM803RsgGvPoGXYs-pk4CUM89QRqn8QpDmrrzBJ-eSHLDm0qLctHv"/>
+</div>
+<div>
+<h1 class="font-display-lg text-display-lg text-primary">Bonjour, Julian</h1>
+<p class="text-on-surface-variant font-body-lg text-body-lg">Member since November 2023 • Bread Enthusiast</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="px-8 py-4 rounded-full border-2 border-primary text-primary font-label-md text-label-md hover:bg-surface-container-low transition-all">Edit Profile</button>
+<button class="px-8 py-4 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:scale-[1.02] active:scale-[0.98] transition-transform shadow-md">Manage Delivery</button>
+</div>
+</header>
+<!-- Dashboard Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Subscription & Delivery -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Active Subscription Card -->
+<div class="bento-card bg-surface-container-low p-8 rounded-lg shadow-[0_8px_30px_rgba(139,69,19,0.06)] border border-surface-container-high">
+<div class="flex justify-between items-start mb-6">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-label-sm font-label-sm">Active Subscription</span>
+<span class="material-symbols-outlined text-primary">switch_video</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-primary mb-2">Plan Gourmet</h2>
+<div class="flex items-center gap-2 mb-6">
+<span class="font-display-lg text-display-lg text-primary-container">$48</span>
+<span class="text-on-surface-variant font-label-md">/ month</span>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span class="font-body-md text-body-md">4 Panes per delivery</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span class="font-body-md text-body-md">Weekly Saturday delivery</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span class="font-body-md text-body-md">Artisanal Flour exclusive</span>
+</div>
+</div>
+<button class="w-full py-4 rounded-full bg-surface-container-highest text-primary font-label-md text-label-md border border-outline-variant hover:bg-surface-container-high transition-colors">Change Plan</button>
+</div>
+<!-- Next Delivery Details -->
+<div class="bento-card bg-surface-container-lowest p-8 rounded-lg shadow-[0_8px_30px_rgba(139,69,19,0.04)] border border-surface-container-high overflow-hidden">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-6">Next Delivery</h3>
+<div class="flex items-center gap-4 mb-6">
+<div class="bg-primary-container p-3 rounded-lg text-on-primary-container flex flex-col items-center min-w-[64px]">
+<span class="font-label-sm text-label-sm">SEP</span>
+<span class="font-headline-sm text-headline-sm leading-none">28</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary">Saturday Morning</p>
+<p class="text-on-surface-variant text-body-md">Estimated 8:00 AM - 10:00 AM</p>
+</div>
+</div>
+<!-- Small Map Placeholder -->
+<div class="relative w-full h-40 rounded-lg mb-6 overflow-hidden border border-surface-container-high group">
+<img class="w-full h-full object-cover" data-location="Paris, France" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLzcB3rrbUBnfFrJw5BK-zW1lmDcPbkpV2j5rbhCRyLh_F9P7CFEwD9pgCXuNKtHjgA4WdGAcd_LOie7aSrt-EbMMjgtTThKhdccnkDMbcLaXe9oFfOoxdJVKEj1hMUl7UoRueu_5Famdi5q26zI3Rtwq66NU-IGBIWNR-dgL6SH-hCotNczqUL_Epycu9yte9ZZCi6qcFSXEKab8_Xv11D5sTNOaej0yNY2qylVUbK1MHC0jGuCzM"/>
+<div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-outline">home</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">124 Rue de Rivoli</p>
+<p class="text-on-surface-variant text-body-md">75001 Paris, France</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Order History & Actions -->
+<div class="lg:col-span-8 flex flex-col gap-gutter">
+<!-- Order History -->
+<div class="bento-card bg-surface-container-lowest p-8 rounded-lg shadow-[0_8px_30px_rgba(139,69,19,0.04)] border border-surface-container-high flex flex-col h-full">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-headline-sm text-headline-sm text-primary">Order History</h3>
+<button class="text-primary font-label-md text-label-md hover:underline">View All Receipt</button>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-separate border-spacing-y-4">
+<thead>
+<tr class="text-on-surface-variant font-label-md text-label-md">
+<th class="pb-2 px-4">Date</th>
+<th class="pb-2 px-4">Items</th>
+<th class="pb-2 px-4">Total</th>
+<th class="pb-2 px-4">Status</th>
+<th class="pb-2 px-4"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="bg-surface-container-low/30 hover:bg-surface-container-low transition-colors rounded-lg">
+<td class="py-4 px-4 font-body-md rounded-l-lg">Sep 21, 2024</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full border border-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A macro photography shot of the honeycomb crumb structure of a freshly sliced sourdough bread. The lighting is warm and golden, highlighting the translucent gluten strands and the airy texture. Soft, flour-dusted crust visible on the edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzJaOrNuUmP8rez6mxuXKxAGy3lS-FI1b3tweLOHkGBxbxkSUxgkNH7W5upHe8ywigXi8G_P7hNn1yJmWFDZTmmEaR1E7mqy42UrrqeeaH5P8XT9XUatb2wBh1spT5RfJzK28bOK5H38mp-LbWwk3hSGBxAQPMHYF617xmwKkDxLYH_lcrv5daj7k6WmwPpr4gZgi-jBFjH5cuXybfJAd6-h4_7g5BbpInim7LeeI33XeiZxmH0kZj"/>
+</div>
+<span class="text-body-md">Gourmet Selection (4)</span>
+</div>
+</td>
+<td class="py-4 px-4 font-body-md">$48.00</td>
+<td class="py-4 px-4">
+<span class="bg-secondary-container text-on-secondary-fixed-variant px-3 py-1 rounded-full text-label-sm font-label-sm">Delivered</span>
+</td>
+<td class="py-4 px-4 rounded-r-lg text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary">chevron_right</button>
+</td>
+</tr>
+<tr class="bg-surface-container-low/30 hover:bg-surface-container-low transition-colors rounded-lg">
+<td class="py-4 px-4 font-body-md rounded-l-lg">Sep 14, 2024</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full border border-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up of golden brown, artisanally baked rye bread loaves resting on a wooden cooling rack. The background is a soft-focus bakery scene with bags of organic flour and warm lighting. High-end, organic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvL4x76lo8eLcrOyA1PFrQnUcq5obskpB3BMD_9HEM4zq7tYl9keqLwuPi8JpXaGm-BKDhezkAXdpuZbDaRJy8fjftEL47d6DoN4w74FWSG3KCh-S4dEqBydvxk8lUZgUUP0CSg3fGSA6xqQU7FVE0JZ9xJPotoByobb8srsyPZkOsGd7IVi5dFZFLBcaoyMzgCTXQzHUweeaPZeMS901AwJxDJGAK5JQ4RZeg2e3YFomkr4Co02Ir"/>
+</div>
+<span class="text-body-md">Gourmet Selection (4)</span>
+</div>
+</td>
+<td class="py-4 px-4 font-body-md">$48.00</td>
+<td class="py-4 px-4">
+<span class="bg-secondary-container text-on-secondary-fixed-variant px-3 py-1 rounded-full text-label-sm font-label-sm">Delivered</span>
+</td>
+<td class="py-4 px-4 rounded-r-lg text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary">chevron_right</button>
+</td>
+</tr>
+<tr class="bg-surface-container-low/30 hover:bg-surface-container-low transition-colors rounded-lg">
+<td class="py-4 px-4 font-body-md rounded-l-lg">Sep 07, 2024</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full border border-outline-variant overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Artisanal French baguette with a perfectly scored, crispy crust. The bread is sitting on a rustic linen cloth with a few scattered seeds. Soft, warm morning light creates a cozy, authentic feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqrdB4J84f7CoajKoKz9AE3iaLSTVDhrsEyk-uLUY6l-4fR4O4mJ2HDiupwhgTaUbjVxLIvtoAYQ9Z8-ZG7nk4faxqd2BNhvXcHy-qIwJqWBicqFq0jej8T9LeJNml_EYKgxN93udEaVyNLOKJ8FdS4C9z9IInEd-wai1AiQ_yz2L9HifFz8jCSktlci98vYUbhibvJV0iBtpiRNVVpw7CvibRnL7V0K09CWi-iLlqNU9y8wyk4wpo"/>
+</div>
+<span class="text-body-md">Gourmet Selection (4)</span>
+</div>
+</td>
+<td class="py-4 px-4 font-body-md">$48.00</td>
+<td class="py-4 px-4">
+<span class="bg-secondary-container text-on-secondary-fixed-variant px-3 py-1 rounded-full text-label-sm font-label-sm">Delivered</span>
+</td>
+<td class="py-4 px-4 rounded-r-lg text-right">
+<button class="material-symbols-outlined text-outline hover:text-primary">chevron_right</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Action Area -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="bento-card bg-surface-container p-6 rounded-lg border border-outline-variant flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-highest p-3 rounded-full group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary">pause_circle</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-primary">Pause Subscription</h4>
+<p class="text-label-sm text-on-surface-variant">Going away? Skip some weeks.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">arrow_forward</span>
+</div>
+<div class="bento-card bg-surface-container p-6 rounded-lg border border-outline-variant flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-highest p-3 rounded-full group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-error">cancel</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-error">Cancel Plan</h4>
+<p class="text-label-sm text-on-surface-variant">We'll miss you at the table.</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-section-gap bg-surface-container-lowest dark:bg-surface-container-high shadow-inner">
+<div class="flex flex-col md:flex-row justify-between items-center py-12 px-container-margin-desktop max-w-[1440px] mx-auto w-full gap-gutter">
+<div class="flex flex-col items-center md:items-start gap-4">
+<div class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed">Breadly</div>
+<p class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant">© 2024 Breadly Artisanal Bakery. Hand-kneaded with love.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-on-surface-variant hover:text-on-surface transition-transform hover:translate-x-1 font-label-md text-label-md" href="#">Our Story</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-transform hover:translate-x-1 font-label-md text-label-md" href="#">Sustainability</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-transform hover:translate-x-1 font-label-md text-label-md" href="#">Wholesale</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-transform hover:translate-x-1 font-label-md text-label-md" href="#">Contact Us</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-transform hover:translate-x-1 font-label-md text-label-md" href="#">Privacy Policy</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for cards
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1.01)';
+            });
+        });
+
+        // Simulating some dynamic behavior for "Manage Delivery"
+        const deliveryBtn = document.querySelector('header button.bg-primary');
+        deliveryBtn.addEventListener('click', () => {
+            deliveryBtn.innerHTML = '<span class="material-symbols-outlined animate-spin mr-2">progress_activity</span> Updating...';
+            setTimeout(() => {
+                deliveryBtn.innerHTML = 'Manage Delivery';
+            }, 1500);
+        });
+    </script>
+</body></html>

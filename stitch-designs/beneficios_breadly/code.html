@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "tertiary-fixed-dim": "#f5bf22",
+                  "on-tertiary-fixed-variant": "#5a4300",
+                  "on-primary": "#ffffff",
+                  "secondary-container": "#e1e1c9",
+                  "secondary": "#5e604d",
+                  "primary-fixed-dim": "#ffb68c",
+                  "tertiary-fixed": "#ffdf98",
+                  "surface-container-low": "#f8f6c9",
+                  "on-tertiary-fixed": "#251a00",
+                  "tertiary": "#523e00",
+                  "inverse-primary": "#ffb68c",
+                  "on-background": "#1d1d03",
+                  "tertiary-container": "#6f5400",
+                  "on-secondary-fixed-variant": "#474836",
+                  "on-primary-container": "#ffc29f",
+                  "outline": "#877369",
+                  "surface-container-high": "#eceabe",
+                  "on-tertiary-container": "#fec72c",
+                  "surface-container-highest": "#e6e5b9",
+                  "primary-fixed": "#ffdbc9",
+                  "on-error": "#ffffff",
+                  "primary": "#6c2f00",
+                  "surface-container": "#f2f0c4",
+                  "surface-bright": "#fefccf",
+                  "background": "#fefccf",
+                  "surface-dim": "#dedcb1",
+                  "error": "#ba1a1a",
+                  "on-secondary-container": "#636451",
+                  "on-primary-fixed-variant": "#753401",
+                  "on-secondary": "#ffffff",
+                  "on-secondary-fixed": "#1b1d0e",
+                  "inverse-surface": "#323214",
+                  "secondary-fixed-dim": "#c8c8b0",
+                  "surface-container-lowest": "#ffffff",
+                  "on-surface-variant": "#54433a",
+                  "inverse-on-surface": "#f5f3c7",
+                  "on-surface": "#1d1d03",
+                  "surface": "#fefccf",
+                  "on-tertiary": "#ffffff",
+                  "surface-tint": "#934b19",
+                  "primary-container": "#8b4513",
+                  "outline-variant": "#dac2b6",
+                  "on-primary-fixed": "#321200",
+                  "secondary-fixed": "#e4e4cc",
+                  "error-container": "#ffdad6",
+                  "surface-variant": "#e6e5b9",
+                  "on-error-container": "#93000a"
+          },
+          "borderRadius": {
+                  "DEFAULT": "1rem",
+                  "lg": "2rem",
+                  "xl": "3rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "container-margin-mobile": "20px",
+                  "section-gap": "64px",
+                  "container-margin-desktop": "80px",
+                  "unit": "8px",
+                  "gutter": "24px"
+          },
+          "fontFamily": {
+                  "display-lg-mobile": ["EB Garamond"],
+                  "label-sm": ["Be Vietnam Pro"],
+                  "display-lg": ["EB Garamond"],
+                  "headline-md": ["EB Garamond"],
+                  "label-md": ["Be Vietnam Pro"],
+                  "headline-sm": ["EB Garamond"],
+                  "body-md": ["Be Vietnam Pro"],
+                  "body-lg": ["Be Vietnam Pro"]
+          },
+          "fontSize": {
+                  "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                  "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                  "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                  "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                  "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                  "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .texture-overlay {
+      background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+      opacity: 0.05;
+      pointer-events: none;
+    }
+    .custom-shadow {
+      box-shadow: 0 4px 20px rgba(139, 69, 19, 0.08);
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden">
+<div class="texture-overlay fixed inset-0 z-0"></div>
+<!-- Top Navigation Shell - Suppressed for Onboarding as per "Semantic Shell Mandate" but TopAppBar logic is applied locally if needed -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center h-16 px-container-margin-mobile">
+<div class="font-headline-md text-headline-md font-bold text-primary">Breadly</div>
+<button class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-2 rounded-full">Saltar</button>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center px-container-margin-mobile pt-24 pb-32 max-w-lg mx-auto relative z-10">
+<!-- Visual Content Area -->
+<div class="w-full relative aspect-square mb-12 flex items-center justify-center">
+<!-- Background Shape -->
+<div class="absolute inset-0 bg-surface-container-high rounded-full scale-90 blur-3xl opacity-50"></div>
+<!-- Bread Composition (Bento-style arrangement) -->
+<div class="grid grid-cols-2 grid-rows-2 gap-4 w-full h-full relative p-4">
+<!-- Sourdough Card -->
+<div class="bg-surface-container-lowest rounded-lg p-3 custom-shadow flex flex-col items-center justify-center animate-float" style="animation-delay: 0s;">
+<div class="w-20 h-20 rounded-full overflow-hidden mb-2 ring-4 ring-primary-fixed">
+<img alt="Masa madre rústica" class="w-full h-full object-cover" data-alt="A macro shot of a rustic sourdough loaf with a beautifully scored crust, dusting of flour, and golden brown color. The bread is sitting on a clean, light cream wooden surface in a bright, airy artisanal bakery. The lighting is soft and natural, emphasizing the crunchy texture of the crust and the warm, welcoming atmosphere of high-end organic baking." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp-q8KIKRZWnwFPbaBlt7demTgO6Rwd4GD24HQheiC8i9McN5NPwkGzOWKpSeVQ-AWfl_4TAZgPVGn0MWA64Pu7GVzWr2XoiHKzj5B5o7yLfyl97mTxHInSqr98Uf-dOQpKXw5THWexk16VkDfgpBC7Bavn7r-pfGE13ZFtn4eEcY0iRyMQ-nUETwjGoyDTL6p_ZML3iKc5XU6nywEbUPu8pMTsPtN-D0pHqXrYGZyN8hT5pmhLhcwj7uKD_WV02BFldip6P16LG8"/>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Masa Madre</span>
+</div>
+<!-- Baguette Card -->
+<div class="bg-surface-container-lowest rounded-lg p-3 custom-shadow flex flex-col items-center justify-center animate-float mt-8" style="animation-delay: 0.5s;">
+<div class="w-20 h-20 rounded-full overflow-hidden mb-2 ring-4 ring-tertiary-fixed">
+<img alt="Baguette tradicional" class="w-full h-full object-cover" data-alt="A close-up of several golden-brown traditional French baguettes resting in a woven wicker basket. The lighting is warm and directional, casting soft shadows that highlight the flaky, crispy texture of the bread. The scene is set against a minimalist beige background, evoking a sense of morning freshness and artisanal craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfDccFYYL_HcTbNYVgQCfxoOgYmGESMCFIHRVD1Yk2Q8exeEpC89oBZv4co514XeLZ1yYcDtE7P07XC_bbWJoAP1JOh6VaGr6LIcDuGRd3veE-E3RN1EH5-XKyrwbriCUg8aqbC151FbEku5I10PwzeA3ZL_nEM1nmD0fn0NRSWBxHUXS3EsusJRKLesPwYhyVF4q7sQTTtN0AgPdzkbIP3LB1gNtlDo5-HbIko8QyxCx653VDAQGHDW4OtJ9O6JKS-Ks3EqZwoFM"/>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Baguette</span>
+</div>
+<!-- Whole Grain Card -->
+<div class="bg-surface-container-lowest rounded-lg p-3 custom-shadow flex flex-col items-center justify-center animate-float -mt-4" style="animation-delay: 1s;">
+<div class="w-20 h-20 rounded-full overflow-hidden mb-2 ring-4 ring-outline-variant">
+<img alt="Pan integral de semillas" class="w-full h-full object-cover" data-alt="A hearty loaf of whole grain bread encrusted with various seeds and grains, sliced to show the dense, nutritious interior. The image is shot with a shallow depth of field on a textured wheat-colored linen cloth. The aesthetic is grounded and wholesome, with a palette of deep browns and warm beiges that reflects a healthy, premium lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfvMVSYjvnoIa1mU3ge-F0K7C4-ikeVaE99mSFxTb7f61l2zf2UZl5ZTho7s_y2IRArlFNJhEmdIBcMZi8bBWblDOthi4jfuV6kq6i8T2-zRl578YOPHWLQrOJSvZqSzZY8zv0bicFYN_qm9xzWvucI6ElHli_liG1ZM3_m2hqviNG5wxQYsuQFmkjwQ5PS8nf3E8amH92733mN50WB8QZnwtXi__ML5ADJ8oeBUmojqT9arNRo3AolKkHZpZ8hkJLAbRCIu-FpJY"/>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Multicereal</span>
+</div>
+<!-- Frequency Toggle Overlay -->
+<div class="bg-primary text-on-primary rounded-lg p-4 custom-shadow flex flex-col items-start justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 min-w-[160px] transform rotate-3">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+<span class="font-label-md text-label-md">Frecuencia</span>
+</div>
+<div class="bg-white/10 w-full rounded-full h-8 flex items-center px-1">
+<div class="bg-white text-primary px-3 py-1 rounded-full text-[12px] font-bold">Semanal</div>
+<div class="flex-grow text-center text-[10px] font-medium text-white/70">Quincenal</div>
+</div>
+</div>
+<!-- Pastry Card -->
+<div class="bg-surface-container-lowest rounded-lg p-3 custom-shadow flex flex-col items-center justify-center animate-float ml-8" style="animation-delay: 1.5s;">
+<div class="w-20 h-20 rounded-full overflow-hidden mb-2 ring-4 ring-secondary-container">
+<img alt="Croissant hojaldrado" class="w-full h-full object-cover" data-alt="A perfectly flaky, golden-brown croissant with visible buttery layers, sitting on a marble countertop. A light dusting of powdered sugar adds a touch of sweetness to the visual. The lighting is high-key and elegant, showcasing the delicate pastry textures against a clean, modern bakery background with soft pastel accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOL281gBs_Z0FdfC8hbLwLtMQ9bWHktS-lzX93wPZ4V9zGzMqb6Vonodj825ao-DRdlp7IZMkqpqz3VK70BmtazH5f2ioffZUrcYxPAkDMHmemnyfmuyZff1BfX35RnntpIt9bjxOymxQzc-0mW3T7J2ZbuTtFZnPjoaHiWfz8vCw0AZeAbjmz5keO9YJNf_1SywIWyMpENcXzNYQTB1AYL8zu01sX0GkqCaZrO1R0nPil6ID3Dqbmujuz_jeWtfTtsYJnVHVJ-Zw"/>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Bollería</span>
+</div>
+</div>
+</div>
+<!-- Text Content -->
+<div class="text-center space-y-4">
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-primary leading-tight">
+        Suscripción Flexible
+      </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant px-4">
+        ¿Te vas de vacaciones o quieres probar algo nuevo? Cambia tu selección de panes o la frecuencia de entrega en cualquier momento con un solo clic.
+      </p>
+</div>
+</main>
+<!-- Bottom Action Area -->
+<footer class="fixed bottom-0 left-0 w-full p-container-margin-mobile flex flex-col items-center gap-8 bg-gradient-to-t from-background via-background/90 to-transparent pb-10 z-50">
+<!-- Progress Dots -->
+<div class="flex gap-2">
+<div class="w-2 h-2 rounded-full bg-outline-variant/50"></div>
+<div class="w-8 h-2 rounded-full bg-primary transition-all duration-500"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant/50"></div>
+</div>
+<!-- Main Action Button -->
+<button class="w-full max-w-xs bg-primary text-on-primary font-label-md text-label-md py-4 px-8 rounded-full custom-shadow flex items-center justify-center gap-2 active:scale-95 transition-transform duration-200" onclick="window.location.reload()">
+      Siguiente
+      <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</footer>
+<script>
+    // Micro-interaction for the central toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleItems = document.querySelectorAll('.animate-float');
+      
+      // Add a subtle parallax effect on mouse move or device tilt
+      window.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX / window.innerWidth - 0.5;
+        const mouseY = e.clientY / window.innerHeight - 0.5;
+        
+        toggleItems.forEach((item, index) => {
+          const depth = (index + 1) * 10;
+          item.style.transform = `translate(${mouseX * depth}px, ${mouseY * depth}px)`;
+        });
+      });
+    });
+  </script>
+</body></html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Artisanal Hearth | Bakery Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=EB+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#523e00",
+                    "secondary-fixed-dim": "#c8c8b0",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#ffb68c",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#f2f0c4",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-tertiary-container": "#fec72c",
+                    "on-secondary-fixed-variant": "#474836",
+                    "error": "#ba1a1a",
+                    "background": "#fefccf",
+                    "tertiary-container": "#6f5400",
+                    "surface-container-high": "#eceabe",
+                    "primary-container": "#8b4513",
+                    "on-primary-fixed-variant": "#753401",
+                    "tertiary-fixed": "#ffdf98",
+                    "surface-variant": "#e6e5b9",
+                    "inverse-surface": "#323214",
+                    "outline-variant": "#dac2b6",
+                    "primary-fixed": "#ffdbc9",
+                    "secondary": "#5e604d",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#e4e4cc",
+                    "inverse-on-surface": "#f5f3c7",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f8f6c9",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "on-surface": "#1d1d03",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#877369",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#e1e1c9",
+                    "tertiary-fixed-dim": "#f5bf22",
+                    "surface-bright": "#fefccf",
+                    "on-background": "#1d1d03",
+                    "primary": "#6c2f00",
+                    "on-surface-variant": "#54433a",
+                    "on-secondary-container": "#636451",
+                    "on-primary-fixed": "#321200",
+                    "surface-tint": "#934b19",
+                    "surface-container-highest": "#e6e5b9",
+                    "surface-dim": "#dedcb1",
+                    "primary-fixed-dim": "#ffb68c",
+                    "on-primary-container": "#ffc29f",
+                    "surface": "#fefccf",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed": "#1b1d0e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "64px",
+                    "unit": "8px",
+                    "container-margin-mobile": "20px",
+                    "gutter": "24px",
+                    "container-margin-desktop": "80px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Be Vietnam Pro"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "display-lg": ["EB Garamond"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-sm": ["EB Garamond"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "headline-md": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        background-color: #fefccf;
+        color: #1d1d03;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+      }
+      .custom-scroll::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scroll::-webkit-scrollbar-thumb {
+        background: #dac2b6;
+        border-radius: 10px;
+      }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-container-margin-desktop py-4 z-40 sticky top-0 bg-surface shadow-sm transition-all duration-300">
+<div class="flex items-center gap-4">
+<span class="font-headline-sm text-headline-sm text-primary">Artisanal Hearth</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-8">
+<a class="text-primary font-bold border-b-2 border-primary py-1 font-body-md text-body-md" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low transition-colors px-2 py-1 rounded font-body-md text-body-md" href="#">Suscripciones</a>
+<a class="text-on-surface-variant hover:bg-surface-container-low transition-colors px-2 py-1 rounded font-body-md text-body-md" href="#">Catálogo</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container-low transition-colors rounded-full" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container-low transition-colors rounded-full" data-icon="settings">settings</button>
+<img alt="Bakery Manager Profile" class="w-10 h-10 rounded-full object-cover border-2 border-primary-fixed shadow-sm" data-alt="A professional bakery manager with a warm smile, wearing a clean white artisan apron. The background shows a soft-focus, modern boutique bakery with golden morning light filtering through large windows, reflecting a warm, sophisticated SaaS dashboard aesthetic. The lighting is bright and high-key, using soft beige and toasted brown tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlShqIiqtoHUDA8DiU3he23g627IyMirUtojdR6TrwNpruLHPz738r4s6IE2NK7eG3evTxYLtfO348WQjUcmfCrbCqm8jByV1jd5uaQLn7Mrbh3v3LNxa4UG17miVhIn6ZSvmqR_vYeFLCRs37o_GArZ26uMqmUguLxCyrxLi7j3btIy5mo9FOp4BPPIJs8YICXb-OhfCwTlapeEl2e9kU10xKI7dArJs7Pg4SuFvklcMr2diWNjBTDOWehMQHvozzW5tTTOOKAcQ"/>
+</div>
+</div>
+</header>
+<div class="flex">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 pt-24 bg-surface-container-low border-r border-outline-variant z-30">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 mb-1">
+<span class="font-headline-md text-headline-md text-primary">Artisanal Hearth</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant opacity-70">Bakery Admin</p>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-3 bg-tertiary-container text-on-tertiary-container rounded-lg px-4 py-3 font-label-md text-label-md transition-all active:scale-98" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 font-label-md text-label-md hover:scale-[1.02] hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                    Subscribers
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 font-label-md text-label-md hover:scale-[1.02] hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="bakery_dining">bakery_dining</span>
+                    Catalog
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 font-label-md text-label-md hover:scale-[1.02] hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="distance">distance</span>
+                    Locations
+                </a>
+</nav>
+<div class="p-4 border-t border-outline-variant">
+<button class="w-full bg-primary-container text-on-primary-container font-label-md text-label-md py-4 rounded-lg flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform shadow-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                    Manage Subscriptions
+                </button>
+</div>
+<div class="p-4 space-y-2 mb-4">
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-2 font-label-md text-label-md hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+                    Support
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-2 font-label-md text-label-md hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    Sign Out
+                </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 px-container-margin-mobile md:px-container-margin-desktop py-8">
+<!-- Hero Title -->
+<div class="mb-10">
+<h1 class="font-display-lg text-display-lg text-on-surface mb-2">Panel de Control</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Buenos días, revisa el rendimiento de tus entregas de pan artesanal hoy.</p>
+</div>
+<!-- Metrics Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter mb-section-gap">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[rgba(139,69,19,0.08)_0px_4px_12px] border border-surface-variant/30 hover:scale-[1.02] transition-all cursor-default">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-2 bg-surface-container text-primary rounded-lg" data-icon="group">group</span>
+<span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full">+12%</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Suscriptores Activos</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">1,284</p>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[rgba(139,69,19,0.08)_0px_4px_12px] border border-surface-variant/30 hover:scale-[1.02] transition-all cursor-default">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-2 bg-surface-container text-primary rounded-lg" data-icon="payments">payments</span>
+<span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full">+8.4%</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">MRR Mensual</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">$24,500</p>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[rgba(139,69,19,0.08)_0px_4px_12px] border border-surface-variant/30 hover:scale-[1.02] transition-all cursor-default">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-2 bg-surface-container text-primary rounded-lg" data-icon="trending_down">trending_down</span>
+<span class="text-xs font-bold text-red-600 bg-red-100 px-2 py-1 rounded-full">-0.5%</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Tasa de Cancelación</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">2.1%</p>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[rgba(139,69,19,0.08)_0px_4px_12px] border border-surface-variant/30 hover:scale-[1.02] transition-all cursor-default">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-2 bg-surface-container text-primary rounded-lg" data-icon="local_shipping">local_shipping</span>
+<span class="text-xs font-bold text-on-tertiary-fixed-variant bg-tertiary-fixed px-2 py-1 rounded-full">En curso</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Entregas Hoy</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">342</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Large Growth Chart -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-lg shadow-[rgba(139,69,19,0.08)_0px_4px_12px] border border-surface-variant/30">
+<div class="flex justify-between items-center mb-8">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Crecimiento de Suscriptores</h2>
+<div class="flex gap-2">
+<button class="px-3 py-1 bg-surface-variant text-on-surface-variant rounded-lg text-xs font-bold transition-colors">6 Meses</button>
+<button class="px-3 py-1 hover:bg-surface-container-high text-on-surface-variant rounded-lg text-xs font-bold transition-colors">1 Año</button>
+</div>
+</div>
+<div class="chart-container flex items-end justify-between gap-2 px-2">
+<!-- Simulated Chart Bars/Area with CSS -->
+<div class="relative w-full h-full flex items-end justify-between group">
+<div class="w-[12%] bg-primary/20 hover:bg-primary/40 transition-all rounded-t-lg h-[40%] relative">
+<div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">840</div>
+</div>
+<div class="w-[12%] bg-primary/30 hover:bg-primary/50 transition-all rounded-t-lg h-[55%] relative"></div>
+<div class="w-[12%] bg-primary/40 hover:bg-primary/60 transition-all rounded-t-lg h-[48%] relative"></div>
+<div class="w-[12%] bg-primary/50 hover:bg-primary/70 transition-all rounded-t-lg h-[70%] relative"></div>
+<div class="w-[12%] bg-primary/70 hover:bg-primary/90 transition-all rounded-t-lg h-[85%] relative"></div>
+<div class="w-[12%] bg-primary hover:bg-primary-container transition-all rounded-t-lg h-[100%] relative">
+<div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-on-surface text-white text-[10px] py-1 px-2 rounded opacity-100">1,284</div>
+</div>
+</div>
+</div>
+<div class="flex justify-between mt-4 text-[12px] text-on-surface-variant font-medium px-2">
+<span>Ene</span>
+<span>Feb</span>
+<span>Mar</span>
+<span>Abr</span>
+<span>May</span>
+<span>Jun</span>
+</div>
+</div>
+<!-- Recent Activity Panel -->
+<div class="bg-surface-container-lowest p-8 rounded-lg shadow-[rgba(139,69,19,0.08)_0px_4px_12px] border border-surface-variant/30 flex flex-col h-full max-h-[500px]">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-6">Actividad Reciente</h2>
+<div class="space-y-6 overflow-y-auto pr-2 custom-scroll">
+<!-- Activity Item 1 -->
+<div class="flex gap-4 items-start border-b border-surface-variant/20 pb-4 last:border-0">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-tertiary-fixed" data-icon="person_add">person_add</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Nueva Suscripción: Masa Madre Pro</p>
+<p class="text-xs text-on-surface-variant">Lucía García acaba de unirse al plan premium.</p>
+<p class="text-[10px] mt-1 text-primary font-bold opacity-60">HACE 5 MIN</p>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="flex gap-4 items-start border-b border-surface-variant/20 pb-4 last:border-0">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-fixed" data-icon="done_all">done_all</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Ruta Norte Completada</p>
+<p class="text-xs text-on-surface-variant">42 entregas finalizadas con éxito en el distrito 4.</p>
+<p class="text-[10px] mt-1 text-primary font-bold opacity-60">HACE 24 MIN</p>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="flex gap-4 items-start border-b border-surface-variant/20 pb-4 last:border-0">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary-fixed" data-icon="inventory_2">inventory_2</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Stock Actualizado</p>
+<p class="text-xs text-on-surface-variant">Harina integral de centeno: +200kg recibidos.</p>
+<p class="text-[10px] mt-1 text-primary font-bold opacity-60">HACE 1 HORA</p>
+</div>
+</div>
+<!-- Activity Item 4 -->
+<div class="flex gap-4 items-start border-b border-surface-variant/20 pb-4 last:border-0">
+<div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-error-container" data-icon="cancel">cancel</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Cancelación de Entrega</p>
+<p class="text-xs text-on-surface-variant">Cliente #982 reprogramó para mañana.</p>
+<p class="text-[10px] mt-1 text-primary font-bold opacity-60">HACE 3 HORAS</p>
+</div>
+</div>
+</div>
+<button class="mt-6 w-full py-2 text-primary font-bold text-sm hover:underline transition-all">
+                        Ver todo el historial
+                    </button>
+</div>
+</div>
+<!-- Detailed Grid Example -->
+<div class="mt-section-gap">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline-md text-headline-md text-on-surface">Inventario de Productos Estrella</h2>
+<button class="flex items-center gap-2 text-primary font-bold hover:scale-105 transition-transform">
+                        Gestionar Catálogo <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Product Card -->
+<div class="bg-surface-container p-4 rounded-lg flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
+<div class="w-20 h-20 rounded-full overflow-hidden mb-4 border-4 border-surface-container-highest">
+<img alt="Sourdough Loaf" class="w-full h-full object-cover" data-alt="A close-up shot of a rustic, crusty sourdough bread loaf with a deep golden-brown ear. The texture of the flour-dusted crust is visible against a warm, sunlit wooden table. The lighting is soft and artisanal, emphasizing the craftsmanship and tactile quality of the bread, consistent with a high-end bakery SaaS aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0zBzk0aHlDKbm9A2J0FtO5Iy-gCk4NKRDtoKud45urZFxCbW5UiPCrjvjjuN5uthz_bLmW0vSTzmoPQvA4PgopCuTJh5s0aWirYqlO6qYeGZzU8KFfn7UguJA5_9tX4VSyXf0tAtQTbkW23-tVsKHVAU9Y6kbvDiQidJQiv1GRb51DXNsXLxRpI8j7JPm6U6HPLFymasYue0IAVWA9VYRqJHl3jOGLEnqHez5YS8ZFAE8PFs9oDqeLsGSGQcmefE3J-H1VWpGCa0"/>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Masa Madre Tradicional</h3>
+<p class="text-sm text-on-surface-variant mb-3 italic">72h fermentación lenta</p>
+<div class="flex items-center gap-2">
+<span class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold">120 en stock</span>
+</div>
+</div>
+<!-- Product Card -->
+<div class="bg-surface-container p-4 rounded-lg flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
+<div class="w-20 h-20 rounded-full overflow-hidden mb-4 border-4 border-surface-container-highest">
+<img alt="Rye Bread" class="w-full h-full object-cover" data-alt="A slice of dark, dense rye bread with visible grains and seeds. The crumb structure is rich and complex. The image is set in a modern kitchen with soft, warm afternoon light. The color palette is earthy with deep toasted browns and creamy beiges, conveying a premium and healthy bakery product." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLx5rk1MOWMB3DvBbpMysTL1SBDZJgIfDRNbySykABQqxzdmI6cDymfK8K7L_v5p6ic84vgQGjOT4RYAfPnWKf6qEoSU6AuApG-gui2y9S7X_O7brw17roAYnkUCfJjMAHQGhCRi44tIxovxKDH0SIlyyaRBvztDDbld0oFpCwsadl7uWvPPT7pZPS29spb6aw4Jh4b_fUydau3rxIcgmMrE7egMjPN0TPFkis4LukRg5yTPZGMY5Z0yfrkIBCF53AZvzYUeB0MLc"/>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Centeno &amp; Miel</h3>
+<p class="text-sm text-on-surface-variant mb-3 italic">Grano entero seleccionado</p>
+<div class="flex items-center gap-2">
+<span class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold">45 en stock</span>
+</div>
+</div>
+<!-- Product Card -->
+<div class="bg-surface-container p-4 rounded-lg flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
+<div class="w-20 h-20 rounded-full overflow-hidden mb-4 border-4 border-surface-container-highest">
+<img alt="Baguette" class="w-full h-full object-cover" data-alt="Three golden, perfectly scored French baguettes lying on a linen cloth. The steam is subtly rising, suggesting they are fresh from the oven. The lighting is crisp yet warm, highlighting the airy interior and the crunchy exterior. The scene evokes a high-quality, boutique bakery atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmHRLzh7p332_8-M2_1oqB1Tp5cAYqnRgl4Vx8jhyKXPlzf236Bm09y1qiHorsjInIS0V4ppTQ0RAmKR1MUDSPIPUTkn_7GHIPU6lUioljvJN4RRyEspL43NWJtUk8XW_75OdGcstyAdMPHYlMF_dxOpv3EWPJznz79y99-Nth3sOJDGn3nrtDsqGVfLSTF_t7Ij_hohPz88QAV2ML21ZYbiiIkqjy3ilaI6BGZC-o2DpaeFRCFcrvCyGazkRIU-QRU_j1xWEZNR0"/>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Baguette París</h3>
+<p class="text-sm text-on-surface-variant mb-3 italic">Corteza extra crujiente</p>
+<div class="flex items-center gap-2">
+<span class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold">88 en stock</span>
+</div>
+</div>
+<!-- Product Card -->
+<div class="bg-surface-container p-4 rounded-lg flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
+<div class="w-20 h-20 rounded-full overflow-hidden mb-4 border-4 border-surface-container-highest">
+<img alt="Croissant" class="w-full h-full object-cover" data-alt="A buttery, flaky croissant with multiple visible layers of dough. It is placed on a minimalist ceramic plate in a bright, modern cafe setting. The lighting is diffused and professional, creating soft shadows and highlighting the golden pastry texture. The overall feel is one of luxury and artisanal excellence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwBe28z6r0rI8gDKaeKbxl1AzRbhs9tYxp_Tm2hPQgnwMKyoQ9zdE0Awqneoma-TogCC6YKtw6oFhbzweWkzQpg5SHsnkKvRkKNhqHAWQYH9-QWtx0bnYzjaW3xNTXSyUmFU_E2N9RJTaS8wGGHVjQPCEThiM77_q4wvjigyklgZnXfUJnIdBTJ6zoGD-RmS45sH-Q0i2uG25Q7WD1JTbxpW3yvW2gVN7v1J-e9o1gONyPSB_L3YNH-KMvFQTn3dKYFurTDQZ6tk8"/>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Croissant Manteca</h3>
+<p class="text-sm text-on-surface-variant mb-3 italic">Laminado a mano</p>
+<div class="flex items-center gap-2">
+<span class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold">210 en stock</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Action Button (FAB) - Only for Home/Dashboard as per mandate -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 group">
+<span class="material-symbols-outlined text-[32px]" data-icon="add">add</span>
+<span class="absolute right-full mr-4 bg-on-surface text-white px-4 py-2 rounded-lg text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Nueva Entrega</span>
+</button>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.bg-surface-container-lowest').forEach(card => {
+            card.addEventListener('mousedown', () => card.style.transform = 'scale(0.98)');
+            card.addEventListener('mouseup', () => card.style.transform = 'scale(1.02)');
+            card.addEventListener('mouseleave', () => card.style.transform = 'scale(1)');
+        });
+
+        // Sticky nav scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('header');
+            if (window.scrollY > 20) {
+                nav.classList.add('bg-surface-container-low', 'py-2');
+                nav.classList.remove('py-4');
+            } else {
+                nav.classList.remove('bg-surface-container-low', 'py-2');
+                nav.classList.add('py-4');
+            }
+        });
+    </script>
+</body></html>

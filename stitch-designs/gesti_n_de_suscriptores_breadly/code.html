@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Suscriptores | Artisanal Hearth</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=EB+Garamond:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .squishy-button:active {
+            transform: scale(0.95);
+            transition: transform 0.15s ease;
+        }
+        .tonal-shadow {
+            box-shadow: 0 10px 30px -10px rgba(139, 69, 19, 0.08);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f8f6c9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dac2b6;
+            border-radius: 4px;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#523e00",
+                    "secondary-fixed-dim": "#c8c8b0",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#ffb68c",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#f2f0c4",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-tertiary-container": "#fec72c",
+                    "on-secondary-fixed-variant": "#474836",
+                    "error": "#ba1a1a",
+                    "background": "#fefccf",
+                    "tertiary-container": "#6f5400",
+                    "surface-container-high": "#eceabe",
+                    "primary-container": "#8b4513",
+                    "on-primary-fixed-variant": "#753401",
+                    "tertiary-fixed": "#ffdf98",
+                    "surface-variant": "#e6e5b9",
+                    "inverse-surface": "#323214",
+                    "outline-variant": "#dac2b6",
+                    "primary-fixed": "#ffdbc9",
+                    "secondary": "#5e604d",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#e4e4cc",
+                    "inverse-on-surface": "#f5f3c7",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f8f6c9",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "on-surface": "#1d1d03",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#877369",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#e1e1c9",
+                    "tertiary-fixed-dim": "#f5bf22",
+                    "surface-bright": "#fefccf",
+                    "on-background": "#1d1d03",
+                    "primary": "#6c2f00",
+                    "on-surface-variant": "#54433a",
+                    "on-secondary-container": "#636451",
+                    "on-primary-fixed": "#321200",
+                    "surface-tint": "#934b19",
+                    "surface-container-highest": "#e6e5b9",
+                    "surface-dim": "#dedcb1",
+                    "primary-fixed-dim": "#ffb68c",
+                    "on-primary-container": "#ffc29f",
+                    "surface": "#fefccf",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed": "#1b1d0e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "64px",
+                    "unit": "8px",
+                    "container-margin-mobile": "20px",
+                    "gutter": "24px",
+                    "container-margin-desktop": "80px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Be Vietnam Pro"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "display-lg": ["EB Garamond"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-sm": ["EB Garamond"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "headline-md": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex">
+<!-- SideNavBar (Desktop Only) -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant z-50">
+<div class="p-6 flex flex-col gap-1">
+<h1 class="font-headline-md text-headline-md text-primary">Artisanal Hearth</h1>
+<span class="font-label-sm text-on-surface-variant">Bakery Admin</span>
+</div>
+<nav class="flex-1 px-4 mt-4 space-y-2">
+<a class="flex items-center gap-3 text-on-surface-variant hover:scale-[1.02] hover:bg-surface-variant transition-all px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 bg-tertiary-container text-on-tertiary-container rounded-lg px-4 py-3" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md">Subscribers</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:scale-[1.02] hover:bg-surface-variant transition-all px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="bakery_dining">bakery_dining</span>
+<span class="font-label-md">Catalog</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:scale-[1.02] hover:bg-surface-variant transition-all px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="distance">distance</span>
+<span class="font-label-md">Locations</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-outline-variant">
+<button class="w-full bg-primary text-on-primary font-label-md py-3 rounded-lg squishy-button mb-4">
+                Manage Subscriptions
+            </button>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-sm">Support</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-2 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-sm">Sign Out</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 ml-0 md:ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-container-margin-mobile md:px-container-margin-desktop py-4 z-40 sticky top-0 bg-surface shadow-sm">
+<div class="flex items-center gap-4">
+<div class="md:hidden">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+</div>
+<div class="relative group">
+<span class="absolute inset-y-0 left-3 flex items-center text-outline">
+<span class="material-symbols-outlined text-[20px]" data-icon="search">search</span>
+</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary w-48 md:w-64 transition-all" placeholder="Buscar suscriptor..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-low p-2 rounded-full transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-low p-2 rounded-full transition-colors" data-icon="settings">settings</button>
+<div class="h-10 w-10 rounded-full bg-primary-fixed border-2 border-primary overflow-hidden">
+<img alt="Bakery Manager Profile" data-alt="A professional headshot of a female bakery manager in her late 30s wearing a clean white linen apron. The background is a soft-focus artisanal bakery with warm wood tones and shelves of golden sourdough. The lighting is bright and natural, reflecting a clean, high-end boutique aesthetic with warm tones and professional clarity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADxnNL76OEP_97MxrwTTXHyoqHGUUIeZbe9S6eSGDIy8YAZgMiK70ygZynI_qhBIKCNQu3EgQlBscwd2e3rF06y6V85EF_d00cZisQNv39OeYGeoT7zAVPK2wekfGhHuRmwJ87tug-_7fhk37n0Eq26pydOCRPNY7xzsz-RUQIewgx8F5FvF3flK5lld-smAc1LT5EprhqpjQOYbWHSW7ZR9cA6-LAkTMXlxwxQBxbONVm_9pdD5fSlvGS3GiBpIGHY6_w5a6LzQU"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<div class="px-container-margin-mobile md:px-container-margin-desktop py-12">
+<!-- Page Header & Hero-style intro -->
+<div class="mb-12">
+<h2 class="font-display-lg text-display-lg text-primary mb-2">Gestión de Suscriptores</h2>
+<p class="text-body-lg text-on-surface-variant max-w-2xl">Administra tu comunidad de amantes del pan artesanal. Revisa planes, estados de entrega y preferencias de recogida.</p>
+</div>
+<!-- Toolbar: Filters & Actions -->
+<section class="mb-8 p-6 bg-surface-container-lowest rounded-lg tonal-shadow flex flex-wrap gap-4 items-end">
+<div class="flex-1 min-w-[200px]">
+<label class="block font-label-sm text-on-surface-variant mb-2">Filtrar por Estado</label>
+<select class="w-full bg-surface-container border-none rounded-lg p-3 font-body-md text-on-surface focus:ring-2 focus:ring-primary">
+<option>Todos los estados</option>
+<option>Activo</option>
+<option>Pausado</option>
+<option>Cancelado</option>
+</select>
+</div>
+<div class="flex-1 min-w-[200px]">
+<label class="block font-label-sm text-on-surface-variant mb-2">Tipo de Plan</label>
+<select class="w-full bg-surface-container border-none rounded-lg p-3 font-body-md text-on-surface focus:ring-2 focus:ring-primary">
+<option>Cualquier plan</option>
+<option>Semanal (Sourdough Essentials)</option>
+<option>Quincenal (Baker's Choice)</option>
+</select>
+</div>
+<button class="flex items-center gap-2 px-6 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-label-md squishy-button">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                    Más filtros
+                </button>
+<button class="flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-lg font-label-md squishy-button ml-auto">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+                    Nuevo Suscriptor
+                </button>
+</section>
+<!-- Table Container -->
+<div class="bg-surface-container-lowest rounded-lg tonal-shadow overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container border-b border-outline-variant">
+<th class="px-6 py-4 font-label-md text-on-surface-variant">Suscriptor</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant">Plan</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant">Estado</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant">Próxima Entrega</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant">Método</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-secondary-fixed">
+<img alt="Clara Ibáñez" data-alt="A close-up portrait of a young man with a friendly smile, clean-shaven, wearing a burnt orange knit sweater. The background is an out-of-focus morning kitchen with warm sunlight streaming through a window. The aesthetic is clean, soft, and grounded in artisanal warmth, matching the bakery's brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNLBZJLKz9WBVf2iWJWEGx3xFNGPYYiEGa-0OVOEYxu9vVT3XC_wrLnhMecvSBBea4n2oazRYa9a5Xvkw9oCPy9b5O5ccG8pFE1XlYKLuvL080PftoBptmIBbbyoTsJi3WcMdcynIK6p06OJE2buSRAQ29fQScXNYNuivW1CTw573EOyUviShVCTT92UkpzNVpRy-n2hGcK7zd5VrVG2RPM5CLcPsyk0lHYOjF5ldJth6vIGzkeCJ_csK7F1kYui56_R6s4pKVPu4"/>
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Clara Ibáñez</p>
+<p class="text-label-sm text-on-surface-variant">clara.i@example.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-wheat-beige text-tertiary rounded-full text-label-sm font-medium border border-outline-variant">Semanal</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 text-green-800 rounded-full text-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-green-600"></span> Activo
+                                    </span>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-body-md">24 Oct, 2023</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px]" data-icon="local_shipping">local_shipping</span>
+<span class="text-body-md">Domicilio</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-secondary-fixed">
+<img alt="Mateo Ruiz" data-alt="A professional portrait of a woman in a casual denim shirt against a minimalist cream-colored wall. She has a confident yet warm expression. The lighting is soft and even, highlighting her clear skin and neutral tones. The overall look is modern and premium, consistent with a high-end service interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ5jb8J6S9toZzLTXz8klYIW1u0SDUQcRTFgzNX8weh4R_9I_pY84T6cCBKaChyOUledAIKKXCqt-FJOtBkcasbYIj1SF36lC622bb2w4h8kAmTUFpShKWmmfr9kyJaX_IifysyLGDp3E6jtm-lf-GEBb4OEIIwWrmJ3OwObuw5uVsmZ6oOvuiu1kCsPeDoxnOp-p4OSEvQH1Hx7HUqhcpSR3k2hQfC8dGYH5KALphSYwhCPWli2Rqr_cTS3yFh2qQTPiqNBG-yTE"/>
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Mateo Ruiz</p>
+<p class="text-label-sm text-on-surface-variant">m.ruiz@bakeries.es</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-wheat-beige text-tertiary rounded-full text-label-sm font-medium border border-outline-variant">Quincenal</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-orange-600"></span> Pausado
+                                    </span>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-body-md">--</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px]" data-icon="store">store</span>
+<span class="text-body-md">Recogida</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-secondary-fixed">
+<img alt="Lucía Fern" data-alt="A candid photo of a woman in a cozy knit sweater holding a ceramic cup in a sunlit breakfast nook. Soft natural light illuminates her and the rustic textures of the scene. The color palette consists of soft beiges, warm browns, and creamy whites, evoking a slow-living morning ritual." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbi8RvBBljBjA7ok-vvN__8fjgbDxGnh0mPNSNliK9BT9FGR-oYmP_zuPzS23eRb_TSe074Kj6nnCYz0LPjqYvDIdperKGVc7GctUVi5LW1DgUdAKa2-AEFDopvBgS03upzbGHvyWvxG46FhaN0jthwSKbxL3AKUnyKgqM7dEaqkoAUr_y3FxAkiQNoR87TAAOE4YnvvLh0ItkPldkgZUwYfVEdg7Ks0KI-3UsfNzYYZpnBE671_NPqyEel2Z7JTR_I2jUteiCrco"/>
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Lucía Fern</p>
+<p class="text-label-sm text-on-surface-variant">lucia_f88@gmail.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-wheat-beige text-tertiary rounded-full text-label-sm font-medium border border-outline-variant">Semanal</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 text-green-800 rounded-full text-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-green-600"></span> Activo
+                                    </span>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-body-md">25 Oct, 2023</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px]" data-icon="local_shipping">local_shipping</span>
+<span class="text-body-md">Domicilio</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-secondary-fixed">
+<img alt="Julián Sosa" data-alt="A portrait of a middle-aged man with short hair and glasses, wearing a simple linen shirt. He is smiling slightly in a warm, minimalist office space with plants in the background. The aesthetic is serene and focused, with soft natural lighting and earthy tones that suggest a high-quality lifestyle brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdNy-S_KcuMV_LPXQWLcK1UCou8425b7OwqGiaCojtoxqfFBBMT8j8LxJ8rABMK61aTwPiSpIVOzcD_ngnmhmvsle9MgPxB7lNNDUxntx02TK41eCRv55qhU2VIBDLQegpe01LkwP-0FPhcGP2VPPyshZNnbBQ_AXOje6rnds1S8zVEGxBQPT7RBrfWtWdLcuDiNk7VkDbTp-VNRY0I_2mQafxZ7vjDTrf8W1TcD73pj3bmloD0yqxo4Vc71dWhJR0P-MdMxFPGHE"/>
+</div>
+<div>
+<p class="font-body-md font-semibold text-on-surface">Julián Sosa</p>
+<p class="text-label-sm text-on-surface-variant">julian.s@work.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 bg-wheat-beige text-tertiary rounded-full text-label-sm font-medium border border-outline-variant">Quincenal</span>
+</td>
+<td class="px-6 py-5">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-gray-400"></span> Cancelado
+                                    </span>
+</td>
+<td class="px-6 py-5 text-on-surface-variant font-body-md">--</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[18px]" data-icon="store">store</span>
+<span class="text-body-md">Recogida</span>
+</div>
+</td>
+<td class="px-6 py-5">
+<button class="material-symbols-outlined text-outline hover:text-primary transition-colors" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="px-6 py-4 flex items-center justify-between border-t border-outline-variant bg-surface-container-low">
+<span class="text-label-sm text-on-surface-variant">Mostrando 4 de 128 suscriptores</span>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg hover:bg-surface-variant text-primary disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-full bg-primary text-on-primary font-label-md">1</button>
+<button class="w-8 h-8 rounded-full hover:bg-surface-variant font-label-md text-on-surface">2</button>
+<button class="w-8 h-8 rounded-full hover:bg-surface-variant font-label-md text-on-surface">3</button>
+<span class="text-on-surface-variant">...</span>
+<button class="w-8 h-8 rounded-full hover:bg-surface-variant font-label-md text-on-surface">32</button>
+</div>
+<button class="p-2 rounded-lg hover:bg-surface-variant text-primary">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Texture Peek Card (Decorative/Informative) -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="col-span-1 bg-primary text-on-primary p-8 rounded-lg tonal-shadow relative overflow-hidden group">
+<div class="relative z-10">
+<h4 class="font-headline-sm text-headline-sm mb-2">Tasa de Retención</h4>
+<p class="text-display-lg font-display-lg">94.2%</p>
+<p class="text-body-md opacity-80 mt-4">Tus suscriptores aman el aroma de la mañana.</p>
+</div>
+<div class="absolute -bottom-8 -right-8 opacity-20 transform group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[160px]" data-icon="bakery_dining">bakery_dining</span>
+</div>
+</div>
+<div class="col-span-2 bg-secondary-container p-8 rounded-lg tonal-shadow flex items-center gap-8">
+<div class="w-32 h-32 rounded-full overflow-hidden flex-shrink-0 border-4 border-surface">
+<img alt="Crumb Structure" data-alt="A macro high-detail photograph of the internal crumb structure of a fresh sourdough bread. The large irregular air pockets are glistening, showing high hydration and perfect fermentation. The lighting is warm and directional, emphasizing the tactile textures of the soft white interior. The overall mood is sensory, appetizing, and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnZ3ctZPcgRnC2xIbt0mABEWWt3ipxxQLzhTti-7QmkMXxqFwiSf1Q-L0fFNzF7Xk_CslI_of91mCv4ua14IQGKtfnWjXyfmsXp-fQ0_f6P-DRUHG8i3g3vzIR3Hd2IMpR4oMus8QC_s-h452YRlTbMqarb_YtYAdfXxI3UpqZHD4jq8Zxdkx26VX9dwxK0iWYdKpjQR17ceGuA-tyTJBwISUc8dql43znNF9QhKBNuRKJL-vjmhVr-PhRuRRN9Kuhvg0_uh_6mIU"/>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-2">Tip del Maestro Panadero</h4>
+<p class="text-body-md text-on-secondary-container italic">"Los suscriptores de plan semanal prefieren hogazas con costra más oscura. Considera ajustar el tiempo de horneado para los pedidos de los miércoles."</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Navigation Shell (BottomNavBar) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface px-6 py-3 flex justify-around items-center z-50 border-t border-outline-variant/30 shadow-lg">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-label-sm">Inicio</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="text-[10px] font-label-sm">Usuarios</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="bakery_dining">bakery_dining</span>
+<span class="text-[10px] font-label-sm">Catálogo</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="distance">distance</span>
+<span class="text-[10px] font-label-sm">Rutas</span>
+</button>
+</nav>
+<script>
+        // Simple micro-interaction for rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                row.classList.toggle('bg-surface-container');
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-105');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-105');
+        });
+    </script>
+</body></html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finalizar Pedido | Artisanal Hearth</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=EB+Garamond:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#321200",
+                    "primary-fixed": "#ffdbc9",
+                    "on-primary-container": "#ffc29f",
+                    "on-error": "#ffffff",
+                    "surface-container": "#f2f0c4",
+                    "on-tertiary-container": "#fec72c",
+                    "tertiary-container": "#6f5400",
+                    "secondary-fixed-dim": "#c8c8b0",
+                    "on-primary-fixed-variant": "#753401",
+                    "tertiary": "#523e00",
+                    "on-background": "#1d1d03",
+                    "on-secondary-container": "#636451",
+                    "secondary": "#5e604d",
+                    "inverse-primary": "#ffb68c",
+                    "tertiary-fixed": "#ffdf98",
+                    "surface-container-low": "#f8f6c9",
+                    "primary-fixed-dim": "#ffb68c",
+                    "primary": "#6c2f00",
+                    "inverse-on-surface": "#f5f3c7",
+                    "on-secondary-fixed": "#1b1d0e",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#e4e4cc",
+                    "on-surface": "#1d1d03",
+                    "surface-variant": "#e6e5b9",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#54433a",
+                    "secondary-container": "#e1e1c9",
+                    "surface-bright": "#fefccf",
+                    "outline-variant": "#dac2b6",
+                    "surface-dim": "#dedcb1",
+                    "inverse-surface": "#323214",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "tertiary-fixed-dim": "#f5bf22",
+                    "primary-container": "#8b4513",
+                    "background": "#fefccf",
+                    "outline": "#877369",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#934b19",
+                    "surface-container-highest": "#e6e5b9",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface": "#fefccf",
+                    "on-secondary-fixed-variant": "#474836",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#eceabe"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "unit": "8px",
+                    "section-gap": "64px",
+                    "container-margin-mobile": "20px",
+                    "container-margin-desktop": "80px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-sm": ["EB Garamond"],
+                    "display-lg": ["EB Garamond"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "headline-md": ["EB Garamond"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "body-lg": ["Be Vietnam Pro"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .shadow-warm {
+            box-shadow: 0 10px 30px -5px rgba(139, 69, 19, 0.08);
+        }
+        .inset-shadow {
+            box-shadow: inset 0 2px 4px 0 rgba(139, 69, 19, 0.05);
+        }
+        body {
+            background-color: #fefccf;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-on-surface font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface z-40 sticky top-0 flex justify-between items-center w-full px-container-margin-desktop py-4 shadow-sm">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer" onclick="window.history.back()">arrow_back</span>
+<h1 class="font-headline-sm text-headline-sm text-primary">Artisanal Hearth</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-md">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+                Secure Checkout
+            </div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full cursor-pointer">notifications</span>
+<div class="w-8 h-8 rounded-full bg-secondary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A warm, inviting portrait of a friendly bakery manager in a rustic kitchen setting. The lighting is soft and golden, highlighting the artisanal quality of the environment. The manager wears a simple linen apron over a cream-colored shirt, embodying the brand's grounded and nourishing personality. The overall aesthetic is clean, premium, and welcoming." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtwLDUlpfddcywHcxdVsvAkX9KUMxLdwynPaEJw_wyGVm-EM1oKe_uHIGremV2UPqegmxQysHmaCw0MdBaTf6NMT3j9OCPRoF1cbwsjZuOnwxXyHYj98m5KcUcO1enqJwVQS1qHYKQKlVUADHhj4uqai8zPVA_lBpOKQPxDHK5k-VNqMYZR7bPNAHklCisiXaVxp0VPCOVF1PQg670WKGqIb19CoYI5tehj1xgfFBz63m1afjNhLbz"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto px-container-margin-desktop py-section-gap grid grid-cols-12 gap-gutter items-start">
+<!-- Left Column: Checkout Details -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-10">
+<!-- Delivery Section -->
+<section class="flex flex-col gap-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary">Detalles de Entrega</h2>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-6 rounded-lg shadow-warm border border-transparent hover:border-primary-fixed-dim transition-all cursor-pointer group relative">
+<div class="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">edit</span>
+</div>
+<p class="font-label-md text-on-surface-variant mb-2">DIRECCIÓN DE ENVÍO</p>
+<p class="font-body-lg text-primary font-bold">Residencial Los Trigos 402</p>
+<p class="text-on-surface-variant">Apartamento 12B, Ciudad de México, 01210</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg shadow-warm border border-transparent hover:border-primary-fixed-dim transition-all cursor-pointer group relative">
+<div class="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<p class="font-label-md text-on-surface-variant mb-2">PRÓXIMA ENTREGA</p>
+<p class="font-body-lg text-primary font-bold">Viernes, 24 de Mayo</p>
+<p class="text-on-surface-variant">Entre 7:00 AM - 9:00 AM</p>
+</div>
+</div>
+</section>
+<!-- Payment Methods Section -->
+<section class="flex flex-col gap-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary">Método de Pago</h2>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Card Option -->
+<label class="flex items-center justify-between p-6 bg-surface-container rounded-lg cursor-pointer border-2 border-primary transition-all">
+<div class="flex items-center gap-4">
+<input checked="" class="w-6 h-6 text-tertiary-fixed-dim border-outline bg-surface-container-lowest focus:ring-primary" name="payment" type="radio"/>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">credit_card</span>
+<div>
+<p class="font-bold text-primary">Tarjeta de Crédito / Débito</p>
+<p class="text-on-surface-variant text-label-md">Visa que termina en 4242</p>
+</div>
+</div>
+</div>
+<span class="text-primary font-bold">•••• 4242</span>
+</label>
+<!-- Digital Wallets -->
+<div class="grid grid-cols-2 gap-4">
+<label class="flex items-center gap-4 p-6 bg-surface-container-low rounded-lg cursor-pointer border border-transparent hover:bg-surface-variant transition-all">
+<input class="w-6 h-6 text-tertiary-fixed-dim border-outline bg-surface-container-lowest focus:ring-primary" name="payment" type="radio"/>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">file_download</span>
+<span class="font-bold">Apple Pay</span>
+</div>
+</label>
+<label class="flex items-center gap-4 p-6 bg-surface-container-low rounded-lg cursor-pointer border border-transparent hover:bg-surface-variant transition-all">
+<input class="w-6 h-6 text-tertiary-fixed-dim border-outline bg-surface-container-lowest focus:ring-primary" name="payment" type="radio"/>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">google</span>
+<span class="font-bold">Google Pay</span>
+</div>
+</label>
+</div>
+<!-- New Card Input Simulation -->
+<div class="mt-4 p-8 bg-surface-container-lowest rounded-lg border border-outline-variant inset-shadow">
+<div class="grid grid-cols-2 gap-6">
+<div class="col-span-2">
+<label class="block font-label-md text-on-surface-variant mb-2">Nombre en la tarjeta</label>
+<input class="w-full bg-surface p-4 rounded border-none ring-1 ring-outline-variant focus:ring-2 focus:ring-primary" placeholder="Como aparece en la tarjeta" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-on-surface-variant mb-2">Fecha de Expiración</label>
+<input class="w-full bg-surface p-4 rounded border-none ring-1 ring-outline-variant focus:ring-2 focus:ring-primary" placeholder="MM/YY" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-on-surface-variant mb-2">CVV</label>
+<input class="w-full bg-surface p-4 rounded border-none ring-1 ring-outline-variant focus:ring-2 focus:ring-primary" placeholder="123" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Order Summary (Fixed) -->
+<aside class="col-span-12 lg:col-span-4 sticky top-24">
+<div class="bg-surface-container-low rounded-lg shadow-warm p-8 border border-outline-variant flex flex-col gap-8">
+<h3 class="font-headline-sm text-headline-sm text-primary">Resumen del Pedido</h3>
+<div class="flex flex-col gap-6">
+<!-- Product 1 -->
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-white shrink-0 relative group">
+<img class="w-full h-full object-cover" data-alt="A detailed macro shot showing the internal honeycomb crumb structure of a fresh sourdough bread. The lighting is crisp, emphasizing the airy textures and golden crust. The background is a soft beige, consistent with the bakery's warm, premium branding. This 'Texture Peek' captures the essence of artisanal craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRk2bm7zPnZcFCXJ1E_UdJczWYsiHyJqxmEzxJqCmDQiuVr9mYFPDi5eqHq1IQkH50KX2kXSMyU5fxZ0XRqR6rAizh2ffMl2_H0rz3ZABLbXBOHbCqWX-aWmAozDZwtRl6AwWGKZ2NTUvMQ0cvASWfAZU_3mmoWlILcHTCH31yWP9B94B2NLTVsenkii6yuZa6HFGrYlAhi5EAbwoOKs_Uw_JTVC-iapmRFYbwQOMzCWrQAGWYO2CJ"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="flex-grow">
+<p class="font-bold text-primary">Sourdough de Trigo Integral</p>
+<p class="text-on-surface-variant text-label-sm">Suscripción Semanal</p>
+</div>
+<p class="font-bold">$12.50</p>
+</div>
+<!-- Product 2 -->
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-white shrink-0 relative group">
+<img class="w-full h-full object-cover" data-alt="A close-up of a rustic baguette with a flour-dusted crust and deep scoring. The focus is on the crunchy, golden-brown exterior. The lighting is warm and directional, creating soft brown-tinted shadows that add depth and a tactile feel. The image embodies a sense of comfort and artisanal tradition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpBdgcshNGv7_vyuFqMqTwY5vNwB1QlwNvqCnFFscNsmk5Eo23iEmGD_aMMhlEzYndT6IbLUpvuD4YWcFK93syF88Onbw6PrLRde9vGgjZzpz5miJvligbnAGPLZrQ7-k8lPjnk1ap0OgovHZXoQJLlTVvnyW9qEcQ1rBz5p3hxp1F_2X3HYpjfhRb2xlXWoiwX--XKgDTm_mvmtYAWSTCaIQiHKf7AI3CCDbIKpLieHaeOGNMXEhK"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="flex-grow">
+<p class="font-bold text-primary">Baguette Tradicional</p>
+<p class="text-on-surface-variant text-label-sm">Suscripción Quincenal</p>
+</div>
+<p class="font-bold">$8.00</p>
+</div>
+</div>
+<hr class="border-outline-variant"/>
+<div class="flex flex-col gap-3">
+<div class="flex justify-between text-on-surface-variant">
+<span>Subtotal</span>
+<span>$20.50</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Envío</span>
+<span class="text-tertiary font-bold">GRATIS</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Impuestos (IVA)</span>
+<span>$1.64</span>
+</div>
+<div class="flex justify-between text-primary font-bold text-lg mt-2">
+<span>Total (Suscripción)</span>
+<span>$22.14</span>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary py-4 px-8 rounded-lg font-bold text-body-lg hover:scale-[1.02] active:scale-95 transition-all shadow-md">
+                    Suscribirse ahora
+                </button>
+<p class="text-center text-label-sm text-on-surface-variant px-4">
+                    Al suscribirte, aceptas nuestros <a class="underline" href="#">Términos de Servicio</a> y autorizas el cargo recurrente.
+                </p>
+<div class="flex items-center justify-center gap-2 text-on-surface-variant text-label-sm">
+<span class="material-symbols-outlined text-[16px]">shield</span>
+                    Pago Seguro Encriptado (SSL)
+                </div>
+</div>
+</aside>
+</main>
+<footer class="mt-section-gap border-t border-outline-variant bg-surface py-12 px-container-margin-desktop">
+<div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col items-center md:items-start gap-2">
+<h4 class="font-headline-sm text-primary">Artisanal Hearth</h4>
+<p class="text-on-surface-variant text-label-md">Nutriendo tu rutina con pan de verdad.</p>
+</div>
+<div class="flex gap-8 text-on-surface-variant font-label-md">
+<a class="hover:text-primary transition-colors" href="#">Soporte</a>
+<a class="hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="hover:text-primary transition-colors" href="#">Términos</a>
+</div>
+<div class="flex gap-4">
+<span class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary cursor-pointer hover:bg-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined">mail</span>
+</span>
+<span class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary cursor-pointer hover:bg-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined">share</span>
+</span>
+</div>
+</div>
+</footer>
+<script>
+        // Simple interaction for the payment method selection
+        const paymentLabels = document.querySelectorAll('input[name="payment"]');
+        paymentLabels.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                // Reset all parent borders
+                document.querySelectorAll('input[name="payment"]').forEach(r => {
+                    const parent = r.closest('label');
+                    parent.classList.remove('border-primary', 'bg-surface-container', 'border-2');
+                    parent.classList.add('border-transparent', 'bg-surface-container-low', 'border');
+                });
+                
+                // Set active border
+                if(e.target.checked) {
+                    const parent = e.target.closest('label');
+                    parent.classList.remove('border-transparent', 'bg-surface-container-low', 'border');
+                    parent.classList.add('border-primary', 'bg-surface-container', 'border-2');
+                }
+            });
+        });
+
+        // Hover effect for summary items
+        const summaryItems = document.querySelectorAll('.group');
+        summaryItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'scale(1.02)';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

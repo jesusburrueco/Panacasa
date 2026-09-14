@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=EB+Garamond:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#934b19",
+                    "surface": "#fefccf",
+                    "surface-container": "#f2f0c4",
+                    "primary": "#6c2f00",
+                    "on-surface": "#1d1d03",
+                    "on-error": "#ffffff",
+                    "primary-container": "#8b4513",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#f5f3c7",
+                    "on-primary": "#ffffff",
+                    "outline": "#877369",
+                    "on-surface-variant": "#54433a",
+                    "on-primary-fixed": "#321200",
+                    "secondary": "#5e604d",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#ffb68c",
+                    "on-background": "#1d1d03",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed": "#ffdf98",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#636451",
+                    "tertiary-container": "#6f5400",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#e4e4cc",
+                    "secondary-container": "#e1e1c9",
+                    "primary-fixed": "#ffdbc9",
+                    "surface-container-low": "#f8f6c9",
+                    "tertiary": "#523e00",
+                    "surface-container-high": "#eceabe",
+                    "surface-dim": "#dedcb1",
+                    "outline-variant": "#dac2b6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e6e5b9",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-primary-container": "#ffc29f",
+                    "on-tertiary-container": "#fec72c",
+                    "inverse-primary": "#ffb68c",
+                    "background": "#fefccf",
+                    "surface-variant": "#e6e5b9",
+                    "on-secondary-fixed-variant": "#474836",
+                    "tertiary-fixed-dim": "#f5bf22",
+                    "on-secondary-fixed": "#1b1d0e",
+                    "on-primary-fixed-variant": "#753401",
+                    "inverse-surface": "#323214",
+                    "surface-bright": "#fefccf",
+                    "secondary-fixed-dim": "#c8c8b0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-margin-mobile": "20px",
+                    "section-gap": "64px",
+                    "container-margin-desktop": "80px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-md": ["EB Garamond"],
+                    "display-lg": ["EB Garamond"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "headline-sm": ["EB Garamond"],
+                    "body-lg": ["Be Vietnam Pro"],
+                    "display-lg-mobile": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        background-color: #fefccf; /* Theme background */
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .texture-peek {
+        mask-image: radial-gradient(circle, black 50%, transparent 100%);
+      }
+      .shadow-warm {
+        box-shadow: 0 10px 30px -10px rgba(139, 69, 19, 0.15);
+      }
+    </style>
+</head>
+<body class="font-body-md text-on-surface selection:bg-primary-fixed-dim selection:text-primary">
+<!-- TopNavBar -->
+<nav class="w-full top-0 sticky z-50 bg-surface shadow-[0_4px_20px_-5px_rgba(139,69,19,0.08)]">
+<div class="flex justify-between items-center h-20 px-container-margin-desktop max-w-[1440px] mx-auto w-full">
+<div class="flex items-center gap-12">
+<a class="font-display-lg text-display-lg text-primary tracking-tight" href="#">Breadly</a>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1" href="#">Catalog</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Subscriptions</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Locations</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container-low rounded-full transition-all duration-200">shopping_basket</button>
+<div class="hidden md:flex items-center gap-4">
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors px-4 py-2">Sign In</button>
+<button class="font-label-md text-label-md bg-primary text-on-primary px-6 py-3 rounded-full hover:scale-[1.02] active:scale-[0.98] transition-transform shadow-sm">Join Now</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-[870px] flex items-center overflow-hidden bg-surface-container-low">
+<div class="max-w-[1440px] mx-auto w-full px-container-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter items-center py-section-gap">
+<div class="md:col-span-6 z-10 space-y-8">
+<div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-md text-label-md uppercase tracking-widest">
+<span class="material-symbols-outlined text-[18px]">bakery_dining</span>
+                        Desde el horno
+                    </div>
+<h1 class="font-display-lg text-display-lg text-primary max-w-lg leading-tight">
+                        Pan artesanal por suscripción, recién horneado y entregado en tu puerta
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+                        Recupera el ritual del desayuno con panes de fermentación lenta, harinas orgánicas y cortezas crujientes. Suscríbete y recíbelo cada mañana.
+                    </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="px-10 py-5 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-warm hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+                            Empezar Suscripción
+                        </button>
+<button class="px-10 py-5 border-2 border-primary text-primary font-label-md text-label-md rounded-full hover:bg-primary/5 transition-all duration-300">
+                            Ver Catálogo
+                        </button>
+</div>
+</div>
+<div class="md:col-span-6 relative h-[600px]">
+<!-- Main Hero Image with texture peek -->
+<div class="absolute right-0 top-0 w-full h-full rounded-xl overflow-hidden shadow-warm rotate-1">
+<div class="w-full h-full bg-cover bg-center" data-alt="Macro photography of a freshly sliced sourdough bread loaf with a perfectly golden, flour-dusted crust. The internal crumb structure is airy and beautiful. The lighting is warm and morning-like, casting soft shadows on a rustic wooden surface in a clean, minimalist bakery setting with beige tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDrfxjOzkX61x2Cl1TRH33i3zZVnQjyV74RJiyP6ZNJZIzyCRdQlpXbfUySher_t8DLe1PsmsamkeiwtOQl9xbXK8zHaZz8Jy2cmJcMQVBFuqQkCOVICPfI3-Tz6wFnuQ6EUPFvmlsH-bTxmvyMjheJCnvayDbytJeuHorY7try9K3vcyIoo30Xppgbtd-RpDr9WE3IjM3PZ3fmag3JlEyAI28Ckj3HygqDKMw4t_4vVVJ4_wwxjEHX')"></div>
+</div>
+<!-- Tactile Overlay Elements -->
+<div class="absolute -bottom-10 -left-10 bg-surface p-6 rounded-lg shadow-warm max-w-xs space-y-3 -rotate-2 border border-outline-variant/30">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container-high flex-shrink-0">
+<div class="w-full h-full bg-cover bg-center texture-peek" data-alt="A close up detailed view of a porous bread crumb texture with golden bubbles and soft, white interior, set against a warm beige background in an artisanal bakery style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAAqYN-d0wPgNTcMZiTTDn5WLKrzuryvH3iFQrp6CnHI6Pg4Z_bFY769KzDNJpNjkxbvqC3xYu-vJhZunnDOMkW5jfyYU9wE1X3g7UiADmhwiY9_AnLHFeda-5eihMH341VHEJ26X9iZjJmnil6x8on6eiIQp7rclRGOGOwmA08EpSNT0lsamYc7mNX02MVJzNrK4ZQrc5PFLHm_TdRZ-pMMcioL-HP138EPB14dyUBbHTZ9v9c0NHr')"></div>
+</div>
+<div>
+<p class="font-headline-sm text-label-md text-primary">Sourdough Classic</p>
+<p class="font-label-sm text-on-surface-variant">Fermentado 24h</p>
+</div>
+</div>
+<div class="flex gap-1 text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Value Pillars (Bento-style Grid) -->
+<section class="max-w-[1440px] mx-auto w-full px-container-margin-desktop py-section-gap">
+<div class="text-center mb-16 space-y-4">
+<h2 class="font-headline-md text-headline-md text-primary">Por qué elegir Breadly</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Combinamos técnicas ancestrales con la comodidad de tu hogar para ofrecerte el mejor pan de la ciudad.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-10 rounded-lg shadow-warm border border-outline-variant/10 hover:translate-y-[-8px] transition-transform duration-300">
+<div class="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-[32px]">timer</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-4">Fermentación Lenta</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Dejamos que la masa respire y desarrolle sabor natural durante 24 a 48 horas. Sin prisas, solo sabor puro.</p>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-10 rounded-lg shadow-warm border border-outline-variant/10 hover:translate-y-[-8px] transition-transform duration-300">
+<div class="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-[32px]">local_shipping</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-4">Entrega Matutina</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Horneamos en la madrugada para que el olor a pan fresco te despierte. Entrega directa en tu puerta antes de las 8:00 AM.</p>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-10 rounded-lg shadow-warm border border-outline-variant/10 hover:translate-y-[-8px] transition-transform duration-300">
+<div class="w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-[32px]">eco</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-4">Ingredientes Reales</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Solo tres ingredientes: harina orgánica, agua y sal de mar. Sin conservadores, sin azúcares añadidos.</p>
+</div>
+</div>
+</section>
+<!-- Subscription Showcase -->
+<section class="bg-surface-variant/30 py-section-gap">
+<div class="max-w-[1440px] mx-auto w-full px-container-margin-desktop">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
+<div class="max-w-xl">
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Encuentra tu suscripción ideal</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Planes flexibles que se adaptan a tu ritmo de vida. Cambia, pausa o cancela cuando quieras.</p>
+</div>
+<div class="flex gap-2 bg-surface-container-high p-1 rounded-full">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md text-label-md shadow-sm">Semanal</button>
+<button class="px-6 py-2 rounded-full text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-highest transition-colors">Mensual</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Product Card 1 -->
+<div class="bg-surface p-4 rounded-lg shadow-warm group">
+<div class="h-64 rounded-md overflow-hidden mb-6 relative">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="A rustic sourdough loaf on a light linen towel, highlighting its deep amber crust and flour dusting. The lighting is soft and airy, fitting a premium artisanal bakery aesthetic with warm beige and wheat tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCFrB4f4VWKAZhOrQ5y38-i-NnrBLdj-By0lyMakhwxX1DPzkBvepc2tngLK4mP4SKwzm79BVmhAlWEI-hlTnmRxVPLsR5ae-2RnjDGzSr0UfKIHIjGPbXMQCbEj8lW-Tanug3RT2Y5Td06G2KsfXewa0cbP4jBlOxBK_nubB-nzwoArJQ9olgUUJLGbEUpzRoHv6zE-9MD7Z4Tm1yoJ634w0aCRCncEA_iWvuHT1-uxNCdfmGl-DAF')"></div>
+<div class="absolute top-4 right-4">
+<span class="bg-tertiary-container text-on-tertiary-container text-label-sm font-label-sm px-3 py-1 rounded-full">Popular</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-1">El Ritual Diario</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">1 pan grande + 2 baguettes</p>
+<div class="flex justify-between items-center mt-auto">
+<span class="font-body-lg text-body-lg font-bold text-primary">$29.00 /sem</span>
+<button class="material-symbols-outlined bg-surface-container-highest text-primary p-2 rounded-full hover:bg-primary hover:text-on-primary transition-all">add</button>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface p-4 rounded-lg shadow-warm group">
+<div class="h-64 rounded-md overflow-hidden mb-6 relative">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="Close up of artisanal rye bread with seeds and grains on top, sliced to show a dense nutritious interior. Warm bakery atmosphere with gentle morning sunlight through a window." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAOulUjNvsTRLoQT3CAETBELgmAt5ltVCTIOKLeEhqhvHVjqLwd6DmWBTaHIctGB88Of9WyaiDZY4nBBEC9X35YlAtAxInSOc3ojm3CwdM_SCp0FoBx04xNj5hNJUwRkkpb1V0OFB3eLthWjmcXYquDrQI8oCdRQtzztZz7jH6oJ0QLHkh6tlmsaQV9KC5NilYLvGqlL_oR4xRmPTZi2dY8pnzOi9rD6El30UJSYoYSNhlcA9Hg6IaY')"></div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-1">Pack Saludable</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">2 panes de semillas y centeno</p>
+<div class="flex justify-between items-center mt-auto">
+<span class="font-body-lg text-body-lg font-bold text-primary">$35.00 /sem</span>
+<button class="material-symbols-outlined bg-surface-container-highest text-primary p-2 rounded-full hover:bg-primary hover:text-on-primary transition-all">add</button>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface p-4 rounded-lg shadow-warm group">
+<div class="h-64 rounded-md overflow-hidden mb-6 relative">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="A assortment of French pastries and croissants, golden and flaky with visible layers. Placed on a marble countertop in a high-end bakery. Warm lighting and elegant brown-toned aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDpGiLnJhA840uKDOh1PRozyy5WhvlMa4LYCApU2ppEGpofCVAfoeWPi8wMwW57ZwRAxFg-2ceAirNdypr_VWFXNA4HVfR-wkD9czDpmjggqtfaFI0mdK3-zQxeyBzaQX5oXfri5tr7Al7E5jDBY6fWldJU_xj0w1LZp1Xb6FSY4ytsFPEd3Tt6a51lErlGPmuA25nNokVb6qlx6RzCHm76PZ3mwx1azHZeTLdDVZXeiBc2eKdbR8oM')"></div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-1">Dulce Despertar</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">4 croissants + 1 pan brioche</p>
+<div class="flex justify-between items-center mt-auto">
+<span class="font-body-lg text-body-lg font-bold text-primary">$25.00 /sem</span>
+<button class="material-symbols-outlined bg-surface-container-highest text-primary p-2 rounded-full hover:bg-primary hover:text-on-primary transition-all">add</button>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface p-4 rounded-lg shadow-warm group">
+<div class="h-64 rounded-md overflow-hidden mb-6 relative">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-500" data-alt="A large family-style artisan bread basket containing various types of loaves, rolls and focaccia. Warm, welcoming setting on a large farmhouse table." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC1uoNJtW00rrX80kZ-sxELY7w65sbCFgo3HB-fYSJtOnaGFin6_DAG3mybDVUCdpyEEfI7rGM8o4TwCgmxbY7xXh5YLt_zk1UypT8-E7tJgsQ9idLT9UDmLwUA8fN49GRQBlyJYoBJh4cCYCM0GDENE3HXM-u1VX-bJLU-8J6rTFOKPT7hTPcy9IdE8_YqQfMmlaQV7m6-aKzGzzki5a-EGFUOkQ3mEJkNFjgUOmJkadumT2ZRp3Pm')"></div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-primary mb-1">Familiar</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">Canasta mixta personalizada</p>
+<div class="flex justify-between items-center mt-auto">
+<span class="font-body-lg text-body-lg font-bold text-primary">$45.00 /sem</span>
+<button class="material-symbols-outlined bg-surface-container-highest text-primary p-2 rounded-full hover:bg-primary hover:text-on-primary transition-all">add</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter / CTA -->
+<section class="max-w-[1440px] mx-auto w-full px-container-margin-desktop py-section-gap">
+<div class="relative bg-primary rounded-xl overflow-hidden py-16 px-10 md:px-20 text-center">
+<!-- Abstract Texture Peek -->
+<div class="absolute inset-0 opacity-10 pointer-events-none bg-cover" data-alt="Close up abstract image of flour being dusted onto a wooden surface, creating a fine misty texture. The aesthetic is tactile, artisanal, and warm." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPvpsOJwRDktybG4pkCR0YZJGNUYXxuik6JAkPitqaRbKQ8Vk6ysDxBQIuVlupKQwYIaPkd5F77uExQ3JsWiUbSjrDsI5Bvs3EwYTjTvyv4eK69Q8ABwbm9OfMmpCp0MaYunsiYkHVGvMz2SXQeB2xjPosb-krNuafgNWTIrnyRMVP97bvKizsM4PhgRTjgnqRE2hrSQYnFA7hcxqZ5FCvuTj7e5M59O-OSEjRue0RZJRp2prQWnzs')"></div>
+<div class="relative z-10 space-y-6">
+<h2 class="font-display-lg text-display-lg text-on-primary">Únete al club del buen pan</h2>
+<p class="font-body-lg text-on-primary/80 max-w-xl mx-auto">Suscríbete a nuestro boletín para recibir recetas, consejos de conservación y un 10% de descuento en tu primer mes.</p>
+<div class="flex flex-col md:flex-row gap-4 max-w-lg mx-auto pt-4">
+<input class="flex-grow px-6 py-4 rounded-full bg-surface/10 border-on-primary/20 text-on-primary placeholder:text-on-primary/50 focus:ring-on-primary focus:border-on-primary" placeholder="Tu correo electrónico" type="email"/>
+<button class="px-10 py-4 bg-surface text-primary font-label-md text-label-md rounded-full shadow-warm hover:bg-white transition-colors">Suscribirme</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-section-gap bg-surface-container-lowest shadow-inner border-t border-outline-variant/10">
+<div class="flex flex-col md:flex-row justify-between items-center py-12 px-container-margin-desktop max-w-[1440px] mx-auto w-full gap-gutter">
+<div class="space-y-4 text-center md:text-left">
+<a class="font-headline-sm text-headline-sm text-primary" href="#">Breadly</a>
+<p class="font-label-md text-label-md text-on-surface-variant">© 2024 Breadly Artisanal Bakery. Hand-kneaded with love.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200" href="#">Our Story</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200" href="#">Sustainability</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200" href="#">Wholesale</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200" href="#">Contact Us</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:translate-x-1 transition-all duration-200" href="#">Privacy Policy</a>
+</div>
+<div class="flex gap-4">
+<button class="material-symbols-outlined p-2 text-primary hover:bg-primary-fixed rounded-full transition-colors">language</button>
+<button class="material-symbols-outlined p-2 text-primary hover:bg-primary-fixed rounded-full transition-colors">alternate_email</button>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions and subtle effects
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.style.transform = 'scale(0.95)';
+            });
+            button.addEventListener('mouseup', () => {
+                button.style.transform = '';
+            });
+        });
+
+        // Sticky header opacity on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 20) {
+                nav.classList.add('bg-surface/95', 'backdrop-blur-md');
+            } else {
+                nav.classList.remove('bg-surface/95', 'backdrop-blur-md');
+            }
+        });
+    </script>
+</body></html>

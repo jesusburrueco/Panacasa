@@ -1,0 +1,276 @@
+<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Breadly - Catálogo de Pan Artesanal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#fefccf",
+                    "on-surface-variant": "#54433a",
+                    "background": "#fefccf",
+                    "secondary-fixed-dim": "#c8c8b0",
+                    "tertiary": "#523e00",
+                    "surface-container-high": "#eceabe",
+                    "tertiary-fixed": "#ffdf98",
+                    "on-primary-fixed-variant": "#753401",
+                    "on-primary-container": "#ffc29f",
+                    "surface-container-highest": "#e6e5b9",
+                    "secondary-fixed": "#e4e4cc",
+                    "on-tertiary-container": "#fec72c",
+                    "primary": "#6c2f00",
+                    "on-surface": "#1d1d03",
+                    "surface-container-low": "#f8f6c9",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-secondary-fixed-variant": "#474836",
+                    "on-primary-fixed": "#321200",
+                    "secondary": "#5e604d",
+                    "inverse-surface": "#323214",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#6f5400",
+                    "primary-fixed": "#ffdbc9",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "outline": "#877369",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#ffb68c",
+                    "primary-container": "#8b4513",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#f5bf22",
+                    "surface-tint": "#934b19",
+                    "surface-container": "#f2f0c4",
+                    "surface-dim": "#dedcb1",
+                    "inverse-on-surface": "#f5f3c7",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#1d1d03",
+                    "surface-variant": "#e6e5b9",
+                    "on-secondary-container": "#636451",
+                    "surface-bright": "#fefccf",
+                    "outline-variant": "#dac2b6",
+                    "on-secondary-fixed": "#1b1d0e",
+                    "primary-fixed-dim": "#ffb68c",
+                    "secondary-container": "#e1e1c9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "unit": "8px",
+                    "section-gap": "64px",
+                    "container-margin-desktop": "80px",
+                    "container-margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Be Vietnam Pro"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "headline-sm": ["EB Garamond"],
+                    "display-lg": ["EB Garamond"],
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-md": ["EB Garamond"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "display-lg-mobile": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .texture-peek {
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin-mobile h-16 bg-surface shadow-[0_4px_20px_rgba(139,69,19,0.08)]">
+<div class="flex items-center gap-4">
+<button class="text-primary hover:scale-105 transition-transform duration-200 active:scale-95" onclick="window.location.href='{{DATA:SCREEN:SCREEN_13}}'">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile font-bold text-primary">Breadly</h1>
+</div>
+<div class="flex items-center">
+<button class="text-primary hover:scale-105 transition-transform duration-200 active:scale-95">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-container-margin-mobile md:px-container-margin-desktop max-w-7xl mx-auto">
+<!-- Search Bar -->
+<section class="mb-8">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full h-14 pl-12 pr-4 bg-surface-container-low border-none rounded-lg focus:ring-2 focus:ring-primary/20 text-body-md placeholder:text-on-surface-variant/50 shadow-inner" placeholder="Buscar pan recién horneado..." type="text">
+</div>
+</section>
+<!-- Horizontal scroll categories -->
+<section class="mb-10 -mx-container-margin-mobile px-container-margin-mobile md:mx-0 md:px-0">
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-2">
+<button class="flex-none px-6 py-3 rounded-full bg-primary-container text-on-primary-container font-label-md transition-all active:scale-95 shadow-sm">
+                    Masa Madre
+                </button>
+<button class="flex-none px-6 py-3 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md hover:bg-secondary-container/50 transition-all active:scale-95">
+                    Integral
+                </button>
+<button class="flex-none px-6 py-3 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md hover:bg-secondary-container/50 transition-all active:scale-95">
+                    Sin Gluten
+                </button>
+<button class="flex-none px-6 py-3 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md hover:bg-secondary-container/50 transition-all active:scale-95">
+                    Dulce
+                </button>
+<button class="flex-none px-6 py-3 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md hover:bg-secondary-container/50 transition-all active:scale-95">
+                    Centeno
+                </button>
+</div>
+</section>
+<!-- Product Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="group bg-surface-container-low rounded-lg p-4 shadow-[0_4px_20px_rgba(139,69,19,0.08)] hover:scale-[1.02] transition-transform duration-300" onclick="window.location.href='{{DATA:SCREEN:SCREEN_5}}'">
+<div class="relative mb-4 overflow-hidden rounded-md aspect-[4/3]">
+<img class="w-full h-full object-cover" data-alt="A close-up photograph of a rustic sourdough bread loaf with a perfectly crackled, dark golden-brown crust dusted with fine white flour. The lighting is warm and directional, emphasizing the deep scores and tactile texture of the bread against a soft cream-colored background. The overall aesthetic is artisanal and premium, following a warm, grounded earth-tone palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASTlJcK61mDnlOE9w5wnMWxuahdOUzCaHN6sI2a9r04Z8JaIscKiev3vGPiXdBW04x2nPiW6G9gyVOOvamYxAFNobWiQN_sPDrMBk-1ekSE1eq9IsKByyWEZVwGLY-rw0eMCoZCf_M--rdbYB4uCAWxtI5cx9K0-xxGVNZa2kcwy8-iuQLjAOJ9nIBCHJaO4own9agnCKKdEG7mXw2pUraakYHg7aYqxI45qeaFuVA1eSOEYAxfwlL3-lNXdEafx8EOiY4dhJyfIY">
+<div class="absolute bottom-3 right-3 w-12 h-12 rounded-full border-2 border-surface overflow-hidden texture-peek shadow-md">
+<img class="w-full h-full object-cover" data-alt="A macro shot detailing the airy, open crumb structure of a fresh sourdough bread slice. Small and large fermentation bubbles are visible, showcasing a moist and slightly glossy interior texture. The lighting is bright and clear, highlighting the delicate ivory color of the internal dough, set within a warm-toned artisanal bakery atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGlHzC_o-AbQIRTytthewmCVosS4SzOnO-9NY3g2ip0pw7nMCz3zIBIPJqQ2aDyZMcw3m85NSn38sBofMxgFAew5K5RmFzKUM0zquCfOXT7Y4htijHMElTz086Y58lQSThHQkW_AK0CxoLuARQ6cOHtmiSzkUN5eizt6cKG6FOuYKnGRcMXpSceZpY-3WwfkD0tdaZPBTwKGG_LfeIBYoZwIrl1zlnHa_RdJgIMI8s7Nin7iMTUaGkvc0Ho5saXqG2Nx1iwqo31Gk">
+</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Hogaza de Centeno</h3>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface-variant text-label-sm">Masa Madre</span>
+</div>
+<p class="text-on-surface-variant text-body-md mb-4 line-clamp-2">Fermentación lenta de 24h con harina de centeno integral molida a piedra.</p>
+<div class="flex justify-between items-center">
+<span class="font-headline-sm text-headline-sm text-primary">€4.50</span>
+<button class="bg-primary-container text-on-primary-container p-2 rounded-full hover:scale-110 active:scale-95 transition-all" onclick="event.stopPropagation(); window.location.href='{{DATA:SCREEN:SCREEN_5}}'">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-surface-container-low rounded-lg p-4 shadow-[0_4px_20px_rgba(139,69,19,0.08)] hover:scale-[1.02] transition-transform duration-300" onclick="window.location.href='{{DATA:SCREEN:SCREEN_5}}'">
+<div class="relative mb-4 overflow-hidden rounded-md aspect-[4/3]">
+<img class="w-full h-full object-cover" data-alt="A high-angle shot of a multi-grain baguette with visible seeds like flax, sesame, and sunflower embedded in a thick, golden crust. The background is a soft, warm beige linen fabric, and the scene is lit with natural morning sunlight, creating long, soft shadows. The visual style is minimal and sophisticated, emphasizing the wholesome, natural ingredients of the artisanal bakery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQERE1Gd2KT0mK-ttH71614nsw8GHNww1vIK0oari6d5af8qxOuC-p0lcM_KGAOOtNOmpMWo2bgNpaZMWwF3MeeFwUtJ8a5s5YgaODVpebnACxhDkcuaq39is2SmP-PBnI7LrNgZVeGUfFHk2aJ5zz5XYQfIoAxhxND0PJew_7YOj49jE3Jz3v54pf2xyh4PhTmN5ZXr79V_QZwwCBY1aR_CVEpWWtM6Rj7gAS49HATPKX7FWmGKZ9OcNism3_zMuA0XVuNBs3dDo">
+<div class="absolute bottom-3 right-3 w-12 h-12 rounded-full border-2 border-surface overflow-hidden texture-peek shadow-md">
+<img class="w-full h-full object-cover" data-alt="Close-up view of whole grain bread interior showing a dense but soft texture packed with various grains and seeds. The colors are earthy browns and tans, with light catching on individual toasted seeds. The image evokes a sense of nutritional richness and handcrafted quality, aligned with a premium, organic food brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBC0Z8S98TALQ0vTracEML4r5pts2Swhkozrzdo25gsT6f5CmSGdYYuNuWDMOSU8J3sKrxqqHUmQLWsIN6NR98YkgSRTjUuFsdS_dRt5cLN_Bq898y9wpI-jNCoWIJNQmypgsiLv2gaPzSQceQ0t6oBHmUu_94SbzkByXRrDq0tNKxrWXa2L6eSSDrd7m1x4nMSnMMouID2bl_11q0uGJkXJfw6HHMktanLdpSEXH7ejTuMlabwIs4D496aU_sW9oxnS6YINh7NvLQ">
+</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Barra Multicereal</h3>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface-variant text-label-sm">Integral</span>
+</div>
+<p class="text-on-surface-variant text-body-md mb-4 line-clamp-2">Mezcla exclusiva de 5 semillas tostadas y harina de trigo integral ecológica.</p>
+<div class="flex justify-between items-center">
+<span class="font-headline-sm text-headline-sm text-primary">€3.20</span>
+<button class="bg-primary-container text-on-primary-container p-2 rounded-full hover:scale-110 active:scale-95 transition-all" onclick="event.stopPropagation(); window.location.href='{{DATA:SCREEN:SCREEN_5}}'">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-surface-container-low rounded-lg p-4 shadow-[0_4px_20px_rgba(139,69,19,0.08)] hover:scale-[1.02] transition-transform duration-300" onclick="window.location.href='{{DATA:SCREEN:SCREEN_5}}'">
+<div class="relative mb-4 overflow-hidden rounded-md aspect-[4/3]">
+<img class="w-full h-full object-cover" data-alt="A stunning artisan bread loaf with a deep reddish-brown crust, elegantly scored with a leaf pattern. The loaf is sitting on a wooden peel with a light dusting of flour. The lighting is moody and dramatic, focusing on the intricate texture of the crust and the artisanal craftsmanship. The color palette consists of warm browns, burnt oranges, and creamy whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf7E5zqllY2IPiu7fqYUiRaaOjHltn38zrgfjqc2Wd6RWyc7e5A3Gv_hlCzoKYHEO14A-Ju71zZ2SFuX1AOcUa4fKkPXB6OCokhpYqGxCl8hXKDNtfggk1vl5hk-v_aGoIrrX758KG9bqxe-NM_F6lJ4z-R3RJMSZxcZDVsZIukYqPKnbLEokh_yG_xmIGfuPowgtHTQfV0cdOBgjWvRYhAQYtUAK0ccKirOOSKpVDBJtOmOwvKGxGgeX4QyFRi5PI-Tmbk7y9L3U">
+<div class="absolute bottom-3 right-3 w-12 h-12 rounded-full border-2 border-surface overflow-hidden texture-peek shadow-md">
+<img class="w-full h-full object-cover" data-alt="Micro detail of the 'ear' of a sourdough loaf, showing the contrast between the dark, caramelized crunchy edge and the softer, flour-dusted surface. The texture is extremely detailed, conveying a sense of crunch and warmth. The overall aesthetic is one of slow-living and gourmet quality, consistent with an upscale urban bakery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWJPAOeHKCckIHb0FXftzOmIMEbeeOF3i1DWEPFiHkdxjXRamra3EShTePWtooxKFHb3-yuQI4LxHYFaRWpSDGrok5sc0Cag6M6oz2qJeu0iHQR0Q83dT5MS7GSrHcUtNUYn-IAtzFFTBwnYWPgNxtfROEUAkOPHgrSqjm3tE2tU28iDLKEQH_yJMa-s6EIPU0wdGW8cejDo8W40em6-_aU19LyB4cay-hYZmn8wi1ekp0hqVoQYUgqnjk4iViv9CacQ6QqXD-3qg">
+</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Pan de Espelta</h3>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface-variant text-label-sm">Especialidad</span>
+</div>
+<p class="text-on-surface-variant text-body-md mb-4 line-clamp-2">Harina de espelta 100% pura para una digestión más ligera y sabor ancestral.</p>
+<div class="flex justify-between items-center">
+<span class="font-headline-sm text-headline-sm text-primary">€5.10</span>
+<button class="bg-primary-container text-on-primary-container p-2 rounded-full hover:scale-110 active:scale-95 transition-all" onclick="event.stopPropagation(); window.location.href='{{DATA:SCREEN:SCREEN_5}}'">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group bg-surface-container-low rounded-lg p-4 shadow-[0_4px_20px_rgba(139,69,19,0.08)] hover:scale-[1.02] transition-transform duration-300" onclick="window.location.href='{{DATA:SCREEN:SCREEN_5}}'">
+<div class="relative mb-4 overflow-hidden rounded-md aspect-[4/3]">
+<img class="w-full h-full object-cover" data-alt="Three golden-brown brioche buns arranged on a neutral beige background. The buns have a shiny, egg-wash glaze and a soft, pillowy appearance. The lighting is soft and diffused, creating a bright and inviting feel. The style is clean and modern, focusing on the buttery texture and simple beauty of the baked goods within a warm cream-colored design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGeGrTGXAshFgVpgLzsTIgbnYY4IUKoMpBrFi5Ehg_mLz3L6w3YWHcqvZ-ZlfYpbAguD_ubsSSVbmL1BzeTVXIzsRyy08BrNxoWXAg_159t3kWEvFSD-I3kTGCMtYwZh0_RUtWSQQJn3gb3IgcMQBRs4PIjIBiF01P3m0MEePtb6esr_PTqqY98pzP-gu9GfBuzJ_nYlBE9DPHHnqM-ppbHS3WbEp2e_pah9aot2e6L0AEQzadf48obeEvmqw0EMD5-OqBrK5MLKg">
+<div class="absolute bottom-3 right-3 w-12 h-12 rounded-full border-2 border-surface overflow-hidden texture-peek shadow-md">
+<img class="w-full h-full object-cover" data-alt="A detail shot showing the yellow, buttery and fluffy interior of a torn brioche bun. Stringy bits of soft dough catch the light, emphasizing the richness and freshness. The image uses a high-key lighting setup that matches the light-mode UI, with a focus on tactile qualities and appetizing textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb5JXj2_5zJ5CfaTKGmX2TKV5iuatsLIO6DUypiFnZUJLeKrKuq_S_p0ZoZ07utnySOhsGQxxuo5hq7gfpHQbywZycT5r1-aFt7MsJS-hPgzIBH49kDnCxE9EUG0AX1QPKedSSFkoq1jHFqcPJKNqEu6Am4Kw001rIGXpI1hkVDRDs4JG80LD2v3R58oo3P_UwF_pG010lSO0yLr9-4Nom_Kvcm8vTLu0C-uyqc4mww6APnbFMPSoFeCnVhok-XeNvrMSdbhvcyQw">
+</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-headline-sm text-primary">Brioche de Mantequilla</h3>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-on-surface-variant text-label-sm">Dulce</span>
+</div>
+<p class="text-on-surface-variant text-body-md mb-4 line-clamp-2">Textura sedosa con un 25% de mantequilla de pasto y miel orgánica local.</p>
+<div class="flex justify-between items-center">
+<span class="font-headline-sm text-headline-sm text-primary">€6.50</span>
+<button class="bg-primary-container text-on-primary-container p-2 rounded-full hover:scale-110 active:scale-95 transition-all" onclick="event.stopPropagation(); window.location.href='{{DATA:SCREEN:SCREEN_5}}'">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface-container shadow-[0_-4px_20px_rgba(139,69,19,0.08)] rounded-t-lg">
+<!-- Catalog - ACTIVE -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 scale-98 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="bakery_dining">bakery_dining</span>
+<span class="font-label-sm text-label-sm">Catalog</span>
+</a>
+<!-- My Subscription - INACTIVE -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-secondary-container/50 transition-all" href="{{DATA:SCREEN:SCREEN_4}}">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-sm text-label-sm">My Subscription</span>
+</a>
+<!-- Profile - INACTIVE -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-secondary-container/50 transition-all" href="{{DATA:SCREEN:SCREEN_13}}">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for category selection
+        document.querySelectorAll('section:nth-of-type(2) button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('section:nth-of-type(2) button').forEach(b => {
+                    b.classList.remove('bg-primary-container', 'text-on-primary-container');
+                    b.classList.add('bg-surface-container-highest', 'text-on-surface-variant');
+                });
+                this.classList.remove('bg-surface-container-highest', 'text-on-surface-variant');
+                this.classList.add('bg-primary-container', 'text-on-primary-container');
+            });
+        });
+    </script>
+
+
+</body></html>

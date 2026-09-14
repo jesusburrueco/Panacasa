@@ -1,0 +1,346 @@
+<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#fefccf",
+                    "on-surface-variant": "#54433a",
+                    "background": "#fefccf",
+                    "secondary-fixed-dim": "#c8c8b0",
+                    "tertiary": "#523e00",
+                    "surface-container-high": "#eceabe",
+                    "tertiary-fixed": "#ffdf98",
+                    "on-primary-fixed-variant": "#753401",
+                    "on-primary-container": "#ffc29f",
+                    "surface-container-highest": "#e6e5b9",
+                    "secondary-fixed": "#e4e4cc",
+                    "on-tertiary-container": "#fec72c",
+                    "primary": "#6c2f00",
+                    "on-surface": "#1d1d03",
+                    "surface-container-low": "#f8f6c9",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-secondary-fixed-variant": "#474836",
+                    "on-primary-fixed": "#321200",
+                    "secondary": "#5e604d",
+                    "inverse-surface": "#323214",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#6f5400",
+                    "primary-fixed": "#ffdbc9",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "outline": "#877369",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#ffb68c",
+                    "primary-container": "#8b4513",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#f5bf22",
+                    "surface-tint": "#934b19",
+                    "surface-container": "#f2f0c4",
+                    "surface-dim": "#dedcb1",
+                    "inverse-on-surface": "#f5f3c7",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#1d1d03",
+                    "surface-variant": "#e6e5b9",
+                    "on-secondary-container": "#636451",
+                    "surface-bright": "#fefccf",
+                    "outline-variant": "#dac2b6",
+                    "on-secondary-fixed": "#1b1d0e",
+                    "primary-fixed-dim": "#ffb68c",
+                    "secondary-container": "#e1e1c9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "unit": "8px",
+                    "section-gap": "64px",
+                    "container-margin-desktop": "80px",
+                    "container-margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Be Vietnam Pro"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "headline-sm": ["EB Garamond"],
+                    "display-lg": ["EB Garamond"],
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-md": ["EB Garamond"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "display-lg-mobile": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-active { @apply text-primary font-bold; }
+        .step-inactive { @apply text-outline opacity-50; }
+        .scroll-hide::-webkit-scrollbar { display: none; }
+        .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .map-container {
+            background-image: radial-gradient(#8b4513 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+
+        .squishy-button {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .squishy-button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface min-h-screen pb-32">
+<!-- TopAppBar Shell -->
+<header class="flex justify-between items-center w-full px-container-margin-mobile h-16 z-50 bg-surface shadow-[0_4px_20px_rgba(139,69,19,0.08)] sticky top-0">
+<button class="material-symbols-outlined text-primary hover:scale-105 transition-transform duration-200" data-icon="menu">menu</button>
+<h1 class="font-headline-md text-headline-md-mobile font-bold text-primary">Breadly</h1>
+<button class="material-symbols-outlined text-primary hover:scale-105 transition-transform duration-200" data-icon="shopping_basket">shopping_basket</button>
+</header>
+<main class="max-w-xl mx-auto px-container-margin-mobile mt-8">
+<!-- Progress Stepper -->
+<div class="flex justify-between items-center mb-10 relative">
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-outline-variant -z-10 -translate-y-1/2"></div>
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold ring-4 ring-surface" id="step-dot-1">1</div>
+<div class="w-10 h-10 rounded-full bg-surface-container text-outline flex items-center justify-center font-bold ring-4 ring-surface" id="step-dot-2">2</div>
+<div class="w-10 h-10 rounded-full bg-surface-container text-outline flex items-center justify-center font-bold ring-4 ring-surface" id="step-dot-3">3</div>
+</div>
+<div id="phase-container">
+<!-- Phase 1: Frequency -->
+<section class="space-y-6" id="phase-1">
+<div class="text-center">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">¿Con qué frecuencia?</h2>
+<p class="text-on-surface-variant font-body-md">Elige el ritmo que mejor se adapte a tus mañanas.</p>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<button class="squishy-button flex items-center justify-between p-6 bg-surface-container-low rounded-lg border-2 border-transparent hover:border-primary transition-all text-left group" onclick="nextPhase(2)">
+<div>
+<p class="font-headline-sm text-primary mb-1">Semanal</p>
+<p class="text-label-md text-on-surface-variant">Entrega cada Lunes</p>
+</div>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward_ios</span>
+</button>
+<button class="squishy-button flex items-center justify-between p-6 bg-surface-container-low rounded-lg border-2 border-transparent hover:border-primary transition-all text-left group" onclick="nextPhase(2)">
+<div>
+<p class="font-headline-sm text-primary mb-1">Quincenal</p>
+<p class="text-label-md text-on-surface-variant">Entrega lunes alternos</p>
+</div>
+<span class="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward_ios</span>
+</button>
+</div>
+<div class="mt-8 rounded-lg overflow-hidden shadow-lg aspect-video relative">
+<img class="w-full h-full object-cover" data-alt="A warm, atmospheric photo of a sun-drenched artisanal bakery counter. Freshly baked sourdough loaves with intricate scores are arranged on rustic wooden shelves. Flour dust hangs in the soft, morning light beams. The aesthetic is organic, cozy, and high-end, focusing on the tactile quality of the bread crust and the golden-brown hues of the bakery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1MJzEmTs0J12-hDyzJcMvDoHA1GMHYBooKqsaE9QZRs44G96O75Ol6HIIYb63pe6_GtrB4w5wHw7ess7JW1YneOcER8oWN_NbM0FEE-dqrn76TVSJFRXxhohA4SwRwa8ndaZIfH8uFiJNBI34sssbiLNRKy1CtrY29tGnWvS4M7MBsJbgXBMrlNqR7NWqZm-mKPNS3OXzurHoFL7Rq3md1zcRWoaDBG7d39lOQdXpDvLg0LupvfpZXPpGaiPg6CuLvZy9zV7lAc8">
+</div>
+</section>
+<!-- Phase 2: Quantity (Hidden by default) -->
+<section class="hidden space-y-6 animate-in fade-in slide-in-from-right-4 duration-500" id="phase-2">
+<div class="text-center">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Cantidad de panes</h2>
+<p class="text-on-surface-variant font-body-md">Selecciona el número de piezas por entrega.</p>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between bg-surface-container-low p-6 rounded-lg shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">bakery_dining</span>
+</div>
+<span class="font-headline-sm text-primary">1 Pan</span>
+</div>
+<input checked="" class="w-6 h-6 text-primary focus:ring-primary border-outline-variant bg-surface" name="qty" type="radio">
+</div>
+<div class="flex items-center justify-between bg-surface-container-low p-6 rounded-lg shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">breakfast_dining</span>
+</div>
+<span class="font-headline-sm text-primary">2 Panes</span>
+</div>
+<input class="w-6 h-6 text-primary focus:ring-primary border-outline-variant bg-surface" name="qty" type="radio">
+</div>
+<div class="flex items-center justify-between bg-surface-container-low p-6 rounded-lg shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">lunch_dining</span>
+</div>
+<span class="font-headline-sm text-primary">4 Panes</span>
+</div>
+<input class="w-6 h-6 text-primary focus:ring-primary border-outline-variant bg-surface" name="qty" type="radio">
+</div>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary rounded-full font-label-md text-label-md squishy-button mt-8" onclick="nextPhase(3)">Continuar</button>
+</section>
+<!-- Phase 3: Delivery (Hidden by default) -->
+<section class="hidden space-y-6 animate-in fade-in slide-in-from-right-4 duration-500" id="phase-3">
+<div class="text-center">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Método de entrega</h2>
+</div>
+<div class="flex p-1 bg-surface-container rounded-full mb-8">
+<button class="flex-1 py-3 rounded-full font-label-md transition-all bg-primary text-on-primary" id="btn-envio" onclick="toggleDelivery('envio')">Envío a domicilio</button>
+<button class="flex-1 py-3 rounded-full font-label-md transition-all text-on-surface-variant" id="btn-recogida" onclick="toggleDelivery('recogida')">Recogida local</button>
+</div>
+<!-- Envío Content -->
+<div class="space-y-4" id="delivery-envio">
+<div class="bg-surface-container-low p-6 rounded-lg border-2 border-primary/20">
+<p class="font-label-md text-primary mb-2 uppercase tracking-widest">Dirección Guardada</p>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">home</span>
+<div>
+<p class="text-on-surface font-body-md">Calle de la Harina 12, 3ºB</p>
+<p class="text-on-surface-variant text-label-md">28004, Madrid</p>
+</div>
+</div>
+</div>
+<button class="w-full py-4 border-2 border-outline-variant text-primary rounded-lg font-label-md hover:bg-surface-container-high transition-colors">Añadir nueva dirección</button>
+</div>
+<!-- Recogida Content (Map) -->
+<div class="hidden space-y-4" id="delivery-recogida">
+<div class="map-container w-full h-80 rounded-lg bg-surface-container-high relative overflow-hidden shadow-inner flex items-center justify-center border border-outline-variant">
+<!-- Stylized Map Placeholders -->
+<div class="absolute inset-0 opacity-20">
+<div class="w-full h-full bg-[repeating-linear-gradient(45deg,transparent,transparent_40px,#8b4513_40px,#8b4513_41px)]"></div>
+</div>
+<!-- Pickup Point 1 -->
+<div class="absolute top-1/4 left-1/3 group cursor-pointer">
+<div class="relative flex flex-col items-center">
+<div class="bg-white p-2 rounded-full shadow-lg ring-4 ring-primary/20 transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bakery_dining</span>
+</div>
+<div class="mt-2 px-3 py-1 bg-primary text-on-primary rounded-full text-[10px] font-bold whitespace-nowrap shadow-md">Obrador Central</div>
+</div>
+</div>
+<!-- Pickup Point 2 -->
+<div class="absolute bottom-1/3 right-1/4 group cursor-pointer">
+<div class="relative flex flex-col items-center">
+<div class="bg-white p-2 rounded-full shadow-lg ring-4 ring-primary/20 transform group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bakery_dining</span>
+</div>
+<div class="mt-2 px-3 py-1 bg-surface-container-highest text-primary rounded-full text-[10px] font-bold whitespace-nowrap shadow-md">Mercado Norte</div>
+</div>
+</div>
+</div>
+<p class="text-center text-label-md text-on-surface-variant italic">Selecciona el punto de recogida más cercano para ver el horario.</p>
+</div>
+</section>
+</div>
+</main>
+<!-- Confirmar Plan FAB -->
+<div class="fixed bottom-24 left-0 w-full px-container-margin-mobile z-40 md:relative md:bottom-auto md:mt-12">
+<button class="w-full max-w-xl mx-auto flex items-center justify-center gap-3 py-5 bg-primary-container text-on-primary-container rounded-full shadow-[0_8px_30px_rgb(108,47,0,0.4)] squishy-button font-headline-sm transition-all hover:brightness-110" id="fab-confirm" onclick="window.location.href='{{DATA:SCREEN:SCREEN_12}}'">
+<span class="">Confirmar Plan</span>
+<span class="material-symbols-outlined">auto_awesome</span>
+</button>
+</div>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface-container-high shadow-[0_-4px_20px_rgba(139,69,19,0.08)] rounded-t-lg">
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-secondary-container/50 transition-all rounded-xl cursor-pointer" onclick="window.location.href='{{DATA:SCREEN:SCREEN_11}}'">
+<span class="material-symbols-outlined" data-icon="bakery_dining">bakery_dining</span>
+<span class="font-label-sm text-label-sm">Catalog</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 cursor-pointer" onclick="window.location.href='{{DATA:SCREEN:SCREEN_4}}'">
+<span class="material-symbols-outlined" data-icon="calendar_today" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+<span class="font-label-sm text-label-sm">My Subscription</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-secondary-container/50 transition-all rounded-xl cursor-pointer" onclick="window.location.href='{{DATA:SCREEN:SCREEN_13}}'">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</div>
+</nav>
+<script>
+        let currentPhase = 1;
+
+        function nextPhase(phase) {
+            // Hide all phases
+            document.querySelectorAll('#phase-container > section').forEach(s => s.classList.add('hidden'));
+            
+            // Show new phase
+            const nextEl = document.getElementById(`phase-${phase}`);
+            nextEl.classList.remove('hidden');
+            
+            // Update dots
+            updateStepper(phase);
+            currentPhase = phase;
+        }
+
+        function updateStepper(phase) {
+            for (let i = 1; i <= 3; i++) {
+                const dot = document.getElementById(`step-dot-${i}`);
+                if (i < phase) {
+                    dot.classList.remove('bg-primary-container', 'text-on-primary-container', 'bg-surface-container', 'text-outline');
+                    dot.classList.add('bg-tertiary-container', 'text-tertiary-fixed');
+                    dot.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span>';
+                } else if (i === phase) {
+                    dot.classList.remove('bg-surface-container', 'text-outline');
+                    dot.classList.add('bg-primary-container', 'text-on-primary-container');
+                    dot.innerHTML = i;
+                } else {
+                    dot.classList.remove('bg-primary-container', 'text-on-primary-container');
+                    dot.classList.add('bg-surface-container', 'text-outline');
+                    dot.innerHTML = i;
+                }
+            }
+        }
+
+        function toggleDelivery(mode) {
+            const btnEnvio = document.getElementById('btn-envio');
+            const btnRecogida = document.getElementById('btn-recogida');
+            const panelEnvio = document.getElementById('delivery-envio');
+            const panelRecogida = document.getElementById('delivery-recogida');
+
+            if (mode === 'envio') {
+                btnEnvio.classList.add('bg-primary', 'text-on-primary');
+                btnEnvio.classList.remove('text-on-surface-variant');
+                btnRecogida.classList.remove('bg-primary', 'text-on-primary');
+                btnRecogida.classList.add('text-on-surface-variant');
+                panelEnvio.classList.remove('hidden');
+                panelRecogida.classList.add('hidden');
+            } else {
+                btnRecogida.classList.add('bg-primary', 'text-on-primary');
+                btnRecogida.classList.remove('text-on-surface-variant');
+                btnEnvio.classList.remove('bg-primary', 'text-on-primary');
+                btnEnvio.classList.add('text-on-surface-variant');
+                panelRecogida.classList.remove('hidden');
+                panelEnvio.classList.add('hidden');
+            }
+        }
+
+        // Floating button micro-interaction
+        document.getElementById('fab-confirm').addEventListener('click', function() {
+            this.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Procesando...';
+            setTimeout(() => {
+                this.classList.remove('bg-primary-container');
+                this.classList.add('bg-tertiary-container');
+                this.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Plan Confirmado';
+            }, 1500);
+        });
+    </script>
+
+
+</body></html>

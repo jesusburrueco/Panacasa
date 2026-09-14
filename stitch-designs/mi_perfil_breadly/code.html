@@ -1,0 +1,318 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100..900&amp;family=EB+Garamond:wght@100..900&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#e1e1c9",
+                    "error-container": "#ffdad6",
+                    "outline": "#877369",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-secondary-container": "#636451",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e6e5b9",
+                    "tertiary-fixed": "#ffdf98",
+                    "inverse-surface": "#323214",
+                    "surface-container-highest": "#e6e5b9",
+                    "on-secondary-fixed": "#1b1d0e",
+                    "surface-container": "#f2f0c4",
+                    "surface": "#fefccf",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "surface-container-low": "#f8f6c9",
+                    "on-secondary-fixed-variant": "#474836",
+                    "primary-fixed": "#ffdbc9",
+                    "inverse-on-surface": "#f5f3c7",
+                    "tertiary-container": "#6f5400",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#321200",
+                    "on-error": "#ffffff",
+                    "surface-bright": "#fefccf",
+                    "secondary-fixed-dim": "#c8c8b0",
+                    "surface-tint": "#934b19",
+                    "on-tertiary-container": "#fec72c",
+                    "outline-variant": "#dac2b6",
+                    "secondary": "#5e604d",
+                    "on-background": "#1d1d03",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#523e00",
+                    "inverse-primary": "#ffb68c",
+                    "primary-container": "#8b4513",
+                    "on-surface": "#1d1d03",
+                    "surface-dim": "#dedcb1",
+                    "secondary-fixed": "#e4e4cc",
+                    "error": "#ba1a1a",
+                    "surface-container-high": "#eceabe",
+                    "on-surface-variant": "#54433a",
+                    "tertiary-fixed-dim": "#f5bf22",
+                    "background": "#fefccf",
+                    "on-primary-fixed-variant": "#753401",
+                    "primary-fixed-dim": "#ffb68c",
+                    "on-primary-container": "#ffc29f",
+                    "on-error-container": "#93000a",
+                    "primary": "#6c2f00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin-mobile": "20px",
+                    "unit": "8px",
+                    "gutter": "24px",
+                    "container-margin-desktop": "80px",
+                    "section-gap": "64px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Be Vietnam Pro"],
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-md": ["EB Garamond"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "headline-sm": ["EB Garamond"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "display-lg": ["EB Garamond"],
+                    "label-md": ["Be Vietnam Pro"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fefccf;
+            color: #1d1d03;
+            -webkit-font-smoothing: antialiased;
+        }
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #dac2b6;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary-fixed">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-dim shadow-[0_4px_20px_rgba(139,69,19,0.08)] flex justify-between items-center h-16 px-container-margin-mobile md:px-container-margin-desktop">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary dark:text-primary-fixed hover:bg-surface-container-low transition-colors p-2 rounded-full active:scale-95 duration-200">
+                menu
+            </button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Breadly</h1>
+</div>
+<div class="hidden md:flex gap-8 items-center">
+<nav class="flex gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Catalog</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Subscription</a>
+<a class="font-label-md text-label-md text-primary font-bold" href="#">Profile</a>
+</nav>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-fixed active:scale-95 transition-transform duration-200 cursor-pointer">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="A close-up portrait of a friendly man with a warm smile, set against a soft-focus background of a sunlit artisanal kitchen. The lighting is warm and natural, emphasizing a high-end, boutique aesthetic. The color palette includes soft creams, warm wood tones, and subtle hints of golden hour light, reflecting a lifestyle of craftsmanship and wellness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX5Wq5WQHd834KV33tBdC-vaqshIBaB8woUCiE4NJ-1GIUMKtZOjunewJG0BQTqF4ttyfIt4ewUwG8UmPAFntI8iKR15IHxMr8yU-x0PNiLW93aggPqw-PrasKAkVqFdxwOaiUhcYigjdVRtfZc-GimeVja1W7MwTbVEuX98FmjzvLUGLmuusLyGNNQ4rX0BoTTCZBDXuNSdTHtLFbaT1wpjULWphl4RWSuj-4TsEJIS3xWKPoc14LCKOHKMHRIXop24AILeGig1k">
+</div>
+</header>
+<main class="pt-24 pb-32 px-container-margin-mobile md:px-container-margin-desktop max-w-4xl mx-auto min-h-screen">
+<!-- User Header -->
+<section class="flex flex-col items-center md:flex-row md:items-end gap-6 mb-12">
+<div class="w-32 h-32 rounded-lg overflow-hidden shadow-sm relative group">
+<img alt="Alejandro Sanz" class="w-full h-full object-cover" data-alt="A professional and warm headshot of a man named Alejandro Sanz, appearing relaxed and approachable. The background is an airy, minimalist space with soft beige walls and hints of indoor greenery. The lighting is bright and diffuse, creating a serene, modern light-mode feel that aligns with an artisanal bakery brand's premium identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8RS3XE6vSbnIPdPmUFLUISubdiuPiXMg-9679tHdqKHPruITeIs0sMQ4Rqe4kYddakY479MZJdSBiHZf5PyggksojeFpLQa1e3IvKwx4OkSb5sYVd8qoW4CvcTVB3SBPhDf4Na_vI5Sl3qD_skBSpapeAzaYRV8BNmy4e5LOqo9P1m7nGlc94cTT0CIxDu7XvXCUeitGLyTzaf3Lc1I4r1U6HDdG6Q-3b4ubB3qwHUC8OkgEiue0ihJycWSX2uB4qW42DOgPtzP4">
+<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined text-white text-3xl">photo_camera</span>
+</div>
+</div>
+<div class="text-center md:text-left">
+<h2 class="font-headline-md text-headline-md text-primary mb-1">Alejandro Sanz</h2>
+<p class="text-on-surface-variant font-body-md italic">Amante del pan de masa madre desde 2018</p>
+</div>
+</section>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Active Subscription Card -->
+<section class="flex flex-col gap-4">
+<h3 class="font-headline-sm text-headline-sm text-primary">Tu Suscripción</h3>
+<div class="bg-tertiary-fixed text-on-tertiary-fixed p-6 rounded-lg shadow-[0_4px_20px_rgba(139,69,19,0.08)] flex flex-col gap-4 border border-tertiary-fixed-dim/30 relative overflow-hidden">
+<!-- Subtle texture peek -->
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-container/5 rounded-full blur-2xl"></div>
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-tertiary-fixed-variant">Suscripción Activa</span>
+<h4 class="font-headline-sm text-headline-sm mt-1">Plan Gourmet</h4>
+</div>
+<span class="material-symbols-outlined text-3xl text-on-tertiary-fixed-variant" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-body-md">shopping_basket</span>
+<span class="font-body-md">4 panes por entrega</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-body-md">event_repeat</span>
+<span class="font-body-md">Frecuencia: Semanal (Lunes)</span>
+</div>
+</div>
+<a href="{{DATA:SCREEN:SCREEN_4}}" class="mt-4 bg-primary text-on-primary py-3 px-6 rounded-full font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all shadow-sm flex items-center justify-center gap-2">Gestionar Plan <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+</div>
+</section>
+<!-- Next Delivery Section -->
+<section class="flex flex-col gap-4">
+<h3 class="font-headline-sm text-headline-sm text-primary">Próxima Entrega</h3>
+<div class="bg-surface-container-low border border-outline-variant/30 p-6 rounded-lg shadow-sm flex flex-col gap-4">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Fecha Estimada</p>
+<p class="font-headline-sm text-headline-sm">Lunes 23 de Octubre</p>
+</div>
+</div>
+<div class="h-px bg-outline-variant/20 w-full my-1"></div>
+<div class="space-y-3">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">home</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Método: Envío a domicilio</p>
+<p class="font-body-md">Calle de la Harina 12, Ático B, Madrid</p>
+</div>
+</div>
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">schedule</span>
+<p class="font-body-md">Franja horaria: 08:00 - 10:00</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Order History -->
+<section class="mt-16 mb-12">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-sm text-headline-sm text-primary">Historial de Pedidos</h3>
+<button class="text-primary font-label-md text-label-md flex items-center gap-1 hover:underline">Ver todos</button>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Order 1 -->
+<div class="bg-white/40 border border-outline-variant/20 p-4 rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-white/60 transition-colors">
+<div class="flex gap-4 items-center">
+<div class="bg-surface-container-highest p-3 rounded-md text-primary font-bold text-center leading-tight">
+<span class="block text-label-sm uppercase">Oct</span>
+<span class="text-headline-sm">16</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg text-on-surface font-medium">Masa Madre Clásica, Integral 5 semillas</p>
+<p class="text-on-surface-variant text-label-sm">Pedido #BR-8821</p>
+</div>
+</div>
+<div class="flex items-center gap-4 justify-between md:justify-end">
+<span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-label-sm font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-green-600 rounded-full"></span> Entregado
+                        </span>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary p-2">more_vert</button>
+</div>
+</div>
+<!-- Order 2 -->
+<div class="bg-white/40 border border-outline-variant/20 p-4 rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-white/60 transition-colors">
+<div class="flex gap-4 items-center">
+<div class="bg-surface-container-highest p-3 rounded-md text-primary font-bold text-center leading-tight">
+<span class="block text-label-sm uppercase">Oct</span>
+<span class="text-headline-sm">09</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg text-on-surface font-medium">Focaccia Romero, Centeno Alemán</p>
+<p class="text-on-surface-variant text-label-sm">Pedido #BR-8715</p>
+</div>
+</div>
+<div class="flex items-center gap-4 justify-between md:justify-end">
+<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full text-label-sm font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-secondary rounded-full"></span> Recogido
+                        </span>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary p-2">more_vert</button>
+</div>
+</div>
+<!-- Order 3 -->
+<div class="bg-white/40 border border-outline-variant/20 p-4 rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-4 opacity-75 grayscale-[0.5]">
+<div class="flex gap-4 items-center">
+<div class="bg-surface-container-highest p-3 rounded-md text-primary font-bold text-center leading-tight">
+<span class="block text-label-sm uppercase">Oct</span>
+<span class="text-headline-sm">02</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg text-on-surface font-medium">Baguette Tradition, Espelta</p>
+<p class="text-on-surface-variant text-label-sm">Pedido #BR-8602</p>
+</div>
+</div>
+<div class="flex items-center gap-4 justify-between md:justify-end">
+<span class="px-3 py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-label-sm font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-outline rounded-full"></span> Cancelado
+                        </span>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary p-2">more_vert</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Action Buttons -->
+<section class="mt-16 flex flex-col sm:flex-row gap-4 justify-center">
+<button class="flex-1 max-w-xs border-2 border-outline text-outline font-label-md text-label-md py-4 px-8 rounded-full hover:bg-outline/5 transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">pause_circle</span>
+                Pausar Suscripción
+            </button>
+<button class="flex-1 max-w-xs border-2 border-error text-error font-label-md text-label-md py-4 px-8 rounded-full hover:bg-error/5 transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">cancel</span>
+                Cancelar Suscripción
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full h-20 bg-surface-container-low dark:bg-surface-container-lowest flex justify-around items-center px-4 pb-safe z-50 shadow-[0_-4px_20px_rgba(139,69,19,0.08)] border-t border-outline-variant/30">
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant hover:bg-secondary-container/50 transition-colors active:scale-90 px-4 py-2 rounded-xl" href="{{DATA:SCREEN:SCREEN_11}}">
+<span class="material-symbols-outlined">bakery_dining</span>
+<span class="font-label-md text-label-md">Catalog</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-fixed-variant hover:bg-secondary-container/50 transition-colors active:scale-90 px-4 py-2 rounded-xl" href="{{DATA:SCREEN:SCREEN_4}}">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">Subscription</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-tertiary-fixed text-on-tertiary-fixed rounded-full px-5 py-1 active:scale-90 transition-transform" href="{{DATA:SCREEN:SCREEN_13}}">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('section > div[class*="bg-"]').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'scale(1.01)';
+                card.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+
+
+</body></html>

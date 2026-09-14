@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detalle del Suscriptor - Artisanal Hearth</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=EB+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .squishy-button:active {
+            transform: scale(0.95);
+            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .texture-peek {
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary": "#523e00",
+                      "secondary-fixed-dim": "#c8c8b0",
+                      "on-error-container": "#93000a",
+                      "inverse-primary": "#ffb68c",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#f2f0c4",
+                      "on-tertiary-fixed": "#251a00",
+                      "on-tertiary-container": "#fec72c",
+                      "on-secondary-fixed-variant": "#474836",
+                      "error": "#ba1a1a",
+                      "background": "#fefccf",
+                      "tertiary-container": "#6f5400",
+                      "surface-container-high": "#eceabe",
+                      "primary-container": "#8b4513",
+                      "on-primary-fixed-variant": "#753401",
+                      "tertiary-fixed": "#ffdf98",
+                      "surface-variant": "#e6e5b9",
+                      "inverse-surface": "#323214",
+                      "outline-variant": "#dac2b6",
+                      "primary-fixed": "#ffdbc9",
+                      "secondary": "#5e604d",
+                      "on-error": "#ffffff",
+                      "secondary-fixed": "#e4e4cc",
+                      "inverse-on-surface": "#f5f3c7",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f8f6c9",
+                      "on-tertiary-fixed-variant": "#5a4300",
+                      "on-surface": "#1d1d03",
+                      "surface-container-lowest": "#ffffff",
+                      "outline": "#877369",
+                      "on-primary": "#ffffff",
+                      "secondary-container": "#e1e1c9",
+                      "tertiary-fixed-dim": "#f5bf22",
+                      "surface-bright": "#fefccf",
+                      "on-background": "#1d1d03",
+                      "primary": "#6c2f00",
+                      "on-surface-variant": "#54433a",
+                      "on-secondary-container": "#636451",
+                      "on-primary-fixed": "#321200",
+                      "surface-tint": "#934b19",
+                      "surface-container-highest": "#e6e5b9",
+                      "surface-dim": "#dedcb1",
+                      "primary-fixed-dim": "#ffb68c",
+                      "on-primary-container": "#ffc29f",
+                      "surface": "#fefccf",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed": "#1b1d0e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "1rem",
+                      "lg": "2rem",
+                      "xl": "3rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "section-gap": "64px",
+                      "unit": "8px",
+                      "container-margin-mobile": "20px",
+                      "gutter": "24px",
+                      "container-margin-desktop": "80px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Be Vietnam Pro"],
+                      "body-md": ["Be Vietnam Pro"],
+                      "display-lg": ["EB Garamond"],
+                      "label-md": ["Be Vietnam Pro"],
+                      "label-sm": ["Be Vietnam Pro"],
+                      "headline-sm": ["EB Garamond"],
+                      "display-lg-mobile": ["EB Garamond"],
+                      "headline-md": ["EB Garamond"]
+              },
+              "fontSize": {
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                      "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Sidebar Navigation Shell -->
+<aside class="hidden md:flex flex-col h-full border-r border-outline-variant bg-surface-container-low fixed left-0 top-0 w-64 z-50">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden">
+<img alt="Artisanal Hearth Logo" class="object-cover w-full h-full" data-alt="A high-resolution close-up of a circular brand logo for an artisanal bakery. The image features a minimalist, line-art wheat icon embossed on a textured cream-colored background, mirroring the brand's tactile and premium aesthetic. The lighting is soft and warm, evoking the comforting atmosphere of a sun-drenched morning kitchen with earthy tones of toasted brown and wheat beige." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGA4HWZBc7J5eu55_QGx_5_T7L3yegq4rqnsGvYcjkN_0zfBFZW7eAcKNZU40xk6wdHVeQyYDBzai1vC2HP_AUny_m2B4ebUtl9Tz_VNWxBnRNKxI2YYZK6qA5GJh06bsbXgmSI159n2AJ_t2PzhmemO2dyMUkMln2Cp505w5593c--yqoOdHEV9Cx7suRyof1LshyeFt1lUIA9DMigm_hLLXe5QKlPxpGG6YbkV2Hoo1ZkxpWZ0R-22Kh_SBkG7ohGDEtdcb5SYQ"/>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary leading-none">Artisanal Hearth</h2>
+<p class="text-on-surface-variant font-label-sm">Bakery Admin</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-2 mt-4">
+<a class="flex items-center gap-3 text-on-surface-variant hover:scale-[1.02] hover:bg-surface-variant transition-all px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 bg-tertiary-container text-on-tertiary-container rounded-lg px-4 py-3" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md">Subscribers</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:scale-[1.02] hover:bg-surface-variant transition-all px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined">bakery_dining</span>
+<span class="font-label-md">Catalog</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:scale-[1.02] hover:bg-surface-variant transition-all px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined">distance</span>
+<span class="font-label-md">Locations</span>
+</a>
+</nav>
+<div class="px-4 py-6 mt-auto space-y-2 border-t border-outline-variant">
+<a class="flex items-center gap-3 text-on-surface-variant hover:scale-[1.02] hover:bg-surface-variant transition-all px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:scale-[1.02] hover:bg-surface-variant transition-all px-4 py-3 rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="flex justify-between items-center w-full px-container-margin-mobile md:px-container-margin-desktop py-4 z-40 sticky top-0 bg-surface shadow-sm">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant hover:bg-surface-container-low transition-colors px-2 py-1" href="#">Directorio</a>
+<span class="text-on-surface-variant">/</span>
+<a class="text-primary font-bold border-b-2 border-primary px-2 py-1" href="#">Elena García</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant flex items-center justify-center overflow-hidden">
+<img alt="Bakery Manager Profile" class="object-cover w-full h-full" data-alt="A professional headshot of a friendly bakery manager in a modern, sunlit office. The lighting is natural and bright, creating a clean light-mode aesthetic. She is wearing a soft beige linen shirt, reflecting the brand's organic and premium feel. The background is a blurred view of a clean, minimalist kitchen space with warm wood accents and hints of green plants." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcjTipJ5oFfKKUZNw6QK1ai_-FP7zsAkILWSIUlnKH_GIEEoEbPRPLVb5M2xGRF_S8eA_gJ9PXLGv9saucuazuGqcDjTXUzvYhkzbDODLBkFlx0O_rjh9e5_5OZ060OarkJMHDQMAJvxVCtbl5jeBFwa9L3y6IcZ9ZGoXT8reK5rfqWTGaA4ueI211_O0fcSlLOnotiG9yJ2BWH1PQWeHR2y2cVBQP7EDVeWzTKZi7QjWh64z2ypO8czeW4Ovae9KUvj5DhS-wK_k"/>
+</div>
+</div>
+</header>
+<div class="max-w-7xl mx-auto p-container-margin-mobile md:p-container-margin-desktop space-y-section-gap">
+<!-- 1. Header with Subscriber Identity -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="flex items-center gap-6">
+<div class="relative">
+<div class="w-24 h-24 rounded-full border-4 border-surface-container-high shadow-lg overflow-hidden">
+<img alt="Elena García" class="object-cover w-full h-full" data-alt="A warm, candid portrait of a woman in her late 30s with a joyful expression, standing in a brightly lit urban kitchen environment. The photography uses soft-focus depth of field to emphasize her personality while keeping the background clean and minimalist. The color palette is composed of soft creams, wheat beige, and natural skin tones, perfectly aligning with the artisanal brand's nourishing and premium aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKdr9jYS_RUMqqnlzJN5pK7XZXB63y0IKCLkANFKbY6XHHUBj3QpETdMhPE04OvbXMiSQ1XKlAFYRPICZZCQkbmPGuPynJAnl6DKqq3NwiGYwlLexG4-HqwpMa-aq3Sut4S4vYXOmuafZcSZ_J1JnRK-yGpN-3eFYkXLqJuApxRdIITMUPmFhopUzw2DOGziSXMuvYxbQeUvNcyRmaCFHPeLQwV3Cy6sPxP9mMIx10CCH9M8QaOx8G3iBiT_ZSQbtG2qa15qiSGNE"/>
+</div>
+<span class="absolute bottom-1 right-1 w-6 h-6 bg-green-500 border-4 border-surface rounded-full"></span>
+</div>
+<div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary leading-tight">Elena García</h1>
+<div class="flex items-center gap-3 mt-1">
+<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span>
+                                Suscrita desde Enero 2023
+                            </span>
+<span class="bg-primary text-on-primary px-3 py-1 rounded-full text-label-sm font-bold">ACTIVA</span>
+</div>
+</div>
+</div>
+<div class="flex gap-4 w-full md:w-auto">
+<button class="flex-1 md:flex-none flex items-center justify-center gap-2 bg-primary text-on-primary font-bold py-4 px-8 rounded-lg squishy-button shadow-md">
+<span class="material-symbols-outlined">edit</span>
+                        Modificar Plan
+                    </button>
+<button class="flex-1 md:flex-none flex items-center justify-center gap-2 border-2 border-outline text-outline font-bold py-4 px-8 rounded-lg squishy-button hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">cancel</span>
+                        Cancelar
+                    </button>
+</div>
+</section>
+<!-- 2. & 3. Subscription Details and Payment Method -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Subscription Card -->
+<div class="lg:col-span-2 bg-surface-container-low rounded-xl p-8 shadow-[rgba(139,69,19,0.08)_0px_8px_24px]">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline-sm text-headline-sm text-primary">Datos de Suscripción</h3>
+<span class="material-symbols-outlined text-outline">bakery_dining</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="space-y-1">
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Plan Actual</p>
+<p class="font-headline-sm text-headline-sm text-primary">Hearth Select</p>
+<p class="text-on-surface-variant text-body-md">Sourdough &amp; Rye</p>
+</div>
+<div class="space-y-1">
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Frecuencia</p>
+<p class="font-headline-sm text-headline-sm text-primary">Semanal</p>
+<p class="text-on-surface-variant text-body-md">Entregas los Jueves</p>
+</div>
+<div class="space-y-1">
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Precio Total</p>
+<p class="font-headline-sm text-headline-sm text-primary">€34.50</p>
+<p class="text-on-surface-variant text-body-md">Al mes, IVA incl.</p>
+</div>
+</div>
+<div class="mt-10 pt-8 border-t border-outline-variant flex items-center gap-4">
+<div class="texture-peek w-12 h-12 rounded-full overflow-hidden border-2 border-surface flex-shrink-0">
+<img alt="Crumb Texture" class="w-full h-full object-cover" data-alt="A macro close-up photograph showing the complex, airy crumb structure of a sourdough bread. The lighting is warm and directional, casting subtle shadows within the pockets of air to emphasize the elastic and moist texture of the interior. The palette features pale creams and toasted browns, highlighting the artisanal quality and slow-fermentation process of the bread." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM1w7JPSH4rCav8-d-j7yjTS1f1AMGlcnTvEjLRkuswYOkO8Kd1IUcS98cLsO1YKY4mDHjkWIfjGdJZLL6-IJckvlr1ic-cFUP5SFc6-302VQM0f37Iiu-nxSZR6dEPKynjytqr00RVyHISspDMQwqLEu_OxJHLwLJZrPO8QIybiVMSyVGiosW0zVM1DrccJXVBbQGqtBtLMtpiNwdT94KT310vGwMn6qkGvhWO-J6eXfAJbueR21LXn9K6YmLiy1F1k8H7t3gvFM"/>
+</div>
+<p class="text-on-surface-variant text-body-md italic">"Prefiere cortes rústicos y harinas de grano entero local."</p>
+</div>
+</div>
+<!-- Payment Method Card -->
+<div class="bg-surface-container-high rounded-xl p-8 shadow-[rgba(139,69,19,0.08)_0px_8px_24px] flex flex-col justify-between">
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-primary">Método de Pago</h3>
+<span class="material-symbols-outlined text-outline">credit_card</span>
+</div>
+<div class="p-6 rounded-lg bg-surface border border-outline-variant relative overflow-hidden group hover:scale-[1.02] transition-transform">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-6xl">payments</span>
+</div>
+<div class="relative z-10">
+<p class="text-on-surface-variant font-label-sm">Tarjeta Principal</p>
+<div class="flex items-center gap-3 mt-4">
+<div class="w-10 h-6 bg-tertiary rounded flex items-center justify-center">
+<div class="flex gap-1">
+<div class="w-2 h-2 rounded-full bg-white opacity-50"></div>
+<div class="w-2 h-2 rounded-full bg-white"></div>
+</div>
+</div>
+<p class="font-headline-sm text-headline-sm text-primary">•••• 4291</p>
+</div>
+<div class="flex justify-between items-end mt-6">
+<p class="text-on-surface-variant font-label-md">Exp: 09/26</p>
+<p class="text-on-surface-variant font-label-md">Visa</p>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-2 text-primary font-bold py-3 mt-6 border-b border-transparent hover:border-primary transition-all">
+<span class="material-symbols-outlined text-[20px]">sync</span>
+                        Actualizar Tarjeta
+                    </button>
+</div>
+</section>
+<!-- 4. Order History Table -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-primary">Historial de Pedidos</h3>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+<span class="font-label-md">Filtrar</span>
+</button>
+</div>
+<div class="overflow-x-auto bg-surface rounded-xl border border-outline-variant shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-outline-variant">
+<tr>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">ID Pedido</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Fecha</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Estado</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider">Total</th>
+<th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-right">Detalle</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-label-md">#HE-29401</td>
+<td class="px-6 py-4 text-on-surface-variant">24 Oct, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                        ENTREGADO
+                                    </span>
+</td>
+<td class="px-6 py-4 font-bold text-primary">€34.50</td>
+<td class="px-6 py-4 text-right">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">receipt_long</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-label-md">#HE-28512</td>
+<td class="px-6 py-4 text-on-surface-variant">17 Oct, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                        ENTREGADO
+                                    </span>
+</td>
+<td class="px-6 py-4 font-bold text-primary">€34.50</td>
+<td class="px-6 py-4 text-right">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">receipt_long</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-label-md">#HE-27193</td>
+<td class="px-6 py-4 text-on-surface-variant">10 Oct, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-800 text-xs font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
+                                        PENDIENTE
+                                    </span>
+</td>
+<td class="px-6 py-4 font-bold text-primary">€34.50</td>
+<td class="px-6 py-4 text-right">
+<button class="text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">receipt_long</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Footer Decoration / Bottom Spacing -->
+<footer class="mt-section-gap pb-12 px-container-margin-desktop text-center">
+<p class="text-on-surface-variant font-label-sm opacity-50 uppercase tracking-[0.2em]">Artisanal Hearth Admin Canvas v2.4</p>
+</footer>
+</main>
+<!-- Visual Polish: Dough-like background accent -->
+<div class="fixed top-0 right-0 -z-10 w-[600px] h-[600px] bg-primary-container/5 rounded-full blur-3xl pointer-events-none translate-x-1/2 -translate-y-1/4"></div>
+<script>
+        // Micro-interactions and subtle state changes
+        document.querySelectorAll('.squishy-button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+
+        // Mock interaction for Plan modification
+        const modifyBtn = document.querySelector('button:contains("Modificar Plan")');
+        if(modifyBtn) {
+            modifyBtn.addEventListener('click', () => {
+                alert('Iniciando flujo de modificación de suscripción para Elena García...');
+            });
+        }
+    </script>
+</body></html>

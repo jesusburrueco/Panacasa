@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Artisanal Hearth - Gestión de Catálogo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=EB+Garamond:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#523e00",
+                    "secondary-fixed-dim": "#c8c8b0",
+                    "on-error-container": "#93000a",
+                    "inverse-primary": "#ffb68c",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#f2f0c4",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-tertiary-container": "#fec72c",
+                    "on-secondary-fixed-variant": "#474836",
+                    "error": "#ba1a1a",
+                    "background": "#fefccf",
+                    "tertiary-container": "#6f5400",
+                    "surface-container-high": "#eceabe",
+                    "primary-container": "#8b4513",
+                    "on-primary-fixed-variant": "#753401",
+                    "tertiary-fixed": "#ffdf98",
+                    "surface-variant": "#e6e5b9",
+                    "inverse-surface": "#323214",
+                    "outline-variant": "#dac2b6",
+                    "primary-fixed": "#ffdbc9",
+                    "secondary": "#5e604d",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#e4e4cc",
+                    "inverse-on-surface": "#f5f3c7",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f8f6c9",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "on-surface": "#1d1d03",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#877369",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#e1e1c9",
+                    "tertiary-fixed-dim": "#f5bf22",
+                    "surface-bright": "#fefccf",
+                    "on-background": "#1d1d03",
+                    "primary": "#6c2f00",
+                    "on-surface-variant": "#54433a",
+                    "on-secondary-container": "#636451",
+                    "on-primary-fixed": "#321200",
+                    "surface-tint": "#934b19",
+                    "surface-container-highest": "#e6e5b9",
+                    "surface-dim": "#dedcb1",
+                    "primary-fixed-dim": "#ffb68c",
+                    "on-primary-container": "#ffc29f",
+                    "surface": "#fefccf",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed": "#1b1d0e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "64px",
+                    "unit": "8px",
+                    "container-margin-mobile": "20px",
+                    "gutter": "24px",
+                    "container-margin-desktop": "80px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Be Vietnam Pro"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "display-lg": ["EB Garamond"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-sm": ["EB Garamond"],
+                    "display-lg-mobile": ["EB Garamond"],
+                    "headline-md": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-pill {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #6c2f00;
+        }
+        .toggle-checkbox:checked + .toggle-label .toggle-dot {
+            transform: translateX(100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f8f6c9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #dac2b6;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Sidebar Navigation -->
+<aside class="hidden md:flex flex-col h-full border-r border-outline-variant bg-surface-container-low dark:bg-surface-container-highest h-screen w-64 fixed left-0 top-0 z-50">
+<div class="p-6">
+<h1 class="font-headline-md text-headline-md text-primary mb-1">Artisanal Hearth</h1>
+<p class="font-label-sm text-on-surface-variant opacity-70">Bakery Admin</p>
+</div>
+<nav class="flex-1 px-4 space-y-2 mt-4">
+<!-- Active Tab: Catalog -->
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-3 hover:scale-[1.02] hover:bg-surface-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-3 hover:scale-[1.02] hover:bg-surface-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Subscribers</span>
+</a>
+<a class="flex items-center gap-3 bg-tertiary-container dark:bg-tertiary text-on-tertiary-container dark:text-on-tertiary rounded-lg px-4 py-3" href="#">
+<span class="material-symbols-outlined">bakery_dining</span>
+<span class="font-label-md text-label-md">Catalog</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant dark:text-on-secondary-fixed-variant px-4 py-3 hover:scale-[1.02] hover:bg-surface-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">distance</span>
+<span class="font-label-md text-label-md">Locations</span>
+</a>
+</nav>
+<div class="p-4 border-t border-outline-variant space-y-2">
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-surface-variant rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="md:ml-64 min-h-screen">
+<!-- Top Navigation -->
+<header class="flex justify-between items-center w-full px-container-margin-mobile md:px-container-margin-desktop py-4 z-40 sticky top-0 bg-surface dark:bg-surface-dim shadow-sm dark:shadow-none">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 hover:bg-surface-container-low rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline-sm text-headline-sm text-primary">Gestión de Catálogo</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary w-64" placeholder="Buscar panes..." type="text"/>
+</div>
+<button class="p-2 hover:bg-surface-container-low transition-colors rounded-full relative">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Bakery Manager Profile" data-alt="A professional headshot of a bakery manager wearing a clean white chef's coat, smiling warmly in a bright, modern kitchen environment. The lighting is soft and natural, emphasizing the professional and inviting atmosphere of Artisanal Hearth. The background is slightly blurred, showing stainless steel equipment and shelves of fresh bread." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZfcvxs9M4LAqmpp5ml0KRdopMEYapt_ZEAAKSvC_-c3_399awc5G98gKFteb3_MxWHNWo3yns7fd-JMqnoKIFsq8WcMG8btVSg-j7x_DDsumDKh8BY4_DpotMB2vX3KRh_7ktGmLAAhquOB55aXrnGg563qzDodA12EJ5dg6Fs41ivxMgFaOj2msR2CTwX53DapLIfC1VRwpAlU3UCaWO5n75WmMbojQnyUrYW5fDjj1WAHtdDLGJ5I4D74ii7pXvHs7AncbEzVI"/>
+</div>
+</div>
+</header>
+<section class="px-container-margin-mobile md:px-container-margin-desktop py-12">
+<!-- Header Controls -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
+<div>
+<h3 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-2">Nuestra Hornada Diaria</h3>
+<p class="font-body-lg text-on-surface-variant max-w-xl">Administra los productos disponibles, ajusta precios y mantén el inventario actualizado para tus suscriptores.</p>
+</div>
+<button class="flex items-center gap-3 bg-primary text-on-primary px-8 py-4 rounded-lg font-label-md shadow-lg hover:scale-105 active:scale-95 transition-all" onclick="openModal()">
+<span class="material-symbols-outlined">add</span>
+                    Añadir Nuevo Pan
+                </button>
+</div>
+<!-- Category Filters -->
+<div class="flex gap-3 overflow-x-auto pb-4 mb-8 no-scrollbar">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-md whitespace-nowrap">Todos</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md whitespace-nowrap hover:bg-surface-variant transition-colors">Masa Madre</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md whitespace-nowrap hover:bg-surface-variant transition-colors">Integrales</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md whitespace-nowrap hover:bg-surface-variant transition-colors">Dulces</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md whitespace-nowrap hover:bg-surface-variant transition-colors">Sin Gluten</button>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+<!-- Card 1 -->
+<div class="group bg-surface-container-low rounded-xl overflow-hidden shadow-[rgba(139,69,19,0.08)_0px_8px_24px] hover:scale-[1.02] transition-transform duration-300">
+<div class="relative h-64 overflow-hidden">
+<img alt="Masa Madre Clásica" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A close-up shot of a rustic loaf of sourdough bread with a perfectly crisped, dark golden-brown crust. Small bubbles and flour dusting are visible on the surface, showcasing the artisanal fermentation process. The lighting is warm and directional, creating deep shadows that emphasize the texture. The background is a soft, warm beige neutral tone." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXdV-qSqxHTxxWotk0QPiVCU7nXOCh_7Er5DP6ClmwHd8UZZGZ0GYgZw26dM-tVApnEp_tzk9LjZ6ybYrr6dIhokL8bAkiGoLBD6asqouz-BMALdTCQVUgkRtpTEb8owF3qWeBgP9y9niCokvtYy6YUVG5K0f442HqS1I8Oxc18wUUwyc4DIg3pSoOWE94BP2sNaRgBbgvL7iN7ec4wqj5Rutdbx4ARhbmAgIwCJup8HP-j_8I9GTYtHCp0zxK4skoaalG_tQnsSE"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-2 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="font-label-sm text-[10px] text-on-surface uppercase tracking-wider">Activo</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="bg-wheat-beige text-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-[#f5f5dc] border border-outline-variant">Masa Madre</span>
+<h4 class="font-headline-sm text-headline-sm text-primary mt-2">Hogaza Campesina</h4>
+</div>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors" onclick="openModal()">
+<span class="material-symbols-outlined text-primary">edit</span>
+</button>
+</div>
+<p class="text-on-surface-variant font-body-md line-clamp-2 mb-4">Fermentación lenta de 24 horas con harina de piedra orgánica y toque de centeno.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant">
+<span class="font-headline-sm text-primary">€4.50</span>
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-on-surface-variant">Estado</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full toggle-label transition-colors">
+<div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform toggle-dot"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-surface-container-low rounded-xl overflow-hidden shadow-[rgba(139,69,19,0.08)_0px_8px_24px] hover:scale-[1.02] transition-transform duration-300">
+<div class="relative h-64 overflow-hidden">
+<img alt="Pan de Semillas" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A sliced loaf of multi-seed artisanal bread on a wooden board. The bread is dense and packed with pumpkin, sunflower, and flax seeds, visible both on the crust and inside the crumb. The lighting is bright and airy, highlighting the natural textures of the grains. The style is soft minimalism with a focus on wholesome ingredients." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4QgNXwCW0TGsgdmMZSbn4aVYrZqaFvkifxGDcJ8P_eVdbBcxn85moZFM5zOwjFzs_RyITciqL1WMB7ksAdKons3ZSewoz6PPNooMNWP8JS3yK-Vb646q1wavyKDq59ueTUQ5oa93W7eEpVjSxAJWQtXSPdNeQpW78Ox0xoozj6-4a3Ssg573lQ1nGP4hECKBGHCr46albw1mys-wfAsRRg0D6EALGkURad_vMVwiAigHzr0u61Yuaf0WVYm-u4Lu08PHsko6JtaI"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-2 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="font-label-sm text-[10px] text-on-surface uppercase tracking-wider">Activo</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="bg-[#f5f5dc] text-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-outline-variant">Integral</span>
+<h4 class="font-headline-sm text-headline-sm text-primary mt-2">Multicereales</h4>
+</div>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-primary">edit</span>
+</button>
+</div>
+<p class="text-on-surface-variant font-body-md line-clamp-2 mb-4">Mezcla nutritiva de 7 granos con pipas de girasol y calabaza tostadas.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant">
+<span class="font-headline-sm text-primary">€5.20</span>
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-on-surface-variant">Estado</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full toggle-label transition-colors">
+<div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform toggle-dot"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-surface-container-low rounded-xl overflow-hidden shadow-[rgba(139,69,19,0.08)_0px_8px_24px] hover:scale-[1.02] transition-transform duration-300">
+<div class="relative h-64 overflow-hidden">
+<img alt="Baguette Tradicional" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Two long, slender traditional French baguettes resting on a linen cloth. The crust is pale gold with iconic diagonal scores, and a light dusting of flour gives it a tactile, powdery finish. The mood is serene and morning-focused, with soft shadows and a warm color palette of creams and light browns." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMbrAINMukwZZqHSc3SprYyaCd3RKNHcUMlD221SGLJwqtlbCeftHYEbaiSgSZk9P3qcwIy8yMSJ6sQe_ixxr-bqd4y4C5NgOfuQFB4O32EZ6kVWc1BO5FJZHR0y71eVAyc_0U_0ACya0I70AzT8_JW0LyfyfXaT6PslcD7IxX3YZRllD7QU5jgFRFJZFR019Ah_9dzocisJKARgDP7qbhAsPF1hWNHSeGPu66vxqs3aSHDVC_M4NnTPl5uaTlOwPsNStGp9KiL0E"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-2 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-label-sm text-[10px] text-on-surface uppercase tracking-wider">Inactivo</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="bg-[#f5f5dc] text-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-outline-variant">Blanco</span>
+<h4 class="font-headline-sm text-headline-sm text-primary mt-2">Baguette Tradition</h4>
+</div>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-primary">edit</span>
+</button>
+</div>
+<p class="text-on-surface-variant font-body-md line-clamp-2 mb-4">Corteza crujiente y miga alveolada siguiendo la receta clásica parisina.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant">
+<span class="font-headline-sm text-primary">€1.80</span>
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-on-surface-variant">Estado</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full toggle-label transition-colors">
+<div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform toggle-dot"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4 (Bento/Featured style) -->
+<div class="group bg-surface-container-low rounded-xl overflow-hidden shadow-[rgba(139,69,19,0.08)_0px_8px_24px] hover:scale-[1.02] transition-transform duration-300">
+<div class="relative h-64 overflow-hidden">
+<img alt="Focaccia de Hierbas" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A rectangular tray of fresh Italian focaccia, drizzled with golden olive oil and topped with sprigs of rosemary and sea salt flakes. The surface is dimpled and glistening. The lighting is warm and golden, evoking an Italian summer afternoon. The palette is rich with ambers, golds, and deep greens of the rosemary." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtzJ1_5tZ3dCFOb3wqQHQZxg_4ux22axMFgfjXaatBxAlki2qZFP2B4tdzpI0rGrAxrSR5zXaPLSN1V9eBKr3Cy504nczzIKXz076UF_QycVJ8NZRKOAdadVzEy4ngd7z2rdQCNWCRu6qQlCRRmLiqn6JfHQn7_xKLTkgBCpGe2IBp9b1_bFSyW0D1DvDHTQxk4b_hd3D53888YYAS3vC7t8OSE4mj2_bl4E4l46ar_JzhJ1_WxjJGoZ-V1T36E8MomO0o5nvk0Mo"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-2 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="font-label-sm text-[10px] text-on-surface uppercase tracking-wider">Activo</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<div>
+<span class="bg-[#f5f5dc] text-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-outline-variant">Especial</span>
+<h4 class="font-headline-sm text-headline-sm text-primary mt-2">Focaccia de Romero</h4>
+</div>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-primary">edit</span>
+</button>
+</div>
+<p class="text-on-surface-variant font-body-md line-clamp-2 mb-4">Esponjosa y bañada en AOVE de primera prensa con sal maldon.</p>
+<div class="flex justify-between items-center pt-4 border-t border-outline-variant">
+<span class="font-headline-sm text-primary">€6.00</span>
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-on-surface-variant">Estado</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only toggle-checkbox" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full toggle-label transition-colors">
+<div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform toggle-dot"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB for Mobile -->
+<button class="md:hidden fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center z-50 hover:scale-110 active:scale-95 transition-transform" onclick="openModal()">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<!-- Modal: Editar / Añadir Nuevo Pan -->
+<div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" id="editModal">
+<div class="bg-surface-container-low w-full max-w-2xl mx-4 rounded-lg shadow-2xl overflow-hidden transform scale-95 transition-transform duration-300" id="modalContent">
+<div class="flex justify-between items-center p-6 border-b border-outline-variant">
+<h3 class="font-headline-sm text-headline-sm text-primary">Editar Producto</h3>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors" onclick="closeModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form class="p-8 space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-4">
+<label class="block">
+<span class="font-label-md text-on-surface-variant">Nombre del Pan</span>
+<input class="mt-1 block w-full bg-surface border-outline-variant rounded-lg p-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary shadow-inner" type="text" value="Hogaza Campesina"/>
+</label>
+<label class="block">
+<span class="font-label-md text-on-surface-variant">Categoría</span>
+<select class="mt-1 block w-full bg-surface border-outline-variant rounded-lg p-3 text-body-md focus:ring-2 focus:ring-primary shadow-inner">
+<option>Masa Madre</option>
+<option>Integral</option>
+<option>Especial</option>
+<option>Blanco</option>
+</select>
+</label>
+<label class="block">
+<span class="font-label-md text-on-surface-variant">Precio (€)</span>
+<div class="mt-1 relative rounded-lg shadow-inner">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="text-on-surface-variant">€</span>
+</div>
+<input class="block w-full bg-surface border-outline-variant rounded-lg pl-8 p-3 text-body-md focus:ring-2 focus:ring-primary" step="0.01" type="number" value="4.50"/>
+</div>
+</label>
+</div>
+<div class="space-y-4">
+<div class="relative group">
+<span class="font-label-md text-on-surface-variant mb-1 block">Foto del Producto</span>
+<div class="h-44 bg-surface border-2 border-dashed border-outline-variant rounded-lg flex flex-col items-center justify-center overflow-hidden relative">
+<img alt="Preview" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-30 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg9UBOPxHNe_o580y_D34HhsHZMFFPOI2z7lgfUlebLyOjtb_Y-BMwsf5CZmAb_xyXirlYuAUZhTSYhcmGq91OhJxsNAIFGHzu9gSfmmWO42BTZkmjoRWHWOkbHuNUHmP2GQLc9qo4atnRzY2R_rcFxEjpvNO16jZlJ7sPkN4BcrPLox-69_WIisreiwNKOWAQzLVTDTBSNcux6XwjWgPQbGL8IvNjPuCAz8OamGCdhNAKIFNGaYrYuBEhAVkOjlvh-ih_la7JKeU"/>
+<span class="material-symbols-outlined text-4xl text-primary z-10 mb-2">photo_camera</span>
+<span class="font-label-sm text-primary z-10">Cambiar Imagen</span>
+</div>
+</div>
+<label class="block">
+<span class="font-label-md text-on-surface-variant">Descripción Corta</span>
+<textarea class="mt-1 block w-full bg-surface border-outline-variant rounded-lg p-3 text-body-md focus:ring-2 focus:ring-primary shadow-inner" rows="3">Fermentación lenta de 24 horas con harina de piedra orgánica y toque de centeno.</textarea>
+</label>
+</div>
+</div>
+<div class="flex justify-end gap-4 pt-6">
+<button class="px-6 py-3 rounded-lg border border-primary text-primary font-label-md hover:bg-surface-variant transition-colors" onclick="closeModal()" type="button">Cancelar</button>
+<button class="px-8 py-3 rounded-lg bg-primary text-on-primary font-label-md hover:opacity-90 shadow-lg active:scale-95 transition-all" type="submit">Guardar Cambios</button>
+</div>
+</form>
+</div>
+</div>
+<script>
+        function openModal() {
+            const modal = document.getElementById('editModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('editModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('opacity-100');
+            content.classList.add('scale-95');
+            content.classList.remove('scale-100');
+        }
+
+        // Handle ESC key to close modal
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Toggle state micro-interaction
+        document.querySelectorAll('.toggle-checkbox').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const card = this.closest('.group');
+                const statusPill = card.querySelector('.bg-white\\/90 span:first-child');
+                const statusText = card.querySelector('.bg-white\\/90 span:last-child');
+                
+                if(this.checked) {
+                    statusPill.classList.remove('bg-error');
+                    statusPill.classList.add('bg-green-500');
+                    statusText.textContent = 'Activo';
+                } else {
+                    statusPill.classList.add('bg-error');
+                    statusPill.classList.remove('bg-green-500');
+                    statusText.textContent = 'Inactivo';
+                }
+            });
+        });
+    </script>
+</body></html>

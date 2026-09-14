@@ -1,0 +1,188 @@
+<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#fefccf",
+                    "on-surface-variant": "#54433a",
+                    "background": "#fefccf",
+                    "secondary-fixed-dim": "#c8c8b0",
+                    "tertiary": "#523e00",
+                    "surface-container-high": "#eceabe",
+                    "tertiary-fixed": "#ffdf98",
+                    "on-primary-fixed-variant": "#753401",
+                    "on-primary-container": "#ffc29f",
+                    "surface-container-highest": "#e6e5b9",
+                    "secondary-fixed": "#e4e4cc",
+                    "on-tertiary-container": "#fec72c",
+                    "primary": "#6c2f00",
+                    "on-surface": "#1d1d03",
+                    "surface-container-low": "#f8f6c9",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-secondary-fixed-variant": "#474836",
+                    "on-primary-fixed": "#321200",
+                    "secondary": "#5e604d",
+                    "inverse-surface": "#323214",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#6f5400",
+                    "primary-fixed": "#ffdbc9",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "outline": "#877369",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#ffb68c",
+                    "primary-container": "#8b4513",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#f5bf22",
+                    "surface-tint": "#934b19",
+                    "surface-container": "#f2f0c4",
+                    "surface-dim": "#dedcb1",
+                    "inverse-on-surface": "#f5f3c7",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#1d1d03",
+                    "surface-variant": "#e6e5b9",
+                    "on-secondary-container": "#636451",
+                    "surface-bright": "#fefccf",
+                    "outline-variant": "#dac2b6",
+                    "on-secondary-fixed": "#1b1d0e",
+                    "primary-fixed-dim": "#ffb68c",
+                    "secondary-container": "#e1e1c9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "unit": "8px",
+                    "section-gap": "64px",
+                    "container-margin-desktop": "80px",
+                    "container-margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Be Vietnam Pro"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "headline-sm": ["EB Garamond"],
+                    "display-lg": ["EB Garamond"],
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-md": ["EB Garamond"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "display-lg-mobile": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scrim-bottom {
+            background: linear-gradient(to top, rgba(29, 29, 3, 0.9) 0%, rgba(29, 29, 3, 0.4) 50%, transparent 100%);
+        }
+        .animate-fade-in {
+            animation: fadeIn 1.2s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .squishy-active:active {
+            transform: scale(0.96);
+            transition: transform 0.1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-hidden">
+<!-- Main Content Canvas -->
+<main class="relative h-screen w-full flex flex-col overflow-hidden">
+<!-- Background Image with detailed prompt for generation -->
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="A macro close-up of a rustic, crusty artisanal sourdough loaf on a weathered dark wooden table. Fine white flour is dusted across the deeply scored golden-brown crust, capturing incredible textural detail. The scene is bathed in the soft, warm glow of morning sunlight streaming through a nearby window, creating a serene and nourishing atmosphere. The background is a blurred, warm-toned kitchen interior with hints of natural linen, maintaining a premium and cozy artisanal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg0tWBQOPDc23k2ibEiJcJz47qfhVIpXIICR1DMmm1nYyH9h34UlzYFVXKpre3eKqIDrwy-eM80EDGTGbic9KorE-QcBWdkAWAKUrpM89q3OpEoeWC978_BOnTXq2b03dORNl7NlfsXxpiFYua7ZkgVIaRqEkMHSLA2mUGpz1HeawH81HACyCxRsmL6x8bDz0B_sMy3sIBBTVqS87N_B-3hNM-31iJfRbnppGgrOaPfTHTTkw3oEcW77lkGANG5h3rXolCeyav2dA" style="transition: transform 0.4s ease-out; transform: scale(1.1);">
+<div class="absolute inset-0 scrim-bottom"></div>
+</div>
+<!-- Top Navigation (Shell Suppressed per Task: Transactional/Onboarding) -->
+<header class="relative z-10 w-full flex justify-center items-center h-24 px-container-margin-mobile md:px-container-margin-desktop">
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md text-white font-bold tracking-tight">Breadly</h1>
+</header>
+<!-- Centered Content Wrapper -->
+<div class="relative z-10 flex-1 flex flex-col justify-end items-center pb-16 px-container-margin-mobile md:px-container-margin-desktop text-center max-w-2xl mx-auto">
+<div class="animate-fade-in space-y-8">
+<!-- Branding Message -->
+<p class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-white max-w-lg mx-auto">
+                    El aroma del pan recién horneado, cada mañana en tu puerta.
+                </p>
+<!-- Onboarding Slide Indicators -->
+<div class="flex justify-center gap-3">
+<span class="h-1.5 w-8 rounded-full bg-primary-fixed shadow-sm"></span>
+<span class="h-1.5 w-1.5 rounded-full bg-white/40"></span>
+<span class="h-1.5 w-1.5 rounded-full bg-white/40"></span>
+</div>
+<!-- Call to Action -->
+<div class="pt-4">
+<button class="squishy-active bg-primary-container text-white font-label-md text-label-md px-10 py-5 rounded-full shadow-[0_4px_20px_rgba(139,69,19,0.2)] hover:bg-primary-container/90 transition-all duration-300 transform hover:scale-[1.02] focus:ring-4 focus:ring-primary-fixed/30 outline-none" onclick="window.location.href='{{DATA:SCREEN:SCREEN_90}}'">
+                        Empezar
+                    </button>
+</div>
+</div>
+</div>
+<!-- Texture Peek (Design System Identity) -->
+<div class="absolute bottom-10 right-10 z-10 hidden md:flex items-center gap-3 animate-fade-in" style="animation-delay: 0.5s;">
+<div class="text-right">
+<span class="block font-label-sm text-label-sm text-white/70">Textura de hoy</span>
+<span class="block font-label-md text-label-md text-white">Masa Madre Integral</span>
+</div>
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-white/20 shadow-lg">
+<img class="w-full h-full object-cover" data-alt="Extremely close-up texture peek of a sourdough bread's interior crumb structure. Large irregular air pockets and a moist, elastic-looking texture are visible. The colors are creamy beige and soft wheat tones, highlighting the natural fermentation process. Soft side lighting emphasizes the porous surface, consistent with a high-end artisanal bakery brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6MJ7ZngCB85QE78lCTLUnKqFPJVtXP4qHZDTUXisClBOkWzWzkZZU6c2ezkxd_CLoP6TatQbN273YHxsT86m8YtdE0SJcXywquc6FwMJEjbKi6g2FJ_w56WX-zJgAqLarA1AwfLmbMzX-MMFyILjkv667hDqZLOvfEpVOnf0lyfX7hUOwj_ZHMVShFr3w4febMjot9WWZU7DUViLdgXi3ExIJPXDUoWbh_taJnwnaH20sNM-p1-qBiovfyG2upMCnYWF_ghRMV_8">
+</div>
+</div>
+</main>
+<script>
+        // Micro-interaction for the button
+        document.querySelector('button').addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+
+        // Atmospheric parallax effect on mouse move
+        const main = document.querySelector('main');
+        const bgImg = document.querySelector('img');
+        
+        main.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 15;
+            const y = (e.clientY / window.innerHeight - 0.5) * 15;
+            bgImg.style.transform = `scale(1.1) translate(${x}px, ${y}px)`;
+        });
+        
+        // Initial state for parallax
+        bgImg.style.transition = 'transform 0.4s ease-out';
+        bgImg.style.transform = 'scale(1.1)';
+    </script>
+
+
+</body></html>

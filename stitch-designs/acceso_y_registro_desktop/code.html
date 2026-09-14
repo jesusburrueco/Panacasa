@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Breadly - Acceso Artesanal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=EB+Garamond:wght@500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100..900&family=EB+Garamond:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#934b19",
+                    "surface": "#fefccf",
+                    "surface-container": "#f2f0c4",
+                    "primary": "#6c2f00",
+                    "on-surface": "#1d1d03",
+                    "on-error": "#ffffff",
+                    "primary-container": "#8b4513",
+                    "on-tertiary-fixed-variant": "#5a4300",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#f5f3c7",
+                    "on-primary": "#ffffff",
+                    "outline": "#877369",
+                    "on-surface-variant": "#54433a",
+                    "on-primary-fixed": "#321200",
+                    "secondary": "#5e604d",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#ffb68c",
+                    "on-background": "#1d1d03",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed": "#ffdf98",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#636451",
+                    "tertiary-container": "#6f5400",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#e4e4cc",
+                    "secondary-container": "#e1e1c9",
+                    "primary-fixed": "#ffdbc9",
+                    "surface-container-low": "#f8f6c9",
+                    "tertiary": "#523e00",
+                    "surface-container-high": "#eceabe",
+                    "surface-dim": "#dedcb1",
+                    "outline-variant": "#dac2b6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e6e5b9",
+                    "on-tertiary-fixed": "#251a00",
+                    "on-primary-container": "#ffc29f",
+                    "on-tertiary-container": "#fec72c",
+                    "inverse-primary": "#ffb68c",
+                    "background": "#fefccf",
+                    "surface-variant": "#e6e5b9",
+                    "on-secondary-fixed-variant": "#474836",
+                    "tertiary-fixed-dim": "#f5bf22",
+                    "on-secondary-fixed": "#1b1d0e",
+                    "on-primary-fixed-variant": "#753401",
+                    "inverse-surface": "#323214",
+                    "surface-bright": "#fefccf",
+                    "secondary-fixed-dim": "#c8c8b0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-margin-mobile": "20px",
+                    "section-gap": "64px",
+                    "container-margin-desktop": "80px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Be Vietnam Pro"],
+                    "headline-md": ["EB Garamond"],
+                    "display-lg": ["EB Garamond"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "label-md": ["Be Vietnam Pro"],
+                    "headline-sm": ["EB Garamond"],
+                    "body-lg": ["Be Vietnam Pro"],
+                    "display-lg-mobile": ["EB Garamond"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "42px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fefccf; /* surface from config */
+            color: #1d1d03; /* on-surface */
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .auth-card {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .auth-card:hover {
+            transform: scale(1.01);
+        }
+        .input-inset {
+            box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #877369;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center font-body-md text-body-md overflow-x-hidden p-container-margin-mobile md:p-0">
+<!-- Brand Header (Floating) -->
+<header class="fixed top-0 w-full z-50 py-8 px-container-margin-desktop flex justify-center">
+<a class="group flex items-center gap-3" href="/">
+<span class="font-display-lg text-display-lg text-primary tracking-tight">Breadly</span>
+<span class="material-symbols-outlined text-primary text-4xl group-hover:rotate-12 transition-transform duration-300" data-icon="bakery_dining">bakery_dining</span>
+</a>
+</header>
+<main class="w-full max-w-[1200px] mx-auto min-h-[819px] flex flex-col md:grid md:grid-cols-2 gap-0 overflow-hidden rounded-xl shadow-[0_20px_50px_-12px_rgba(139,69,19,0.12)] bg-surface-container-lowest">
+<!-- Left Section: Iniciar Sesión -->
+<section class="relative overflow-hidden bg-surface-container-lowest p-8 md:p-16 flex flex-col justify-center transition-all duration-500" id="login-panel">
+<div class="max-w-md mx-auto w-full space-y-8">
+<div class="space-y-2">
+<h1 class="font-headline-md text-headline-md text-primary">Bienvenido de nuevo</h1>
+<p class="text-on-surface-variant">El aroma del pan recién horneado te espera.</p>
+</div>
+<div class="space-y-4">
+<div class="flex flex-col gap-4">
+<button class="flex items-center justify-center gap-3 w-full py-3.5 px-6 rounded-DEFAULT border-2 border-outline-variant hover:bg-surface-container transition-all duration-200 group active:scale-[0.98]">
+<svg class="w-5 h-5" viewbox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path></svg>
+<span class="font-label-md text-label-md">Continuar con Google</span>
+</button>
+<button class="flex items-center justify-center gap-3 w-full py-3.5 px-6 rounded-DEFAULT border-2 border-outline-variant hover:bg-surface-container transition-all duration-200 active:scale-[0.98]">
+<svg class="w-5 h-5" viewbox="0 0 24 24"><path d="M17.05 20.28c-.96.95-2.44.44-2.44-.71 0-1.15-1.48-1.66-2.44-.71l-1.06 1.06c-.39.39-1.02.39-1.41 0l-4.24-4.24c-.39-.39-.39-1.02 0-1.41l1.06-1.06c.95-.96.44-2.44-.71-2.44-1.15 0-1.66-1.48-.71-2.44l1.06-1.06c.39-.39.39-1.02 0-1.41L2.86 3.59c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0l3.03 3.03c.39.39 1.02.39 1.41 0l1.06-1.06c.96-.95 2.44-.44 2.44.71 0 1.15 1.48 1.66 2.44.71l1.06-1.06c.39-.39 1.02-.39 1.41 0l4.24 4.24c.39.39.39 1.02 0 1.41l-1.06 1.06c-.95.96-.44 2.44.71 2.44 1.15 0 1.66 1.48.71 2.44l-1.06 1.06c-.39.39-.39 1.02 0 1.41l3.03 3.03c.39.39.39 1.02 0 1.41-.39.39-1.02.39-1.41 0l-3.03-3.03z" fill="currentColor"></path></svg>
+<span class="font-label-md text-label-md">Continuar con Apple</span>
+</button>
+</div>
+<div class="relative py-4 flex items-center">
+<div class="flex-grow border-t border-outline-variant"></div>
+<span class="flex-shrink mx-4 text-on-surface-variant font-label-sm uppercase tracking-widest">o usa tu email</span>
+<div class="flex-grow border-t border-outline-variant"></div>
+</div>
+<form class="space-y-5">
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Correo Electrónico</label>
+<input class="w-full px-4 py-3 rounded-DEFAULT border-2 border-transparent bg-surface-container-low input-inset focus:border-primary focus:ring-0 transition-colors" placeholder="hola@artesano.com" type="email"/>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Contraseña</label>
+<a class="text-primary font-label-sm hover:underline" href="#">¿Olvidaste tu contraseña?</a>
+</div>
+<div class="relative">
+<input class="w-full px-4 py-3 rounded-DEFAULT border-2 border-transparent bg-surface-container-low input-inset focus:border-primary focus:ring-0 transition-colors" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</div>
+</div>
+<button class="w-full py-4 px-8 bg-primary text-on-primary rounded-DEFAULT font-label-md text-lg hover:bg-primary-container shadow-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]" type="submit">
+                            Iniciar Sesión
+                        </button>
+</form>
+</div>
+<p class="text-center md:hidden font-label-md text-on-surface-variant">
+                    ¿No tienes cuenta? <button class="text-primary font-bold hover:underline" onclick="toggleMobileAuth('signup')">Crear Cuenta</button>
+</p>
+</div>
+</section>
+<!-- Right Section: Imagen/Split Action -->
+<section class="relative group overflow-hidden bg-surface-container flex flex-col justify-center p-8 md:p-16 border-l border-outline-variant transition-all duration-500" id="signup-panel">
+<!-- Background Image with Texture Peek -->
+<div class="absolute inset-0 z-0 opacity-40 mix-blend-multiply transition-transform duration-1000 group-hover:scale-110" data-alt="Close-up macro photography of an artisanal sourdough bread loaf with a crispy, flour-dusted golden crust and deep scoring. The lighting is warm and cinematic, highlighting the tactile texture of the bubbles and toasted edges. Soft morning sunlight filters through a window, creating a cozy and high-end bakery atmosphere with earthy tones of amber and toasted brown." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDyk_YzYjHCyBWCoYQ1w_YyOljQhXhMP6YrdoNyvagdDG4r_Vv-r6xx2WWhNsW-_3vQeCm8HyvBGT3C6V8cO7uXM781Lu3fzKlFe_y1BSYaQ89JF1-yqoXs9BzPYOlZznwWzWPxktfN5LVw-Wg9mikBTqE_wcv2RJS_6zm68WXW6G1vdYI9tmK6c7HGEtYJGusjv-KC14ezeWTzMVekSWEhcT3kKC5kpfKADWQAl2cKlnX3Z1IdELX4')">
+</div>
+<div class="relative z-10 max-w-md mx-auto w-full space-y-8">
+<div class="space-y-2">
+<h2 class="font-headline-md text-headline-md text-primary">Únete a la familia Breadly</h2>
+<p class="text-on-surface-variant">Suscríbete para recibir pan artesanal en la puerta de tu casa cada mañana.</p>
+</div>
+<form class="space-y-5">
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Nombre Completo</label>
+<input class="w-full px-4 py-3 rounded-DEFAULT border-2 border-transparent bg-surface-container-lowest input-inset focus:border-primary focus:ring-0 transition-colors" placeholder="Tu nombre" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Correo Electrónico</label>
+<input class="w-full px-4 py-3 rounded-DEFAULT border-2 border-transparent bg-surface-container-lowest input-inset focus:border-primary focus:ring-0 transition-colors" placeholder="email@ejemplo.com" type="email"/>
+</div>
+<div class="space-y-1">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Contraseña</label>
+<input class="w-full px-4 py-3 rounded-DEFAULT border-2 border-transparent bg-surface-container-lowest input-inset focus:border-primary focus:ring-0 transition-colors" placeholder="Mínimo 8 caracteres" type="password"/>
+</div>
+<div class="flex items-start gap-3 px-1 pt-2">
+<input class="mt-1 w-5 h-5 rounded border-outline-variant text-tertiary-fixed-dim focus:ring-tertiary" id="terms" type="checkbox"/>
+<label class="font-label-sm text-on-surface-variant" for="terms">Acepto los <a class="text-primary hover:underline" href="#">Términos de Servicio</a> y la <a class="text-primary hover:underline" href="#">Política de Privacidad</a>.</label>
+</div>
+<button class="w-full py-4 px-8 border-2 border-primary text-primary rounded-DEFAULT font-label-md text-lg hover:bg-primary hover:text-on-primary transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]" type="submit">
+                        Crear Cuenta
+                    </button>
+</form>
+<div class="flex items-center gap-4 text-on-surface-variant opacity-80 pt-4">
+<span class="h-px flex-1 bg-outline-variant"></span>
+<p class="font-label-md italic">Hecho a mano, entregado fresco.</p>
+<span class="h-px flex-1 bg-outline-variant"></span>
+</div>
+<p class="text-center md:hidden font-label-md text-on-surface-variant">
+                    ¿Ya tienes cuenta? <button class="text-primary font-bold hover:underline" onclick="toggleMobileAuth('login')">Iniciar Sesión</button>
+</p>
+</div>
+</section>
+</main>
+<!-- Footer Content (Shared Component Logic) -->
+<footer class="w-full mt-section-gap py-12 px-container-margin-desktop max-w-[1440px] mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-gutter text-on-surface-variant font-label-md">
+<div class="flex items-center gap-6">
+<span class="font-headline-sm text-primary">Breadly</span>
+<p>© 2024 Breadly Artisanal Bakery. Hand-kneaded with love.</p>
+</div>
+<nav class="flex gap-8">
+<a class="hover:text-primary transition-colors" href="#">Sustainability</a>
+<a class="hover:text-primary transition-colors" href="#">Wholesale</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+</nav>
+</footer>
+<!-- Bread Crumbs Interaction Script -->
+<script>
+        // Simple micro-interaction for desktop focus switching if needed
+        // For this design, we keep both visible on desktop for quick scanning
+        
+        function toggleMobileAuth(state) {
+            const loginPanel = document.getElementById('login-panel');
+            const signupPanel = document.getElementById('signup-panel');
+            
+            if(window.innerWidth < 768) {
+                if (state === 'signup') {
+                    loginPanel.classList.add('hidden');
+                    signupPanel.classList.remove('hidden');
+                } else {
+                    signupPanel.classList.add('hidden');
+                    loginPanel.classList.remove('hidden');
+                }
+            }
+        }
+
+        // Initialize state for mobile
+        window.addEventListener('resize', () => {
+            if(window.innerWidth >= 768) {
+                document.getElementById('login-panel').classList.remove('hidden');
+                document.getElementById('signup-panel').classList.remove('hidden');
+            }
+        });
+        
+        // Add subtle mouse-tracking movement to the background image
+        document.addEventListener('mousemove', (e) => {
+            const signupBg = document.querySelector('#signup-panel [style*="background-image"]');
+            if(signupBg) {
+                const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+                const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+                signupBg.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+            }
+        });
+    </script>
+</body></html>
