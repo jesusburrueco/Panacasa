@@ -66,6 +66,7 @@ export async function createDeliveryZoneAction(
   });
 
   if (error) {
+    console.error("[createDeliveryZoneAction] Supabase error:", error);
     return { error: "No se pudo crear la zona. Inténtalo de nuevo." };
   }
 
@@ -109,6 +110,7 @@ export async function updateDeliveryZoneAction(
     .eq("id", zoneId);
 
   if (error) {
+    console.error("[updateDeliveryZoneAction] Supabase error:", error);
     return { error: "No se pudo actualizar la zona. Inténtalo de nuevo." };
   }
 
@@ -118,12 +120,21 @@ export async function updateDeliveryZoneAction(
 
 export async function deleteDeliveryZoneAction(zoneId: string) {
   const supabase = await createClient();
-  await supabase.from("delivery_zones").delete().eq("id", zoneId);
+  const { error } = await supabase.from("delivery_zones").delete().eq("id", zoneId);
+  if (error) {
+    console.error("[deleteDeliveryZoneAction] Supabase error:", error);
+  }
   revalidatePath("/admin/zonas");
 }
 
 export async function toggleDeliveryZoneActiveAction(zoneId: string, nextActive: boolean) {
   const supabase = await createClient();
-  await supabase.from("delivery_zones").update({ is_active: nextActive }).eq("id", zoneId);
+  const { error } = await supabase
+    .from("delivery_zones")
+    .update({ is_active: nextActive })
+    .eq("id", zoneId);
+  if (error) {
+    console.error("[toggleDeliveryZoneActiveAction] Supabase error:", error);
+  }
   revalidatePath("/admin/zonas");
 }

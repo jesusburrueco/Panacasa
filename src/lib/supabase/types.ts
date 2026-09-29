@@ -313,6 +313,10 @@ export interface Database {
           scheduled_date: string;
           status: string;
           notes: string | null;
+          route_id: string | null;
+          address_detail: string | null;
+          portal: string | null;
+          floor: string | null;
           created_at: string;
         };
         Insert: {
@@ -322,6 +326,10 @@ export interface Database {
           scheduled_date: string;
           status?: string;
           notes?: string | null;
+          route_id?: string | null;
+          address_detail?: string | null;
+          portal?: string | null;
+          floor?: string | null;
           created_at?: string;
         };
         Update: {
@@ -331,6 +339,10 @@ export interface Database {
           scheduled_date?: string;
           status?: string;
           notes?: string | null;
+          route_id?: string | null;
+          address_detail?: string | null;
+          portal?: string | null;
+          floor?: string | null;
           created_at?: string;
         };
         Relationships: [
@@ -344,6 +356,88 @@ export interface Database {
           {
             foreignKeyName: "deliveries_delivery_zone_id_fkey";
             columns: ["delivery_zone_id"];
+            isOneToOne: false;
+            referencedRelation: "delivery_zones";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "deliveries_route_id_fkey";
+            columns: ["route_id"];
+            isOneToOne: false;
+            referencedRelation: "delivery_routes";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      delivery_workers: {
+        Row: {
+          id: string;
+          name: string;
+          phone: string | null;
+          email: string | null;
+          is_active: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          phone?: string | null;
+          email?: string | null;
+          is_active?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          phone?: string | null;
+          email?: string | null;
+          is_active?: boolean;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      delivery_routes: {
+        Row: {
+          id: string;
+          name: string;
+          worker_id: string | null;
+          zone_id: string | null;
+          delivery_date: string;
+          status: string;
+          notes: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          worker_id?: string | null;
+          zone_id?: string | null;
+          delivery_date: string;
+          status?: string;
+          notes?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          worker_id?: string | null;
+          zone_id?: string | null;
+          delivery_date?: string;
+          status?: string;
+          notes?: string | null;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "delivery_routes_worker_id_fkey";
+            columns: ["worker_id"];
+            isOneToOne: false;
+            referencedRelation: "delivery_workers";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "delivery_routes_zone_id_fkey";
+            columns: ["zone_id"];
             isOneToOne: false;
             referencedRelation: "delivery_zones";
             referencedColumns: ["id"];
