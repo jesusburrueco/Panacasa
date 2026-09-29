@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getUserEmail } from "@/lib/supabase/subscriber-directory";
 import { adminSetSubscriptionStatusAction } from "@/lib/supabase/subscription-actions";
 import { formatPrice } from "@/lib/utils";
 
@@ -44,18 +43,15 @@ export default async function SuscriptorDetailPage({
     notFound();
   }
 
-  const [email, { data: subscription }] = await Promise.all([
-    getUserEmail(id),
-    supabase
-      .from("subscriptions")
-      .select(
-        "*, subscription_plans(*), subscription_items(quantity, products(name, price_cents))"
-      )
-      .eq("user_id", id)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle(),
-  ]);
+  const email = profile.email;
+
+  const { data: subscription } = await supabase
+    .from("subscriptions")
+    .select("*, subscription_plans(*), subscription_items(quantity, products(name, price_cents))")
+    .eq("user_id", id)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
 
   const deliveries = subscription
     ? (
