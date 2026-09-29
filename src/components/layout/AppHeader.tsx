@@ -84,7 +84,7 @@ export function AppHeader() {
             aria-label="Mi perfil"
             className="h-10 w-10 overflow-hidden rounded-full border-2 border-primary-fixed bg-surface-container"
           >
-            <span className="material-symbols-outlined flex h-full w-full items-center justify-center text-on-surface-variant">
+            <span style={{ display: 'flex' }} className="material-symbols-outlined flex h-full w-full items-center justify-center text-on-surface-variant" >
               person
             </span>
           </Link>
