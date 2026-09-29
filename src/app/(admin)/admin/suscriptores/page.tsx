@@ -64,6 +64,12 @@ export default async function SuscriptoresPage({
                   Estado
                 </th>
                 <th className="px-6 py-4 font-sans text-label-md text-on-surface-variant">
+                  Próxima entrega
+                </th>
+                <th className="px-6 py-4 font-sans text-label-md text-on-surface-variant">
+                  Método de entrega
+                </th>
+                <th className="px-6 py-4 font-sans text-label-md text-on-surface-variant">
                   Miembro desde
                 </th>
                 <th className="px-6 py-4 font-sans text-label-md text-on-surface-variant">
@@ -123,6 +129,16 @@ export default async function SuscriptoresPage({
                       )}
                     </td>
                     <td className="px-6 py-5 font-sans text-body-md text-on-surface-variant">
+                      {subscriber.currentSubscription?.nextDeliveryDate
+                        ? new Date(
+                            subscriber.currentSubscription.nextDeliveryDate
+                          ).toLocaleDateString("es-ES")
+                        : "—"}
+                    </td>
+                    <td className="px-6 py-5 font-sans text-body-md text-on-surface-variant">
+                      {subscriber.address ?? "—"}
+                    </td>
+                    <td className="px-6 py-5 font-sans text-body-md text-on-surface-variant">
                       {new Date(subscriber.createdAt).toLocaleDateString("es-ES")}
                     </td>
                     <td className="px-6 py-5">
@@ -140,7 +156,7 @@ export default async function SuscriptoresPage({
               {subscribers.length === 0 && (
                 <tr>
                   <td
-                    colSpan={5}
+                    colSpan={7}
                     className="px-6 py-16 text-center font-sans text-body-md text-on-surface-variant"
                   >
                     No se encontraron suscriptores con estos filtros.

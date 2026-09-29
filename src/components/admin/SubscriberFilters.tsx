@@ -54,9 +54,10 @@ export function SubscriberFilters() {
           className="w-full cursor-pointer rounded-lg border-none bg-surface-container p-3 font-sans text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary"
         >
           <option value="todos">Todos los estados</option>
-          <option value="activo">Activo</option>
-          <option value="pausado">Pausado</option>
-          <option value="cancelado">Cancelado</option>
+          <option value="active">Activo</option>
+          <option value="paused">Pausado</option>
+          <option value="cancelled">Cancelado</option>
+          <option value="past_due">Pago pendiente</option>
         </select>
       </div>
 
