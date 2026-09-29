@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { SubscriberFilters } from "@/components/admin/SubscriberFilters";
 import { getSubscriberDirectory } from "@/lib/supabase/subscriber-directory";
+import { createClient } from "@/lib/supabase/server";
 
 const statusClasses: Record<string, { chip: string; dot: string; label: string }> = {
   active: { chip: "bg-green-100 text-green-800", dot: "bg-green-600", label: "Activo" },
@@ -16,6 +17,17 @@ export default async function SuscriptoresPage({
   searchParams: Promise<{ q?: string; estado?: string; plan?: string }>;
 }) {
   const { q, estado, plan } = await searchParams;
+
+  // DEBUG temporal: query plana pedida para diagnosticar por que no
+  // aparecen suscriptores pese a haber filas en subscriptions. Quitar en
+  // cuanto se identifique la causa.
+  const debugSupabase = await createClient();
+  const { data: debugData, error: debugError } = await debugSupabase
+    .from("subscriptions")
+    .select("*, profiles(*), subscription_plans(*)");
+  console.log("[SuscriptoresPage debug] data:", JSON.stringify(debugData, null, 2));
+  console.log("[SuscriptoresPage debug] error:", debugError);
+
   const allSubscribers = await getSubscriberDirectory();
 
   let subscribers = allSubscribers;
