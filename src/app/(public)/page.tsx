@@ -1,308 +1,386 @@
 import Image from "next/image";
 import Link from "next/link";
-import { DeliveryChecker } from "@/components/shared/DeliveryChecker";
+import { createClient } from "@/lib/supabase/server";
+import { FadeIn } from "@/components/shared/FadeIn";
+import { Parallax } from "@/components/shared/Parallax";
+import {
+  FulfillmentChooser,
+  type PickupPointSummary,
+} from "@/components/landing/FulfillmentChooser";
 
 const heroMobileImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDg0tWBQOPDc23k2ibEiJcJz47qfhVIpXIICR1DMmm1nYyH9h34UlzYFVXKpre3eKqIDrwy-eM80EDGTGbic9KorE-QcBWdkAWAKUrpM89q3OpEoeWC978_BOnTXq2b03dORNl7NlfsXxpiFYua7ZkgVIaRqEkMHSLA2mUGpz1HeawH81HACyCxRsmL6x8bDz0B_sMy3sIBBTVqS87N_B-3hNM-31iJfRbnppGgrOaPfTHTTkw3oEcW77lkGANG5h3rXolCeyav2dA";
 
 const heroDesktopImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDrfxjOzkX61x2Cl1TRH33i3zZVnQjyV74RJiyP6ZNJZIzyCRdQlpXbfUySher_t8DLe1PsmsamkeiwtOQl9xbXK8zHaZz8Jy2cmJcMQVBFuqQkCOVICPfI3-Tz6wFnuQ6EUPFvmlsH-bTxmvyMjheJCnvayDbytJeuHorY7try9K3vcyIoo30Xppgbtd-RpDr9WE3IjM3PZ3fmag3JlEyAI28Ckj3HygqDKMw4t_4vVVJ4_wwxjEHX";
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuD7HfED-o7VBF4qi8-W9X2Nocd4NoQmZSNpDmCBYdqoMcwpr7GbwDiHAVSG6dQwCOmJjo-UlSsZD9VXhYGSvU_W3CXcza9PfAiNyU5kbcax1GnWKz7ZeHN72bXEVt0zvzwuYO8uBq86gqUkq2WrENiQok4M9N3Z-4boJep7Br2y74ELhRURnO6crB03bh7wZHnRyF_IcXztjOb0g8yM1pm-gE1Up06pp4V10wyCir3BXrMagyJ5nnY8";
 
 const heroTextureImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuAAqYN-d0wPgNTcMZiTTDn5WLKrzuryvH3iFQrp6CnHI6Pg4Z_bFY769KzDNJpNjkxbvqC3xYu-vJhZunnDOMkW5jfyYU9wE1X3g7UiADmhwiY9_AnLHFeda-5eihMH341VHEJ26X9iZjJmnil6x8on6eiIQp7rclRGOGOwmA08EpSNT0lsamYc7mNX02MVJzNrK4ZQrc5PFLHm_TdRZ-pMMcioL-HP138EPB14dyUBbHTZ9v9c0NHr";
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuDs-vIZXU440aX40D_kVLEJwmXRZW-dFjAHOy17Kqbtlv4jqdYov-9aAo_XIo3kAhtiKDV3VX1Fm4MCowHi42Km5_vRf6vBmH48WXlzUp2opaehQspV5wit0dkj3reFNUqMVtT4d9PE48ZDCc7wbOR9AT2NWJ42u_kp5HTtIuxsIBpStlhv_5FCDfsT1n4nDoCi5KYsJEfQgstveSTkyU73FN4e4QdT7I5Xdwi01ufNk8sNGjGw0yTo";
 
-const pillars = [
+// Imagenes de respaldo para el mosaico si el catalogo aun no tiene fotos.
+const fallbackMosaic = [
   {
-    icon: "timer",
-    title: "Fermentación Lenta",
+    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBL5QXdblWcP9HOwpezeChYlJaEuQ4AXRt2uhwJ-swGXlclmt3-2ELjfrnVJlXaENAw3q-KQlm-L_7yxYR_SZO-tnRoDhLnVKsc-Xnwb1Wz93AxZWVIMOJoLFSgS2aNG-K6wbhAxCzDc3fjF3hQpNEa0rWhEkTY76xQp9rinS1uiYeeNCfuRs_m9_Hgr4x1B1tvdpkQVts-Csr5TvYkZ3XlBae3I_EymDhCAocsNnCKSWuEYyDd_MO7",
+    alt: "Hogaza dorada partida a mano con la miga humeante",
+  },
+  {
+    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCNL93Ms4uzZr_PxF_aPp8ymQ8ePCH6sARDln9ggh7nYc84iDXe94AAhBINnU5-YMHpg_3TB-qD-g8hou7HQkdDyrmYi8KeO-BkOanjAYwz1yexQF-Xxer2bKJTeXCI1ZOChAL-9kWEQS9WfccfFE3oTQEnMWBwhuBwUDATxHSCHqoqUX7wnRaArnw05cK8VYUCl-8yxqC2VXRV5MagsXCX36TNlynixKzdcON1L2ADtzQv83iZq2gJ",
+    alt: "Mesa de desayuno con pan de centeno, miel, mantequilla y café",
+  },
+  {
+    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDGDIxMeG62OkjQdJfVFlzeX0EA2RZZoR_JNXSDyP8r5A3rxYdsIIRGmRdHBtCH0U8qQ28XdBJae5IfgU_9pty6IryNyMny1IBzYYta7vfxlwIo61SvQvdNdYUqpw2vUexq4QPcow446T5UoBhdkCFQGk7aiW-rJOth51KxlPx2YrfOgMUCjbPdk9hbywb8WOHZg9POTT52g0SM3pf2dxLXnGupkJsMhWcpq-dLucf70IIlR1UMrKUv",
+    alt: "Corteza crujiente y enharinada de una baguette artesanal",
+  },
+];
+
+const differentiators = [
+  {
+    icon: "bakery_dining",
+    title: "Pan artesanal recién horneado",
     description:
-      "Dejamos que la masa respire y desarrolle sabor natural durante 24 a 48 horas. Sin prisas, solo sabor puro.",
+      "Trigos antiguos y fermentación natural de 24 horas. Cada hogaza se forma a mano por maestros panaderos: corteza crujiente e interior aireado.",
+    checks: ["Sin aditivos ni conservantes", "Masa madre de fermentación lenta"],
+  },
+  {
+    icon: "calendar_month",
+    title: "Suscripción flexible",
+    description:
+      "Tú tienes el control. Recibe tu pack semanal o quincenalmente. ¿Te vas de viaje? Pausa o cancela desde tu perfil con un solo clic, sin compromisos.",
+    checks: ["Semanal o quincenal", "Pausa o cancela cuando quieras"],
   },
   {
     icon: "local_shipping",
-    title: "Entrega Matutina",
+    title: "Logística inteligente",
     description:
-      "Horneamos en la madrugada para que el olor a pan fresco te despierte. Entrega directa en tu puerta antes de las 8:00 AM.",
+      "Envío a domicilio antes de las 8:00 para que desayunes con pan caliente, o recogida local en nuestros puntos asociados sin gastos de envío.",
+    checks: ["Envío a domicilio", "Recogida en punto local"],
   },
+];
+
+const secretPoints = [
   {
     icon: "eco",
-    title: "Ingredientes Reales",
-    description:
-      "Solo tres ingredientes: harina orgánica, agua y sal de mar. Sin conservadores, sin azúcares añadidos.",
+    title: "Ingredientes locales",
+    description: "Harinas de molino de piedra, agua filtrada y sal marina. Nada más.",
+  },
+  {
+    icon: "schedule",
+    title: "24h de fermentación",
+    description: "El tiempo es nuestro ingrediente más caro y el más importante.",
   },
 ];
 
-const plans = [
-  {
-    name: "El Ritual Diario",
-    description: "1 pan grande + 2 baguettes",
-    price: "29.00€ /sem",
-    badge: "Popular",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCFrB4f4VWKAZhOrQ5y38-i-NnrBLdj-By0lyMakhwxX1DPzkBvepc2tngLK4mP4SKwzm79BVmhAlWEI-hlTnmRxVPLsR5ae-2RnjDGzSr0UfKIHIjGPbXMQCbEj8lW-Tanug3RT2Y5Td06G2KsfXewa0cbP4jBlOxBK_nubB-nzwoArJQ9olgUUJLGbEUpzRoHv6zE-9MD7Z4Tm1yoJ634w0aCRCncEA_iWvuHT1-uxNCdfmGl-DAF",
-  },
-  {
-    name: "Pack Saludable",
-    description: "2 panes de semillas y centeno",
-    price: "35.00€ /sem",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAOulUjNvsTRLoQT3CAETBELgmAt5ltVCTIOKLeEhqhvHVjqLwd6DmWBTaHIctGB88Of9WyaiDZY4nBBEC9X35YlAtAxInSOc3ojm3CwdM_SCp0FoBx04xNj5hNJUwRkkpb1V0OFB3eLthWjmcXYquDrQI8oCdRQtzztZz7jH6oJ0QLHkh6tlmsaQV9KC5NilYLvGqlL_oR4xRmPTZi2dY8pnzOi9rD6El30UJSYoYSNhlcA9Hg6IaY",
-  },
-  {
-    name: "Dulce Despertar",
-    description: "4 croissants + 1 pan brioche",
-    price: "25.00€ /sem",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDpGiLnJhA840uKDOh1PRozyy5WhvlMa4LYCApU2ppEGpofCVAfoeWPi8wMwW57ZwRAxFg-2ceAirNdypr_VWFXNA4HVfR-wkD9czDpmjggqtfaFI0mdK3-zQxeyBzaQX5oXfri5tr7Al7E5jDBY6fWldJU_xj0w1LZp1Xb6FSY4ytsFPEd3Tt6a51lErlGPmuA25nNokVb6qlx6RzCHm76PZ3mwx1azHZeTLdDVZXeiBc2eKdbR8oM",
-  },
-  {
-    name: "Familiar",
-    description: "Canasta mixta personalizada",
-    price: "45.00€ /sem",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuC1uoNJtW00rrX80kZ-sxELY7w65sbCFgo3HB-fYSJtOnaGFin6_DAG3mybDVUCdpyEEfI7rGM8o4TwCgmxbY7xXh5YLt_zk1UypT8-E7tJgsQ9idLT9UDmLwUA8fN49GRQBlyJYoBJh4cCYCM0GDENE3HXM-u1VX-bJLU-8J6rTFOKPT7hTPcy9IdE8_YqQfMmlaQV7m6-aKzGzzki5a-EGFUOkQ3mEJkNFjgUOmJkadumT2ZRp3Pm",
-  },
-];
+async function getLandingData() {
+  const supabase = await createClient();
 
-export default function LandingPage() {
+  const [{ data: products }, { data: pickupPoints }] = await Promise.all([
+    supabase
+      .from("products")
+      .select("name, image_url")
+      .eq("is_active", true)
+      .not("image_url", "is", null)
+      .order("created_at", { ascending: false })
+      .limit(3),
+    supabase
+      .from("pickup_points")
+      .select("id, name, address")
+      .eq("status", "abierto")
+      .order("name"),
+  ]);
+
+  // Rellena el mosaico con fotos del catalogo y completa con las de respaldo.
+  const mosaic = fallbackMosaic.map((fallback, i) => {
+    const product = products?.[i];
+    return product?.image_url ? { src: product.image_url, alt: product.name } : fallback;
+  });
+
+  return {
+    mosaic,
+    pickupPoints: (pickupPoints ?? []) satisfies PickupPointSummary[],
+  };
+}
+
+const ctaBase =
+  "inline-flex items-center justify-center gap-2 rounded-full px-10 py-4 font-sans text-label-md transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]";
+
+export default async function LandingPage() {
+  const { mosaic, pickupPoints } = await getLandingData();
+
   return (
     <main className="flex flex-1 flex-col">
-      {/* Hero - mobile: foto a sangre completa (onboarding_breadly) */}
-      <section className="relative flex h-[calc(100dvh-64px)] min-h-[560px] w-full flex-col overflow-hidden md:hidden">
-        <Image
-          src={heroMobileImage}
-          alt="Pan de masa madre recien horneado sobre una mesa de madera"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-inverse-surface/90 via-inverse-surface/40 to-transparent" />
-        <div className="relative z-10 flex flex-1 flex-col items-center justify-end gap-8 px-margin-mobile pb-16 text-center">
-          <p className="font-serif text-display-lg-mobile text-white">
-            El aroma del pan recién horneado, cada mañana en tu puerta.
-          </p>
-          <Link
-            href="/registro"
-            className="inline-flex items-center justify-center rounded-full bg-primary-container px-10 py-5 font-sans text-label-md text-white shadow-soft-lg transition-all active:scale-95"
-          >
-            Empezar
-          </Link>
+      {/* Hero mobile: foto a pantalla completa con logo superpuesto (onboarding_breadly) */}
+      <section className="relative flex h-[calc(100dvh-80px)] min-h-[560px] w-full flex-col overflow-hidden md:hidden">
+        <Parallax speed={0.2}>
+          <Image
+            src={heroMobileImage}
+            alt="Pan de masa madre recién horneado con la corteza enharinada"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </Parallax>
+        <div className="absolute inset-0 bg-gradient-to-t from-inverse-surface/90 via-inverse-surface/30 to-inverse-surface/40" />
+
+        <div className="relative z-10 flex flex-1 flex-col items-center justify-between px-margin-mobile pb-12 pt-10 text-center">
+          <Image
+            src="/images/logo-panacasa.png"
+            alt="PanACasa"
+            width={640}
+            height={640}
+            priority
+            className="h-28 w-28 animate-fade-up drop-shadow-xl"
+          />
+          <div className="flex animate-fade-up flex-col items-center gap-8">
+            <h1 className="font-serif text-display-lg-mobile text-white">
+              Pan que sabe a tiempo, fermento y calma.
+            </h1>
+            <Link
+              href="/catalogo"
+              className={`${ctaBase} w-full max-w-xs bg-primary-container py-5 text-on-primary shadow-soft-lg hover:brightness-110`}
+            >
+              Empezar
+              <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Hero - desktop: dos columnas (onboarding_desktop) */}
-      <section className="relative hidden min-h-[720px] items-center overflow-hidden bg-surface-container-low md:flex">
-        <div className="mx-auto grid w-full max-w-[1440px] grid-cols-12 items-center gap-gutter px-margin-desktop py-section-gap">
-          <div className="col-span-6 space-y-8">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary-fixed px-4 py-1 font-sans text-label-md uppercase tracking-widest text-on-primary-fixed">
-              <span className="material-symbols-outlined text-[18px]">bakery_dining</span>
-              Desde el horno
-            </div>
-            <h1 className="max-w-lg font-serif text-display-lg leading-tight text-primary">
-              Pan artesanal por suscripción, recién horneado y entregado en tu
-              puerta
+      {/* Hero desktop: split layout (onboarding_desktop) */}
+      <section className="hidden bg-surface-container-low md:block">
+        <div className="mx-auto grid min-h-[calc(100vh-80px)] w-full max-w-[1440px] grid-cols-2 items-center gap-16 px-margin-desktop py-section-gap">
+          <div className="animate-fade-up space-y-8">
+            <Image
+              src="/images/logo-panacasa.png"
+              alt="PanACasa"
+              width={640}
+              height={640}
+              priority
+              className="h-24 w-24 drop-shadow-md"
+            />
+            <span className="block font-sans text-label-md uppercase tracking-widest text-primary-container">
+              El ritual de la mañana
+            </span>
+            <h1 className="max-w-xl font-serif text-display-lg text-primary lg:text-[56px] lg:leading-[64px]">
+              Pan que sabe a tiempo, fermento y calma.
             </h1>
             <p className="max-w-md font-sans text-body-lg text-on-surface-variant">
-              Recupera el ritual del desayuno con panes de fermentación lenta,
-              harinas orgánicas y cortezas crujientes. Suscríbete y recíbelo
-              cada mañana.
+              Panes de fermentación lenta, harinas de molino de piedra y cortezas crujientes.
+              De nuestro horno a tu mesa, sin intermediarios.
             </p>
-            <div className="flex flex-wrap gap-4 pt-4">
-              <Link
-                href="/registro"
-                className="rounded-full bg-primary px-10 py-5 font-sans text-label-md text-on-primary shadow-soft-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                Empezar Suscripción
-              </Link>
+            <div className="flex flex-wrap gap-4 pt-2">
               <Link
                 href="/catalogo"
-                className="rounded-full border-2 border-primary px-10 py-5 font-sans text-label-md text-primary transition-all duration-300 hover:bg-primary/5"
+                className={`${ctaBase} bg-primary py-5 text-on-primary shadow-soft-lg hover:shadow-soft-lg hover:brightness-110`}
               >
-                Ver Catálogo
+                Empezar
+                <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
               </Link>
+              <a
+                href="#como-funciona"
+                className={`${ctaBase} border-2 border-primary py-5 text-primary hover:bg-primary/5`}
+              >
+                Cómo funciona
+              </a>
             </div>
           </div>
 
-          <div className="relative col-span-6 h-[600px]">
-            <div className="absolute right-0 top-0 h-full w-full rotate-1 overflow-hidden rounded-xl shadow-soft-lg">
-              <Image
-                src={heroDesktopImage}
-                alt="Pan de masa madre cortado mostrando la miga aireada"
-                fill
-                priority
-                sizes="(min-width: 768px) 40vw, 100vw"
-                className="object-cover"
-              />
+          <div className="relative h-[600px]">
+            <div className="absolute inset-0 rotate-1 overflow-hidden rounded-xl shadow-soft-lg">
+              <Parallax>
+                <Image
+                  src={heroDesktopImage}
+                  alt="Panadero espolvoreando harina sobre una hogaza rústica"
+                  fill
+                  priority
+                  sizes="50vw"
+                  className="object-cover"
+                />
+              </Parallax>
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
             </div>
-            <div className="absolute -bottom-10 -left-10 max-w-xs -rotate-2 space-y-3 rounded-lg border border-outline-variant/30 bg-surface p-6 shadow-soft-lg">
+            <div className="absolute -bottom-8 -left-10 max-w-xs -rotate-2 space-y-2 rounded-lg border border-outline-variant/30 bg-surface p-6 shadow-soft-lg">
               <div className="flex items-center gap-3">
-                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-surface-container-high">
+                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
                   <Image
                     src={heroTextureImage}
-                    alt="Textura de la miga del pan"
+                    alt="Miga aireada de pan de masa madre"
                     fill
                     sizes="48px"
                     className="object-cover"
                   />
                 </div>
                 <div>
-                  <p className="font-sans text-label-md text-primary">Sourdough Classic</p>
+                  <p className="font-serif text-headline-sm text-primary">Masa madre de 50 años</p>
                   <p className="font-sans text-label-sm text-on-surface-variant">
-                    Fermentado 24h
+                    Horneado cada madrugada
                   </p>
                 </div>
-              </div>
-              <div className="flex gap-1 text-tertiary">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <span
-                    key={i}
-                    className="material-symbols-outlined text-[18px]"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    star
-                  </span>
-                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pilares de valor / Como funciona */}
+      {/* Que nos hace diferentes */}
       <section
         id="como-funciona"
-        className="mx-auto w-full max-w-[1440px] scroll-mt-20 px-margin-mobile py-section-gap md:px-margin-desktop"
+        className="mx-auto w-full max-w-[1440px] scroll-mt-20 px-margin-mobile py-section-gap md:px-margin-desktop md:py-24"
       >
-        <div className="mx-auto mb-16 max-w-2xl space-y-4 text-center">
-          <h2 className="font-serif text-headline-md text-primary">
-            Por qué elegir PanACasa
-          </h2>
-          <p className="font-sans text-body-md text-on-surface-variant">
-            Combinamos técnicas ancestrales con la comodidad de tu hogar para
-            ofrecerte el mejor pan de la ciudad.
-          </p>
-        </div>
+        <FadeIn className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
+          <h2 className="font-serif text-headline-md text-primary">¿Qué nos hace diferentes?</h2>
+        </FadeIn>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {pillars.map((pillar) => (
-            <div
-              key={pillar.title}
-              className="rounded-lg border border-outline-variant/10 bg-surface-container-lowest p-10 shadow-soft-lg transition-transform duration-300 hover:-translate-y-2"
-            >
-              <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-primary-fixed">
-                <span className="material-symbols-outlined text-[32px] text-primary">
-                  {pillar.icon}
-                </span>
-              </div>
-              <h3 className="mb-4 font-serif text-headline-sm text-primary">
-                {pillar.title}
-              </h3>
-              <p className="font-sans text-body-md text-on-surface-variant">
-                {pillar.description}
-              </p>
-            </div>
+        <div className="grid grid-cols-1 gap-gutter md:grid-cols-3">
+          {differentiators.map((item, i) => (
+            <FadeIn key={item.title} delay={i * 120} className="h-full">
+              <article className="flex h-full flex-col rounded-lg border border-primary/5 bg-surface-container-lowest p-8 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-soft-lg md:p-10">
+                <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-surface-container">
+                  <span className="material-symbols-outlined text-[32px] text-primary">
+                    {item.icon}
+                  </span>
+                </div>
+                <h3 className="mb-4 font-serif text-headline-sm text-primary">{item.title}</h3>
+                <p className="mb-6 flex-grow font-sans text-body-md text-on-surface-variant">
+                  {item.description}
+                </p>
+                <ul className="space-y-3">
+                  {item.checks.map((check) => (
+                    <li
+                      key={check}
+                      className="flex items-center gap-2 font-sans text-label-md text-on-secondary-fixed-variant"
+                    >
+                      <span
+                        className="material-symbols-outlined text-[18px] text-primary-container"
+                        style={{ fontVariationSettings: "'FILL' 1" }}
+                      >
+                        check_circle
+                      </span>
+                      {check}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </FadeIn>
           ))}
         </div>
       </section>
 
-      {/* Comprobador de cobertura */}
-      <section className="mx-auto w-full max-w-[1440px] px-margin-mobile pb-section-gap md:px-margin-desktop">
-        <div className="mx-auto max-w-2xl">
-          <DeliveryChecker />
-        </div>
-      </section>
-
-      {/* Suscripciones destacadas */}
-      <section className="bg-surface-variant/30 py-section-gap">
-        <div className="mx-auto w-full max-w-[1440px] px-margin-mobile md:px-margin-desktop">
-          <div className="mb-12 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-            <div className="max-w-xl">
-              <h2 className="mb-4 font-serif text-headline-md text-primary">
-                Encuentra tu suscripción ideal
-              </h2>
-              <p className="font-sans text-body-md text-on-surface-variant">
-                Planes flexibles que se adaptan a tu ritmo de vida. Cambia,
-                pausa o cancela cuando quieras.
-              </p>
-            </div>
-            <div className="flex gap-2 rounded-full bg-surface-container-high p-1">
-              <span className="rounded-full bg-primary px-6 py-2 font-sans text-label-md text-on-primary shadow-sm">
-                Semanal
-              </span>
-              <span className="rounded-full px-6 py-2 font-sans text-label-md text-on-surface-variant">
-                Mensual
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-gutter sm:grid-cols-2 lg:grid-cols-4">
-            {plans.map((plan) => (
-              <div key={plan.name} className="group rounded-lg bg-surface p-4 shadow-soft-lg">
-                <div className="relative mb-6 h-64 overflow-hidden rounded-md">
-                  <Image
-                    src={plan.image}
-                    alt={plan.name}
-                    fill
-                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  {plan.badge && (
-                    <span className="absolute right-4 top-4 rounded-full bg-tertiary-container px-3 py-1 font-sans text-label-sm text-on-tertiary-container">
-                      {plan.badge}
-                    </span>
-                  )}
+      {/* El secreto esta en la pausa */}
+      <section className="mx-auto grid w-full max-w-[1440px] grid-cols-1 items-center gap-12 px-margin-mobile py-section-gap md:grid-cols-12 md:gap-gutter md:px-margin-desktop">
+        <FadeIn className="md:col-span-5 md:pr-8">
+          <h2 className="mb-6 font-serif text-display-lg-mobile text-primary md:text-display-lg">
+            El secreto está en la pausa.
+          </h2>
+          <p className="mb-8 font-sans text-body-lg text-on-surface-variant">
+            Mientras el mundo corre, nosotros nos detenemos. Dejamos que las bacterias naturales
+            hagan su magia, rompiendo los glútenes difíciles y creando un sabor complejo y una
+            digestibilidad superior.
+          </p>
+          <div className="flex flex-col gap-6">
+            {secretPoints.map((point) => (
+              <div key={point.title} className="flex items-start gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                  <span className="material-symbols-outlined text-primary">{point.icon}</span>
                 </div>
-                <h4 className="mb-1 font-serif text-headline-sm text-primary">
-                  {plan.name}
-                </h4>
-                <p className="mb-4 font-sans text-body-md text-on-surface-variant">
-                  {plan.description}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="font-sans text-body-lg font-bold text-primary">
-                    {plan.price}
-                  </span>
-                  <Link
-                    href="/registro"
-                    aria-label={`Anadir ${plan.name}`}
-                    className="rounded-full bg-surface-container-highest p-2 text-primary transition-all hover:bg-primary hover:text-on-primary"
-                  >
-                    <span className="material-symbols-outlined">add</span>
-                  </Link>
+                <div>
+                  <h3 className="font-sans text-label-md text-primary">{point.title}</h3>
+                  <p className="font-sans text-body-md text-on-surface-variant">
+                    {point.description}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
+        </FadeIn>
+
+        <FadeIn delay={150} className="grid grid-cols-2 gap-4 md:col-span-7">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-xl shadow-soft">
+            <Image
+              src={mosaic[0].src}
+              alt={mosaic[0].alt}
+              fill
+              sizes="(min-width: 768px) 30vw, 50vw"
+              className="object-cover transition-transform duration-700 hover:scale-105"
+            />
+          </div>
+          <div className="flex flex-col gap-4">
+            <div className="relative min-h-[96px] flex-grow overflow-hidden rounded-xl shadow-soft">
+              <Image
+                src={mosaic[1].src}
+                alt={mosaic[1].alt}
+                fill
+                sizes="(min-width: 768px) 30vw, 50vw"
+                className="object-cover transition-transform duration-700 hover:scale-105"
+              />
+            </div>
+            <div className="relative aspect-square overflow-hidden rounded-xl shadow-soft">
+              <Image
+                src={mosaic[2].src}
+                alt={mosaic[2].alt}
+                fill
+                sizes="(min-width: 768px) 30vw, 50vw"
+                className="object-cover transition-transform duration-700 hover:scale-105"
+              />
+            </div>
+          </div>
+        </FadeIn>
+      </section>
+
+      {/* Recogida o Envio */}
+      <section id="entrega" className="bg-surface-container-low py-section-gap md:py-24">
+        <div className="mx-auto w-full max-w-[1440px] px-margin-mobile md:px-margin-desktop">
+          <FadeIn className="mx-auto mb-12 max-w-2xl text-center">
+            <h2 className="mb-4 font-serif text-headline-md text-primary">Recogida o Envío</h2>
+            <p className="font-sans text-body-lg text-on-surface-variant">
+              Elige la comodidad de recibir pan recién horneado en tu puerta o disfruta del paseo
+              recogiendo tu suscripción en tu obrador de confianza.
+            </p>
+          </FadeIn>
+          <FadeIn delay={120}>
+            <FulfillmentChooser pickupPoints={pickupPoints} />
+          </FadeIn>
         </div>
       </section>
 
-      {/* Newsletter */}
+      {/* CTA final */}
       <section className="mx-auto w-full max-w-[1440px] px-margin-mobile py-section-gap md:px-margin-desktop">
-        <div className="relative overflow-hidden rounded-xl bg-primary px-6 py-16 text-center md:px-20">
-          <div className="relative z-10 space-y-6">
-            <h2 className="font-serif text-display-lg-mobile text-on-primary md:text-display-lg">
-              Únete al club del buen pan
-            </h2>
-            <p className="mx-auto max-w-xl font-sans text-body-lg text-on-primary/80">
-              Suscríbete a nuestro boletín para recibir recetas, consejos de
-              conservación y un 10% de descuento en tu primer mes.
-            </p>
-            <div className="mx-auto flex max-w-lg flex-col gap-4 pt-4 md:flex-row">
-              <input
-                type="email"
-                placeholder="Tu correo electrónico"
-                className="flex-grow rounded-full border border-on-primary/20 bg-surface/10 px-6 py-4 font-sans text-on-primary placeholder:text-on-primary/50 focus:outline-none focus:ring-2 focus:ring-on-primary"
-              />
-              <button
-                type="button"
-                className="rounded-full bg-surface px-10 py-4 font-sans text-label-md text-primary shadow-soft-lg transition-colors hover:bg-white"
-              >
-                Suscribirme
-              </button>
+        <FadeIn>
+          <div className="relative overflow-hidden rounded-xl bg-primary-container px-6 py-16 text-center shadow-soft-lg md:p-16">
+            <span
+              aria-hidden
+              className="material-symbols-outlined pointer-events-none absolute right-0 top-0 translate-x-1/4 -translate-y-1/4 text-[300px] text-on-primary opacity-10"
+            >
+              bakery_dining
+            </span>
+            <div className="relative z-10 mx-auto max-w-2xl">
+              <h2 className="mb-6 font-serif text-display-lg-mobile text-on-primary-container md:text-display-lg">
+                Empieza tu ritual hoy.
+              </h2>
+              <p className="mb-10 font-sans text-body-lg text-primary-fixed">
+                Únete a nuestra comunidad de amantes del buen pan y recibe cada semana panes
+                recién salidos del horno.
+              </p>
+              <div className="flex flex-col justify-center gap-4 md:flex-row">
+                <Link
+                  href="/plan"
+                  className={`${ctaBase} bg-surface text-primary shadow-soft-lg hover:scale-105`}
+                >
+                  Ver Planes de Suscripción
+                </Link>
+                <Link
+                  href="/catalogo"
+                  className={`${ctaBase} border-2 border-surface text-surface hover:bg-surface/10`}
+                >
+                  Explorar el Catálogo
+                </Link>
+              </div>
+              <p className="mt-8 font-sans text-label-sm italic text-on-primary-container/80">
+                Pruébalo sin riesgo. Sin cargos por cancelación.
+              </p>
             </div>
           </div>
-        </div>
+        </FadeIn>
       </section>
     </main>
   );

@@ -19,7 +19,7 @@ export function AppHeader() {
     <header className="sticky top-0 z-40 w-full bg-surface shadow-soft">
       <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between gap-4 px-margin-mobile md:h-20 md:px-margin-desktop">
         <div className="flex items-center gap-10">
-          <Link href="/catalogo" className="shrink-0">
+          <Link href="/" className="shrink-0">
             <Image
               src="/images/logo-panacasa.png"
               alt="PanACasa"

@@ -131,6 +131,15 @@ const config: Config = {
         "soft-lg": "0 10px 40px rgba(139, 69, 19, 0.12)",
         inset: "inset 0 2px 4px rgba(139, 69, 19, 0.08)",
       },
+      keyframes: {
+        "fade-up": {
+          from: { opacity: "0", transform: "translateY(12px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        "fade-up": "fade-up 400ms ease-out",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")({ strategy: "class" })],
