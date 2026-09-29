@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { DeliveryChecker } from "@/components/shared/DeliveryChecker";
 import { PlanForm } from "./PlanForm";
 
 export default async function PlanPage({
@@ -60,6 +61,7 @@ export default async function PlanPage({
           Elige tu frecuencia y los panes que quieres recibir.
         </p>
       </div>
+      <DeliveryChecker className="mb-12" />
       <PlanForm
         plans={plans ?? []}
         products={products ?? []}

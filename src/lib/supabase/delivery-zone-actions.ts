@@ -14,12 +14,23 @@ function parseListField(value: FormDataEntryValue | null): string[] {
     .filter(Boolean);
 }
 
+function parseOptionalNumber(value: FormDataEntryValue | null): number | null {
+  const raw = String(value ?? "").trim();
+  if (!raw) return null;
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
 function readZoneForm(formData: FormData) {
   return {
     name: String(formData.get("name") ?? "").trim(),
     description: String(formData.get("description") ?? "").trim(),
     postalCodes: parseListField(formData.get("postalCodes")),
     deliveryDays: parseListField(formData.get("deliveryDays")),
+    isActive: formData.get("isActive") === "on",
+    centerLat: parseOptionalNumber(formData.get("centerLat")),
+    centerLng: parseOptionalNumber(formData.get("centerLng")),
+    radiusMeters: parseOptionalNumber(formData.get("radiusMeters")),
   };
 }
 
@@ -27,7 +38,16 @@ export async function createDeliveryZoneAction(
   _prevState: DeliveryZoneActionState,
   formData: FormData
 ): Promise<DeliveryZoneActionState> {
-  const { name, description, postalCodes, deliveryDays } = readZoneForm(formData);
+  const {
+    name,
+    description,
+    postalCodes,
+    deliveryDays,
+    isActive,
+    centerLat,
+    centerLng,
+    radiusMeters,
+  } = readZoneForm(formData);
 
   if (!name) {
     return { error: "El nombre de la zona es obligatorio." };
@@ -39,7 +59,10 @@ export async function createDeliveryZoneAction(
     description: description || null,
     postal_codes: postalCodes,
     delivery_days: deliveryDays,
-    is_active: true,
+    is_active: isActive,
+    center_lat: centerLat,
+    center_lng: centerLng,
+    radius_meters: radiusMeters,
   });
 
   if (error) {
@@ -55,7 +78,16 @@ export async function updateDeliveryZoneAction(
   _prevState: DeliveryZoneActionState,
   formData: FormData
 ): Promise<DeliveryZoneActionState> {
-  const { name, description, postalCodes, deliveryDays } = readZoneForm(formData);
+  const {
+    name,
+    description,
+    postalCodes,
+    deliveryDays,
+    isActive,
+    centerLat,
+    centerLng,
+    radiusMeters,
+  } = readZoneForm(formData);
 
   if (!name) {
     return { error: "El nombre de la zona es obligatorio." };
@@ -69,6 +101,10 @@ export async function updateDeliveryZoneAction(
       description: description || null,
       postal_codes: postalCodes,
       delivery_days: deliveryDays,
+      is_active: isActive,
+      center_lat: centerLat,
+      center_lng: centerLng,
+      radius_meters: radiusMeters,
     })
     .eq("id", zoneId);
 

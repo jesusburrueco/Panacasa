@@ -3,11 +3,27 @@
 -- esos se crean via Supabase Auth (signUp), que dispara el trigger
 -- handle_new_user definido en 20260730120100_profiles.sql.
 
-insert into public.delivery_zones (name, description, postal_codes, delivery_days, is_active)
+insert into public.delivery_zones
+  (name, description, postal_codes, delivery_days, is_active, center_lat, center_lng, radius_meters)
 values
-  ('Centro Madrid', 'Casco antiguo y barrios centricos.', array['28001','28004','28012','28013'], array['lunes','miercoles','viernes'], true),
-  ('Zona Norte', 'Chamberi, Tetuan y alrededores.', array['28003','28010','28020'], array['martes','jueves'], true),
-  ('Zona Sur', 'Arganzuela, Usera y Carabanchel.', array['28005','28019','28025'], array['martes','jueves','sabado'], true)
+  ('Centro Madrid', 'Casco antiguo y barrios centricos.', array['28001','28004','28012','28013'], array['lunes','miercoles','viernes'], true, 40.4168, -3.7038, 2000),
+  ('Zona Norte', 'Chamberi, Tetuan y alrededores.', array['28003','28010','28020'], array['martes','jueves'], true, 40.4530, -3.6990, 2500),
+  ('Zona Sur', 'Arganzuela, Usera y Carabanchel.', array['28005','28019','28025'], array['martes','jueves','sabado'], true, 40.3900, -3.7130, 2500)
+on conflict do nothing;
+
+insert into public.pickup_points (name, address, lat, lng, zone_id, status)
+select 'Obrador Principal - Centro', 'Calle Gran Via 15, Madrid', 40.4200, -3.7025, id, 'abierto'
+from public.delivery_zones where name = 'Centro Madrid'
+on conflict do nothing;
+
+insert into public.pickup_points (name, address, lat, lng, zone_id, status)
+select 'Punto Recogida - Chamberi', 'Calle Serrano 42, Madrid', 40.4510, -3.6950, id, 'abierto'
+from public.delivery_zones where name = 'Zona Norte'
+on conflict do nothing;
+
+insert into public.pickup_points (name, address, lat, lng, zone_id, status)
+select 'Almacen Logistico Sur', 'Calle de Toledo 120, Madrid', 40.3950, -3.7150, id, 'cerrado'
+from public.delivery_zones where name = 'Zona Sur'
 on conflict do nothing;
 
 insert into public.subscription_plans (name, description, max_breads, delivery_frequency, price_cents, is_active)

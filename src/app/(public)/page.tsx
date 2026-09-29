@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { DeliveryChecker } from "@/components/shared/DeliveryChecker";
 
 const heroMobileImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDg0tWBQOPDc23k2ibEiJcJz47qfhVIpXIICR1DMmm1nYyH9h34UlzYFVXKpre3eKqIDrwy-eM80EDGTGbic9KorE-QcBWdkAWAKUrpM89q3OpEoeWC978_BOnTXq2b03dORNl7NlfsXxpiFYua7ZkgVIaRqEkMHSLA2mUGpz1HeawH81HACyCxRsmL6x8bDz0B_sMy3sIBBTVqS87N_B-3hNM-31iJfRbnppGgrOaPfTHTTkw3oEcW77lkGANG5h3rXolCeyav2dA";
@@ -202,6 +203,13 @@ export default function LandingPage() {
               </p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Comprobador de cobertura */}
+      <section className="mx-auto w-full max-w-[1440px] px-margin-mobile pb-section-gap md:px-margin-desktop">
+        <div className="mx-auto max-w-2xl">
+          <DeliveryChecker />
         </div>
       </section>
 

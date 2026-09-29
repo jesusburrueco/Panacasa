@@ -21,6 +21,9 @@ export interface Database {
           postal_codes: string[];
           delivery_days: string[];
           is_active: boolean;
+          center_lat: number | null;
+          center_lng: number | null;
+          radius_meters: number | null;
           created_at: string;
         };
         Insert: {
@@ -30,6 +33,9 @@ export interface Database {
           postal_codes?: string[];
           delivery_days?: string[];
           is_active?: boolean;
+          center_lat?: number | null;
+          center_lng?: number | null;
+          radius_meters?: number | null;
           created_at?: string;
         };
         Update: {
@@ -39,9 +45,53 @@ export interface Database {
           postal_codes?: string[];
           delivery_days?: string[];
           is_active?: boolean;
+          center_lat?: number | null;
+          center_lng?: number | null;
+          radius_meters?: number | null;
           created_at?: string;
         };
         Relationships: [];
+      };
+      pickup_points: {
+        Row: {
+          id: string;
+          name: string;
+          address: string;
+          lat: number;
+          lng: number;
+          zone_id: string | null;
+          status: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          address: string;
+          lat: number;
+          lng: number;
+          zone_id?: string | null;
+          status?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          address?: string;
+          lat?: number;
+          lng?: number;
+          zone_id?: string | null;
+          status?: string;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pickup_points_zone_id_fkey";
+            columns: ["zone_id"];
+            isOneToOne: false;
+            referencedRelation: "delivery_zones";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       profiles: {
         Row: {
