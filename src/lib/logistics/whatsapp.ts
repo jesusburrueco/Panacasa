@@ -1,14 +1,13 @@
 import type { AlbaranZoneGroup } from "./types";
 
 /**
- * Genera el texto plano de resumen de ruta para un repartidor, con el
- * mismo formato solicitado:
+ * Genera el texto plano de resumen de ruta para un repartidor:
  *
- * RUTA 20/09/2026 - Juan
- * Total: 72 barras
- * URB. MONTEPINAR:
- * P1-1o: 4x Picado Andaluz
- * P1-2o: 4x Baguette
+ * RUTA 06/10/2026 - Juan
+ * CARABANCHEL · Total: 12 barras (5 clientes)
+ *
+ * Urb. Montepinar, Portal 1, 2o (4)
+ * - Ana Garcia: 2x Baguette, 2x Picado Andaluz
  */
 export function buildRouteMessage({
   dateEs,
@@ -21,16 +20,18 @@ export function buildRouteMessage({
 }): string {
   const lines: string[] = [];
   lines.push(`RUTA ${dateEs} - ${workerName}`);
-  lines.push(`Total: ${zone.totalBarras} barras`);
-  lines.push(`URB. ${zone.zoneName.toUpperCase()}:`);
+  lines.push(
+    `${zone.zoneName.toUpperCase()} · Total: ${zone.totalBarras} barras (${zone.totalClientes} ${
+      zone.totalClientes === 1 ? "cliente" : "clientes"
+    })`
+  );
 
-  for (const delivery of zone.deliveries) {
-    const label = [delivery.portal, delivery.floor].filter(Boolean).join("-") || delivery.customerName;
-    for (const item of delivery.items) {
-      lines.push(`${label}: ${item.quantity}x ${item.productName}`);
-    }
-    if (delivery.observaciones) {
-      lines.push(`  (${delivery.observaciones})`);
+  for (const group of zone.addresses) {
+    lines.push("");
+    lines.push(`${group.address} (${group.totalBarras})`);
+    for (const customer of group.customers) {
+      const items = customer.items.map((item) => `${item.quantity}x ${item.productName}`).join(", ");
+      lines.push(`- ${customer.customerName}: ${items || "sin panes"}`);
     }
   }
 

@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Badge } from "@/components/ui/Badge";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { formatPrice } from "@/lib/utils";
+import { ContactOptions } from "@/components/shared/ContactOptions";
 import { AddToSubscriptionControls } from "./AddToSubscriptionControls";
 
 const INGREDIENT_ICONS = ["grass", "water_drop", "bakery_dining"] as const;
@@ -148,8 +149,29 @@ export default async function ProductoDetailPage({
 
             <AddToSubscriptionControls productSlug={product.slug} />
             <p className="mt-6 text-center font-sans text-label-sm italic text-on-surface-variant/70 sm:text-left">
-              * Entrega programada según los días de tu zona de reparto.
+              * Entrega a domicilio los días que elijas en tu perfil.
             </p>
+
+            <div className="mt-12 flex flex-col gap-6 rounded-lg bg-surface-container p-6 shadow-soft lg:flex-row lg:items-center lg:justify-between md:p-8">
+              <div className="flex items-start gap-4">
+                <span className="material-symbols-outlined flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-fixed text-primary">
+                  support_agent
+                </span>
+                <div>
+                  <h3 className="font-serif text-headline-sm text-primary">
+                    ¿Dudas sobre este pan? Contáctanos
+                  </h3>
+                  <p className="mt-1 font-sans text-body-md text-on-surface-variant">
+                    Alérgenos, conservación o pedidos especiales: te respondemos encantados.
+                  </p>
+                </div>
+              </div>
+              <ContactOptions
+                className="lg:shrink-0"
+                subject={`Consulta sobre ${product.name}`}
+                message={`Hola, tengo una duda sobre el pan "${product.name}".`}
+              />
+            </div>
           </div>
         </section>
       </main>

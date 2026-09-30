@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { ContactButton } from "@/components/shared/ContactButton";
 
 const navLinks = [
   { href: "/catalogo", label: "Catálogo" },
@@ -36,6 +37,7 @@ export function Header() {
               {link.label}
             </Link>
           ))}
+          <ContactButton />
         </nav>
 
         <div className="hidden items-center gap-4 md:flex">
@@ -53,17 +55,22 @@ export function Header() {
           </Link>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label="Abrir menu"
-          className="rounded-full p-2 text-primary transition-colors hover:bg-surface-container-low md:hidden"
-        >
-          <span className="material-symbols-outlined">
-            {open ? "close" : "menu"}
-          </span>
-        </button>
+        {/* En movil el contacto va fuera del menu desplegable: al cerrarlo se
+            desmontaria el modal junto con el boton. */}
+        <div className="flex items-center gap-1 md:hidden">
+          <ContactButton variant="icon" onOpen={() => setOpen(false)} />
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label="Abrir menu"
+            className="rounded-full p-2 text-primary transition-colors hover:bg-surface-container-low"
+          >
+            <span className="material-symbols-outlined">
+              {open ? "close" : "menu"}
+            </span>
+          </button>
+        </div>
       </div>
 
       {open && (

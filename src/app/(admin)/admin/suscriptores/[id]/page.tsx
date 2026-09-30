@@ -2,7 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { adminSetSubscriptionStatusAction } from "@/lib/supabase/subscription-actions";
+import { adminUpdateDeliveryDaysAction } from "@/lib/supabase/profile-actions";
+import { upcomingDeliveryDates, formatDateEs } from "@/lib/logistics/types";
 import { formatPrice } from "@/lib/utils";
+import { DeliveryDaysForm } from "@/components/shared/DeliveryDaysForm";
 
 const statusLabel: Record<string, { label: string; className: string }> = {
   active: { label: "Activa", className: "bg-primary text-on-primary" },
@@ -12,17 +15,6 @@ const statusLabel: Record<string, { label: string; className: string }> = {
     className: "bg-surface-container-highest text-on-surface-variant",
   },
   past_due: { label: "Pago pendiente", className: "bg-error-container text-on-error-container" },
-};
-
-const deliveryStatusLabel: Record<string, { label: string; chip: string; dot: string }> = {
-  pending: { label: "Pendiente", chip: "bg-orange-100 text-orange-800", dot: "bg-orange-600" },
-  in_transit: {
-    label: "En camino",
-    chip: "bg-secondary-fixed text-on-secondary-fixed-variant",
-    dot: "bg-secondary",
-  },
-  delivered: { label: "Entregado", chip: "bg-green-100 text-green-800", dot: "bg-green-600" },
-  failed: { label: "Fallido", chip: "bg-error-container text-on-error-container", dot: "bg-error" },
 };
 
 export default async function SuscriptorDetailPage({
@@ -53,16 +45,9 @@ export default async function SuscriptorDetailPage({
     .limit(1)
     .maybeSingle();
 
-  const deliveries = subscription
-    ? (
-        await supabase
-          .from("deliveries")
-          .select("*")
-          .eq("subscription_id", subscription.id)
-          .order("scheduled_date", { ascending: false })
-          .limit(10)
-      ).data ?? []
-    : [];
+  const deliveryDays = profile.delivery_days ?? [];
+  const upcoming =
+    subscription?.status === "active" ? upcomingDeliveryDates(deliveryDays, 4) : [];
 
   const status = subscription ? statusLabel[subscription.status] : null;
 
@@ -220,57 +205,25 @@ export default async function SuscriptorDetailPage({
         </div>
       </div>
 
-      <section>
-        <h2 className="mb-6 font-serif text-headline-sm text-primary">Historial de Entregas</h2>
-        {deliveries.length === 0 ? (
-          <p className="font-sans text-body-md text-on-surface-variant">
-            Todavía no hay entregas programadas.
-          </p>
-        ) : (
-          <div className="overflow-hidden rounded-lg bg-surface-container-lowest shadow-soft">
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse text-left">
-                <thead>
-                  <tr className="border-b border-outline-variant bg-surface-container">
-                    <th className="px-6 py-4 font-sans text-label-md text-on-surface-variant">
-                      Fecha
-                    </th>
-                    <th className="px-6 py-4 font-sans text-label-md text-on-surface-variant">
-                      Estado
-                    </th>
-                    <th className="px-6 py-4 font-sans text-label-md text-on-surface-variant">
-                      Notas
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-outline-variant">
-                  {deliveries.map((delivery) => {
-                    const dStatus =
-                      deliveryStatusLabel[delivery.status] ?? deliveryStatusLabel.pending;
-                    return (
-                      <tr key={delivery.id} className="hover:bg-surface-container-low">
-                        <td className="px-6 py-5 font-sans text-body-md text-on-surface">
-                          {new Date(delivery.scheduled_date).toLocaleDateString("es-ES")}
-                        </td>
-                        <td className="px-6 py-5">
-                          <span
-                            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-sans text-label-sm font-semibold ${dStatus.chip}`}
-                          >
-                            <span className={`h-1.5 w-1.5 rounded-full ${dStatus.dot}`} />
-                            {dStatus.label}
-                          </span>
-                        </td>
-                        <td className="px-6 py-5 font-sans text-body-md text-on-surface-variant">
-                          {delivery.notes ?? "—"}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+      <section className="rounded-lg bg-surface-container-low p-8 shadow-soft">
+        <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="font-serif text-headline-sm text-primary">Días de entrega</h2>
+            <p className="font-sans text-body-md text-on-surface-variant">
+              Los albaranes de cada día incluyen a este cliente solo si el día está marcado y su
+              suscripción está activa.
+            </p>
           </div>
-        )}
+          {upcoming.length > 0 && (
+            <p className="font-sans text-label-sm text-on-surface-variant">
+              Próximas: {upcoming.map(formatDateEs).join(" · ")}
+            </p>
+          )}
+        </div>
+        <DeliveryDaysForm
+          action={adminUpdateDeliveryDaysAction.bind(null, profile.id)}
+          initialDays={deliveryDays}
+        />
       </section>
     </main>
   );

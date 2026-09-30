@@ -1,54 +1,11 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { ensureDeliveriesForDate, getAlbaranData } from "@/lib/supabase/logistics-queries";
+import { getAlbaranData } from "@/lib/supabase/logistics-queries";
 import { albaranWorkbookToBase64 } from "@/lib/logistics/excel";
 import { buildRouteMessage } from "@/lib/logistics/whatsapp";
 import { formatDateEs } from "@/lib/logistics/types";
 import { sendMail } from "@/lib/logistics/mailer";
-
-export interface GenerateAlbaranResult {
-  error: string | null;
-}
-
-export async function generateAlbaranAction(date: string): Promise<GenerateAlbaranResult> {
-  if (!date) return { error: "Selecciona una fecha." };
-
-  try {
-    await ensureDeliveriesForDate(date);
-    revalidatePath("/admin/logistica");
-    return { error: null };
-  } catch {
-    return { error: "No se pudo generar el albarán. Inténtalo de nuevo." };
-  }
-}
-
-export interface UpdateDeliveryDetailResult {
-  error: string | null;
-}
-
-export async function updateDeliveryDetailAction(
-  deliveryId: string,
-  data: { portal: string; floor: string; notes: string }
-): Promise<UpdateDeliveryDetailResult> {
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("deliveries")
-    .update({
-      portal: data.portal || null,
-      floor: data.floor || null,
-      notes: data.notes || null,
-    })
-    .eq("id", deliveryId);
-
-  if (error) {
-    return { error: "No se pudo guardar el cambio." };
-  }
-
-  revalidatePath("/admin/logistica");
-  return { error: null };
-}
 
 export interface DownloadAlbaranResult {
   error: string | null;

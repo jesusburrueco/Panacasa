@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { formatPrice } from "@/lib/utils";
+import { getAlbaranData } from "@/lib/supabase/logistics-queries";
+import { todayIsoMadrid } from "@/lib/logistics/types";
 
 const MONTH_LABELS = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
@@ -12,7 +14,7 @@ export default async function AdminDashboardPage() {
     { count: activeSubscribers },
     { count: totalSubscriptions },
     { count: cancelledSubscriptions },
-    { count: deliveriesToday },
+    { totalClientes: deliveriesToday },
     { data: activePlans },
     { data: recentSubscriptions },
     { data: growthRows },
@@ -24,10 +26,8 @@ export default async function AdminDashboardPage() {
       .from("subscriptions")
       .select("id", { count: "exact", head: true })
       .eq("status", "cancelled"),
-    supabase
-      .from("deliveries")
-      .select("id", { count: "exact", head: true })
-      .eq("scheduled_date", new Date().toISOString().slice(0, 10)),
+    // Mismo calculo en vivo que el albaran de /admin/logistica.
+    getAlbaranData(todayIsoMadrid()),
     supabase
       .from("subscriptions")
       .select("subscription_plans(price_cents)")
@@ -59,7 +59,7 @@ export default async function AdminDashboardPage() {
       label: "Tasa de Cancelación",
       value: `${cancellationRate.toFixed(1)}%`,
     },
-    { icon: "local_shipping", label: "Entregas Hoy", value: String(deliveriesToday ?? 0) },
+    { icon: "local_shipping", label: "Entregas Hoy", value: String(deliveriesToday) },
   ];
 
   // Crecimiento de suscriptores: agrupamos por mes los ultimos 6 meses.

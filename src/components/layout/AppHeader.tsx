@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { signOutAction } from "@/lib/supabase/actions";
+import { ContactButton } from "@/components/shared/ContactButton";
 
 const navLinks = [
   { href: "/catalogo", label: "Catalogo" },
@@ -65,6 +66,7 @@ export function AppHeader() {
         </div>
 
         <div className="flex items-center gap-2 md:gap-3">
+          <ContactButton variant="icon" />
           <button
             type="button"
             aria-label="Notificaciones"

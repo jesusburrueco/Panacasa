@@ -72,6 +72,20 @@ export async function createSubscriptionAction(
     return { error: "No se pudieron guardar los panes elegidos. Inténtalo de nuevo." };
   }
 
+  // Los albaranes solo miran profiles.delivery_days. Si el cliente aun no ha
+  // elegido dias, se parte de los del plan como valor inicial (editable
+  // despues desde "Mis dias de entrega").
+  const [{ data: profile }, { data: plan }] = await Promise.all([
+    supabase.from("profiles").select("delivery_days").eq("id", user.id).single(),
+    supabase.from("subscription_plans").select("delivery_days_of_week").eq("id", planId).single(),
+  ]);
+  if (!profile?.delivery_days?.length && plan?.delivery_days_of_week.length) {
+    await supabase
+      .from("profiles")
+      .update({ delivery_days: plan.delivery_days_of_week })
+      .eq("id", user.id);
+  }
+
   revalidatePath("/perfil");
   redirect("/perfil");
 }

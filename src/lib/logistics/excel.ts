@@ -1,8 +1,8 @@
 import ExcelJS from "exceljs";
-import { formatDateEs, groupDeliveriesByPortal, type AlbaranSummary } from "./types";
+import { formatDateEs, type AlbaranSummary } from "./types";
 
 const THIN = { style: "thin" as const, color: { argb: "FF000000" } };
-const COLUMN_HEADERS = ["Portal", "Piso", "Cantidad", "Tipo de pan", "Portal total", "Observaciones"];
+const COLUMN_HEADERS = ["Dirección", "Cliente", "Cantidad", "Tipo de pan", "Total dirección", "Teléfono"];
 
 // Excel nunca dibuja los bordes internos de un rango combinado (solo el
 // perimetro exterior), asi que basta con aplicar el borde completo a cada
@@ -20,9 +20,10 @@ function applyGridBorder(sheet: ExcelJS.Worksheet, rowNumber: number) {
  * Genera el workbook del albaran de produccion y reparto replicando el
  * formato de la plantilla Albaran_PanACasa_ejemplo.xlsx: cuadricula de
  * bordes finos sin relleno de color, cabecera con celdas combinadas,
- * resumen de produccion, desglose total por tipo de pan y, por cada
- * urbanizacion, una tabla Portal | Piso | Cantidad | Tipo de pan |
- * Portal total | Observaciones seguida de una fila TOTAL por portal.
+ * resumen de produccion, desglose total por tipo de pan y, por cada zona
+ * (barrio), una tabla Direccion | Cliente | Cantidad | Tipo de pan |
+ * Total direccion | Telefono agrupada por direccion (urbanizacion/portal/piso
+ * tal cual figura en el perfil del cliente).
  */
 export async function buildAlbaranWorkbook(summary: AlbaranSummary): Promise<ExcelJS.Workbook> {
   const workbook = new ExcelJS.Workbook();
@@ -35,12 +36,12 @@ export async function buildAlbaranWorkbook(summary: AlbaranSummary): Promise<Exc
   });
 
   sheet.columns = [
+    { width: 36 },
     { width: 24 },
-    { width: 14 },
-    { width: 14 },
-    { width: 28 },
-    { width: 18 },
-    { width: 24 },
+    { width: 11 },
+    { width: 26 },
+    { width: 16 },
+    { width: 16 },
   ];
 
   let row = 1;
@@ -60,6 +61,7 @@ export async function buildAlbaranWorkbook(summary: AlbaranSummary): Promise<Exc
   sheet.getCell(row, 4).value = "Fecha:";
   sheet.getCell(row, 4).font = { bold: true };
   sheet.getCell(row, 5).value = formatDateEs(summary.date);
+  sheet.getCell(row, 6).value = summary.weekday.toUpperCase();
   applyGridBorder(sheet, row);
   row++;
 
@@ -69,6 +71,10 @@ export async function buildAlbaranWorkbook(summary: AlbaranSummary): Promise<Exc
   sheet.getCell(row, 1).font = { bold: true };
   sheet.getCell(row, 2).value = summary.totalBarras;
   sheet.getCell(row, 2).font = { bold: true, size: 13 };
+  sheet.getCell(row, 4).value = "CLIENTES CON ENTREGA";
+  sheet.getCell(row, 4).font = { bold: true };
+  sheet.getCell(row, 5).value = summary.totalClientes;
+  sheet.getCell(row, 5).font = { bold: true, size: 13 };
   applyGridBorder(sheet, row);
   row++;
 
@@ -98,17 +104,25 @@ export async function buildAlbaranWorkbook(summary: AlbaranSummary): Promise<Exc
 
   applyGridBorder(sheet, row);
   const sectionCell = sheet.getCell(row, 1);
-  sectionCell.value = "DESGLOSE DE REPARTO POR URBANIZACIÓN";
+  sectionCell.value = "DESGLOSE DE REPARTO POR ZONA Y DIRECCIÓN";
   sectionCell.font = { bold: true, size: 13 };
   sheet.mergeCells(row, 1, row, 6);
   row++;
 
   row++; // fila en blanco
 
+  if (summary.zones.length === 0) {
+    applyGridBorder(sheet, row);
+    sheet.getCell(row, 1).value = "No hay clientes activos con entrega este día.";
+    sheet.getCell(row, 1).font = { italic: true };
+    sheet.mergeCells(row, 1, row, 6);
+    row++;
+  }
+
   for (const zone of summary.zones) {
     applyGridBorder(sheet, row);
     const zoneHeaderCell = sheet.getCell(row, 1);
-    zoneHeaderCell.value = `Urbanización ${zone.zoneName} — TOTAL: ${zone.totalBarras} BARRAS`;
+    zoneHeaderCell.value = `Zona ${zone.zoneName} — TOTAL: ${zone.totalBarras} BARRAS (${zone.totalClientes} clientes)`;
     zoneHeaderCell.font = { bold: true, size: 12 };
     sheet.mergeCells(row, 1, row, 6);
     row++;
@@ -121,36 +135,29 @@ export async function buildAlbaranWorkbook(summary: AlbaranSummary): Promise<Exc
     applyGridBorder(sheet, row);
     row++;
 
-    if (zone.deliveries.length === 0) {
-      applyGridBorder(sheet, row);
-      sheet.getCell(row, 1).value = "Sin entregas programadas para esta fecha.";
-      sheet.getCell(row, 1).font = { italic: true };
-      sheet.mergeCells(row, 1, row, 6);
-      row++;
-    }
-
-    for (const delivery of zone.deliveries) {
-      const items = delivery.items.length > 0 ? delivery.items : [{ productName: "—", quantity: 0 }];
-      for (const item of items) {
-        sheet.getCell(row, 1).value = delivery.portal || "—";
-        sheet.getCell(row, 2).value = delivery.floor || "—";
-        sheet.getCell(row, 3).value = item.quantity;
-        sheet.getCell(row, 4).value = item.productName;
-        sheet.getCell(row, 6).value = delivery.observaciones || "";
-        applyGridBorder(sheet, row);
-        row++;
+    for (const group of zone.addresses) {
+      let first = true;
+      for (const customer of group.customers) {
+        const items =
+          customer.items.length > 0 ? customer.items : [{ productName: "—", quantity: 0 }];
+        items.forEach((item, index) => {
+          if (first) {
+            sheet.getCell(row, 1).value = group.address;
+            sheet.getCell(row, 1).font = { bold: true };
+            sheet.getCell(row, 5).value = group.totalBarras;
+            sheet.getCell(row, 5).font = { bold: true };
+            first = false;
+          }
+          if (index === 0) {
+            sheet.getCell(row, 2).value = customer.customerName;
+            sheet.getCell(row, 6).value = customer.phone ?? "";
+          }
+          sheet.getCell(row, 3).value = item.quantity;
+          sheet.getCell(row, 4).value = item.productName;
+          applyGridBorder(sheet, row);
+          row++;
+        });
       }
-    }
-
-    for (const portalTotal of groupDeliveriesByPortal(zone.deliveries)) {
-      sheet.getCell(row, 1).value = portalTotal.portal;
-      sheet.getCell(row, 1).font = { bold: true };
-      sheet.getCell(row, 2).value = "TOTAL";
-      sheet.getCell(row, 2).font = { bold: true };
-      sheet.getCell(row, 3).value = portalTotal.total;
-      sheet.getCell(row, 3).font = { bold: true };
-      applyGridBorder(sheet, row);
-      row++;
     }
 
     applyGridBorder(sheet, row);

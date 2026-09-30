@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { DeliveryChecker } from "@/components/shared/DeliveryChecker";
+import { CustomPlanContact } from "@/components/shared/CustomPlanContact";
 import { PlanForm } from "./PlanForm";
 
 export default async function PlanPage({
@@ -58,7 +59,7 @@ export default async function PlanPage({
           Configura tu plan
         </h1>
         <p className="font-sans text-body-lg text-on-surface-variant">
-          Elige tu frecuencia y los panes que quieres recibir.
+          Elige tus días de reparto, cuántas barras al día y los panes que quieres recibir.
         </p>
       </div>
       <DeliveryChecker className="mb-12" />
@@ -68,6 +69,7 @@ export default async function PlanPage({
         preselectedSlug={producto}
         preselectedQuantity={cantidad ? Number(cantidad) : 1}
       />
+      <CustomPlanContact className="mt-section-gap" />
     </main>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import type { Tables } from "@/lib/supabase/types";
-import type { AlbaranSummary } from "@/lib/logistics/types";
+import type { AlbaranSummary, WeeklyDaySummary } from "@/lib/logistics/types";
 import { AlbaranTab } from "./AlbaranTab";
 import { RepartidoresTab } from "./RepartidoresTab";
 import { RutasTab } from "./RutasTab";
@@ -26,12 +26,14 @@ export function LogisticaManager({
   workers,
   routes,
   albaran,
+  weekly,
 }: {
   date: string;
   zones: DeliveryZone[];
   workers: DeliveryWorker[];
   routes: RouteWithJoins[];
   albaran: AlbaranSummary;
+  weekly: WeeklyDaySummary[];
 }) {
   const [tab, setTab] = useState<Tab>("albaranes");
 
@@ -43,7 +45,7 @@ export function LogisticaManager({
             Logística y beneficios
           </h1>
           <p className="mt-1 font-sans text-body-md text-on-surface-variant">
-            Genera albaranes, gestiona repartidores y organiza las rutas de reparto.
+            Repartimos todos los días: consulta el albarán de cualquier fecha, calculado al momento, y organiza repartidores y rutas.
           </p>
         </div>
       </div>
@@ -67,7 +69,7 @@ export function LogisticaManager({
         ))}
       </div>
 
-      {tab === "albaranes" && <AlbaranTab date={date} albaran={albaran} routes={routes} />}
+      {tab === "albaranes" && <AlbaranTab date={date} albaran={albaran} weekly={weekly} routes={routes} />}
       {tab === "repartidores" && <RepartidoresTab workers={workers} />}
       {tab === "rutas" && <RutasTab date={date} routes={routes} zones={zones} workers={workers} />}
     </main>

@@ -3,14 +3,18 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { cn } from "@/lib/utils";
-import type { AlbaranDeliveryRow, AlbaranSummary } from "@/lib/logistics/types";
-import { formatDateEs, groupDeliveriesByPortal } from "@/lib/logistics/types";
+import { DAYS_OF_WEEK } from "@/lib/constants";
+import {
+  addDaysIso,
+  formatDateEs,
+  weekdayNameEs,
+  type AlbaranSummary,
+  type WeeklyDaySummary,
+} from "@/lib/logistics/types";
 import { buildRouteMessage, buildWhatsAppLink } from "@/lib/logistics/whatsapp";
 import {
   downloadAlbaranExcelAction,
-  generateAlbaranAction,
   sendAlbaranEmailAction,
-  updateDeliveryDetailAction,
 } from "@/lib/supabase/logistics-actions";
 import type { RouteWithJoins } from "./types";
 
@@ -32,39 +36,44 @@ function downloadBase64File(base64: string, filename: string) {
   URL.revokeObjectURL(url);
 }
 
+/** Fecha del mismo lunes-domingo que `dateIso` que cae en `day`. */
+function dateForWeekdayInWeek(dateIso: string, day: string): string {
+  const mondayBased = (iso: string) => DAYS_OF_WEEK.findIndex((d) => d.value === weekdayNameEs(iso));
+  const target = DAYS_OF_WEEK.findIndex((d) => d.value === day);
+  return addDaysIso(dateIso, target - mondayBased(dateIso));
+}
+
+function dayLabel(day: string) {
+  return DAYS_OF_WEEK.find((d) => d.value === day)?.label ?? day;
+}
+
 export function AlbaranTab({
   date,
   albaran,
+  weekly,
   routes,
 }: {
   date: string;
   albaran: AlbaranSummary;
+  weekly: WeeklyDaySummary[];
   routes: RouteWithJoins[];
 }) {
   const router = useRouter();
-  const [isGenerating, startGenerating] = useTransition();
+  const [isNavigating, startNavigating] = useTransition();
   const [isDownloading, startDownloading] = useTransition();
   const [isEmailing, startEmailing] = useTransition();
   const [message, setMessage] = useState<{ kind: "success" | "error"; text: string } | null>(null);
-  const [editingDelivery, setEditingDelivery] = useState<AlbaranDeliveryRow | null>(null);
 
   const hasData = albaran.zones.length > 0;
   const dateEs = formatDateEs(date);
+  const weekdayLabel = dayLabel(albaran.weekday);
+  const weeklyMax = Math.max(1, ...weekly.map((d) => d.totalBarras));
+  const weeklyTotal = weekly.reduce((sum, d) => sum + d.totalBarras, 0);
 
-  function handleDateChange(newDate: string) {
-    router.push(`/admin/logistica?fecha=${newDate}`);
-  }
-
-  function handleGenerate() {
+  function goToDate(newDate: string) {
+    if (!newDate) return;
     setMessage(null);
-    startGenerating(async () => {
-      const result = await generateAlbaranAction(date);
-      if (result.error) {
-        setMessage({ kind: "error", text: result.error });
-      } else {
-        router.refresh();
-      }
-    });
+    startNavigating(() => router.push(`/admin/logistica?fecha=${newDate}`));
   }
 
   function handleDownload() {
@@ -97,39 +106,113 @@ export function AlbaranTab({
     });
   }
 
-  const workerRoutes = routes.filter(
-    (route) => route.zone_id && route.delivery_workers?.phone
-  );
+  // Un boton de WhatsApp por ruta (repartidor + zona) que tenga telefono y
+  // entregas ese dia. El mensaje se construye con los datos recien calculados.
+  const whatsappRoutes = routes.flatMap((route) => {
+    const worker = route.delivery_workers;
+    const zone = albaran.zones.find((z) => z.zoneId === route.zone_id);
+    if (!worker?.phone || !zone) return [];
+    const text = buildRouteMessage({ dateEs, workerName: worker.name, zone });
+    return [{ id: route.id, workerName: worker.name, zoneName: zone.zoneName, link: buildWhatsAppLink(worker.phone, text) }];
+  });
 
   return (
     <div className="space-y-8">
+      {/* Resumen semanal */}
+      <section className="rounded-lg bg-surface-container-lowest p-6 shadow-soft">
+        <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+          <h3 className="font-serif text-headline-sm text-primary">Resumen semanal</h3>
+          <p className="font-sans text-label-sm text-on-surface-variant">
+            {weeklyTotal} barras/semana con las suscripciones activas · pulsa un día para ver su
+            albarán
+          </p>
+        </div>
+        <div className="grid grid-cols-7 gap-2">
+          {weekly.map((day) => {
+            const selected = day.day === albaran.weekday;
+            return (
+              <button
+                key={day.day}
+                type="button"
+                onClick={() => goToDate(dateForWeekdayInWeek(date, day.day))}
+                aria-pressed={selected}
+                className={cn(
+                  "flex flex-col items-center gap-2 rounded-DEFAULT px-1 py-3 transition-all",
+                  selected
+                    ? "bg-primary text-on-primary shadow-soft"
+                    : "bg-surface-container-low text-on-surface hover:bg-surface-container-high"
+                )}
+              >
+                <span className="font-sans text-label-sm">
+                  <span className="sm:hidden">{dayLabel(day.day).slice(0, 3)}</span>
+                  <span className="hidden sm:inline">{dayLabel(day.day)}</span>
+                </span>
+                <span className="flex h-16 w-3 items-end overflow-hidden rounded-full bg-black/5">
+                  <span
+                    className={cn("w-full rounded-full", selected ? "bg-on-primary" : "bg-tertiary")}
+                    style={{ height: `${(day.totalBarras / weeklyMax) * 100}%` }}
+                  />
+                </span>
+                <span className="font-serif text-headline-sm leading-none">{day.totalBarras}</span>
+                <span className={cn("font-sans text-[11px]", selected ? "opacity-80" : "text-on-surface-variant")}>
+                  {day.totalClientes} cli.
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
       {/* Barra de controles */}
-      <div className="flex flex-col gap-4 rounded-lg bg-surface-container-lowest p-6 shadow-soft sm:flex-row sm:items-end sm:justify-between">
-        <label className="block">
+      <div className="flex flex-col gap-4 rounded-lg bg-surface-container-lowest p-6 shadow-soft lg:flex-row lg:items-end lg:justify-between">
+        <div>
           <span className="font-sans text-label-md text-on-surface-variant">Fecha de reparto</span>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => handleDateChange(e.target.value)}
-            className="mt-1 block rounded-lg border border-outline-variant bg-surface p-3 font-sans text-body-md shadow-inset focus:border-primary focus:ring-2 focus:ring-primary"
-          />
-        </label>
+          <div className="mt-1 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => goToDate(addDaysIso(date, -1))}
+              aria-label="Día anterior"
+              className="rounded-full p-2 text-primary transition-colors hover:bg-surface-variant"
+            >
+              <span className="material-symbols-outlined">chevron_left</span>
+            </button>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => goToDate(e.target.value)}
+              className="block rounded-lg border border-outline-variant bg-surface p-3 font-sans text-body-md shadow-inset focus:border-primary focus:ring-2 focus:ring-primary"
+            />
+            <button
+              type="button"
+              onClick={() => goToDate(addDaysIso(date, 1))}
+              aria-label="Día siguiente"
+              className="rounded-full p-2 text-primary transition-colors hover:bg-surface-variant"
+            >
+              <span className="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
+          <p className="mt-2 font-sans text-label-sm text-on-surface-variant">
+            {isNavigating
+              ? "Calculando…"
+              : `${weekdayLabel}: clientes activos con entrega los ${weekdayLabel.toLowerCase()}.`}
+          </p>
+        </div>
 
         <div className="flex flex-wrap gap-3">
           <button
             type="button"
-            onClick={handleGenerate}
-            disabled={isGenerating}
-            className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-sans text-label-md text-on-primary shadow-md transition-all hover:scale-105 disabled:opacity-50"
+            onClick={() => startNavigating(() => router.refresh())}
+            disabled={isNavigating}
+            className="flex items-center gap-2 rounded-full border border-primary px-6 py-3 font-sans text-label-md text-primary transition-colors hover:bg-surface-variant disabled:opacity-50"
           >
-            <span className="material-symbols-outlined text-[20px]">receipt_long</span>
-            {isGenerating ? "Generando..." : "Generar albarán"}
+            <span className="material-symbols-outlined text-[20px]">refresh</span>
+            Recalcular
           </button>
           <button
             type="button"
             onClick={handleDownload}
             disabled={isDownloading || !hasData}
-            className="flex items-center gap-2 rounded-full border border-primary px-6 py-3 font-sans text-label-md text-primary transition-colors hover:bg-surface-variant disabled:opacity-50"
+            className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-sans text-label-md text-on-primary shadow-md transition-all hover:scale-105 disabled:opacity-50"
           >
             <span className="material-symbols-outlined text-[20px]">download</span>
             {isDownloading ? "Generando Excel..." : "Descargar Excel"}
@@ -161,62 +244,67 @@ export function AlbaranTab({
       )}
 
       {/* WhatsApp por repartidor */}
-      {workerRoutes.length > 0 && (
+      {hasData && (
         <div className="rounded-lg bg-surface-container-lowest p-6 shadow-soft">
-          <h3 className="mb-4 font-serif text-headline-sm text-primary">Enviar por WhatsApp</h3>
-          <div className="flex flex-wrap gap-3">
-            {workerRoutes.map((route) => {
-              const zone = albaran.zones.find((z) => z.zoneId === route.zone_id);
-              if (!zone) return null;
-              const message = buildRouteMessage({
-                dateEs,
-                workerName: route.delivery_workers!.name,
-                zone,
-              });
-              const link = buildWhatsAppLink(route.delivery_workers!.phone!, message);
-              return (
+          <h3 className="mb-4 font-serif text-headline-sm text-primary">Enviar WhatsApp</h3>
+          {whatsappRoutes.length > 0 ? (
+            <div className="flex flex-wrap gap-3">
+              {whatsappRoutes.map((route) => (
                 <a
                   key={route.id}
-                  href={link}
+                  href={route.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 rounded-full bg-green-600 px-5 py-2.5 font-sans text-label-md text-white shadow-md transition-all hover:scale-105"
                 >
                   <span className="material-symbols-outlined text-[20px]">chat</span>
-                  {route.delivery_workers!.name} — {zone.zoneName}
+                  {route.workerName} — {route.zoneName}
                 </a>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <p className="font-sans text-body-md text-on-surface-variant">
+              No hay repartidores con teléfono asignados a las zonas de este día. Asígnalos en la
+              pestaña <strong>Rutas</strong> para enviarles el resumen.
+            </p>
+          )}
         </div>
       )}
 
-      {/* Vista previa del albaran */}
+      {/* Albaran */}
       <div className="overflow-hidden rounded-lg bg-surface-container-lowest shadow-soft">
         <div className="bg-primary px-6 py-5 text-center">
           <h2 className="font-serif text-headline-md text-on-primary">
             ALBARÁN DE PRODUCCIÓN Y REPARTO
           </h2>
-          <p className="font-sans text-body-md text-on-primary/80">PANACASA — {dateEs}</p>
+          <p className="font-sans text-body-md text-on-primary/80">
+            PANACASA — {weekdayLabel} {dateEs}
+          </p>
         </div>
 
         {!hasData ? (
-          <div className="flex flex-col items-center gap-3 py-20 text-center">
+          <div className="flex flex-col items-center gap-3 px-6 py-20 text-center">
             <span className="material-symbols-outlined text-4xl text-outline">inventory_2</span>
             <p className="font-sans text-body-md text-on-surface-variant">
-              Todavía no hay albarán generado para esta fecha.
+              Ningún cliente activo tiene entrega los {weekdayLabel.toLowerCase()}.
             </p>
             <p className="font-sans text-label-sm text-on-surface-variant">
-              Pulsa &quot;Generar albarán&quot; para recopilar las entregas de las suscripciones activas.
+              El albarán se calcula en tiempo real a partir de las suscripciones activas y los
+              días de entrega de cada cliente.
             </p>
           </div>
         ) : (
           <div className="space-y-8 p-6">
             <section>
               <h3 className="mb-3 font-serif text-headline-sm text-primary">Resumen de producción</h3>
-              <p className="mb-4 font-sans text-body-lg font-bold text-on-surface">
-                Total barras a hornear: {albaran.totalBarras}
-              </p>
+              <div className="mb-4 flex flex-wrap gap-6">
+                <p className="font-sans text-body-lg text-on-surface">
+                  Barras a hornear: <strong>{albaran.totalBarras}</strong>
+                </p>
+                <p className="font-sans text-body-lg text-on-surface">
+                  Clientes con entrega: <strong>{albaran.totalClientes}</strong>
+                </p>
+              </div>
               <div className="overflow-hidden rounded-lg border border-outline-variant">
                 <table className="w-full border-collapse text-left">
                   <thead>
@@ -243,16 +331,22 @@ export function AlbaranTab({
 
             {albaran.zones.map((zone) => (
               <section key={zone.zoneId}>
-                <div className="mb-3 rounded-lg bg-primary px-4 py-3">
+                <div className="mb-3 flex flex-col gap-1 rounded-lg bg-primary px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
                   <h4 className="font-serif text-headline-sm text-on-primary">
-                    Urbanización {zone.zoneName} — Total: {zone.totalBarras} barras
+                    Zona {zone.zoneName} — {zone.totalBarras} barras
                   </h4>
+                  <p className="font-sans text-label-sm text-on-primary/80">
+                    {zone.totalClientes} {zone.totalClientes === 1 ? "cliente" : "clientes"} ·{" "}
+                    {zone.routes.length > 0
+                      ? `Repartidor: ${zone.routes.map((r) => r.workerName).join(", ")}`
+                      : "Sin repartidor asignado"}
+                  </p>
                 </div>
                 <div className="overflow-x-auto rounded-lg border border-outline-variant">
                   <table className="w-full min-w-[640px] border-collapse text-left">
                     <thead>
                       <tr className="bg-surface-container-high">
-                        {["Portal", "Piso", "Cantidad", "Tipo de pan", "Portal total", "Observaciones", ""].map(
+                        {["Dirección", "Cliente", "Cantidad", "Tipo de pan", "Total dirección"].map(
                           (label) => (
                             <th
                               key={label}
@@ -264,170 +358,52 @@ export function AlbaranTab({
                         )}
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-outline-variant">
-                      {zone.deliveries.map((delivery) => {
-                        const items =
-                          delivery.items.length > 0
-                            ? delivery.items
-                            : [{ productName: "—", quantity: 0 }];
-                        return items.map((item, index) => (
-                          <tr key={`${delivery.deliveryId}-${index}`}>
-                            <td className="px-4 py-2 font-sans text-body-md">
-                              {delivery.portal || "—"}
-                            </td>
-                            <td className="px-4 py-2 font-sans text-body-md">{delivery.floor || "—"}</td>
-                            <td className="px-4 py-2 font-sans text-body-md">{item.quantity}</td>
-                            <td className="px-4 py-2 font-sans text-body-md">{item.productName}</td>
-                            <td className="px-4 py-2 font-sans text-body-md" />
-                            <td className="px-4 py-2 font-sans text-body-md">
-                              {index === 0 ? delivery.observaciones : ""}
-                            </td>
-                            <td className="px-4 py-2">
+                    {zone.addresses.map((group) => {
+                      const rows = group.customers.flatMap((customer) =>
+                        (customer.items.length > 0
+                          ? customer.items
+                          : [{ productName: "—", quantity: 0 }]
+                        ).map((item, index) => ({ customer, item, firstOfCustomer: index === 0 }))
+                      );
+                      return (
+                        <tbody
+                          key={group.address}
+                          className="border-t-2 border-outline-variant [&>tr+tr]:border-t [&>tr+tr]:border-outline-variant/40"
+                        >
+                          {rows.map(({ customer, item, firstOfCustomer }, index) => (
+                            <tr key={`${customer.subscriptionId}-${item.productName}-${index}`}>
                               {index === 0 && (
-                                <button
-                                  type="button"
-                                  onClick={() => setEditingDelivery(delivery)}
-                                  className="text-outline hover:text-primary"
+                                <td
+                                  rowSpan={rows.length}
+                                  className="max-w-[240px] bg-surface-container-low px-4 py-2 align-top font-sans text-label-md text-on-surface"
                                 >
-                                  <span className="material-symbols-outlined text-[18px]">edit</span>
-                                </button>
+                                  {group.address}
+                                </td>
                               )}
-                            </td>
-                          </tr>
-                        ));
-                      })}
-                      {groupDeliveriesByPortal(zone.deliveries).map((portalTotal) => (
-                        <tr key={portalTotal.portal} className="bg-surface-container-high font-semibold">
-                          <td className="px-4 py-2 font-sans text-body-md">{portalTotal.portal}</td>
-                          <td className="px-4 py-2 font-sans text-body-md">TOTAL</td>
-                          <td className="px-4 py-2 font-sans text-body-md">{portalTotal.total}</td>
-                          <td className="px-4 py-2" />
-                          <td className="px-4 py-2" />
-                          <td className="px-4 py-2" />
-                          <td className="px-4 py-2" />
-                        </tr>
-                      ))}
-                    </tbody>
+                              <td className="px-4 py-2 font-sans text-body-md">
+                                {firstOfCustomer ? customer.customerName : ""}
+                              </td>
+                              <td className="px-4 py-2 font-sans text-body-md">{item.quantity}</td>
+                              <td className="px-4 py-2 font-sans text-body-md">{item.productName}</td>
+                              {index === 0 && (
+                                <td
+                                  rowSpan={rows.length}
+                                  className="bg-surface-container-low px-4 py-2 align-top font-serif text-headline-sm text-primary"
+                                >
+                                  {group.totalBarras}
+                                </td>
+                              )}
+                            </tr>
+                          ))}
+                        </tbody>
+                      );
+                    })}
                   </table>
                 </div>
               </section>
             ))}
           </div>
         )}
-      </div>
-
-      {editingDelivery && (
-        <DeliveryEditModal delivery={editingDelivery} onClose={() => setEditingDelivery(null)} />
-      )}
-    </div>
-  );
-}
-
-function DeliveryEditModal({
-  delivery,
-  onClose,
-}: {
-  delivery: AlbaranDeliveryRow;
-  onClose: () => void;
-}) {
-  const router = useRouter();
-  const [portal, setPortal] = useState(delivery.portal);
-  const [floor, setFloor] = useState(delivery.floor);
-  const [notes, setNotes] = useState(delivery.observaciones);
-  const [isSaving, startSaving] = useTransition();
-  const [error, setError] = useState<string | null>(null);
-
-  function handleSave() {
-    setError(null);
-    startSaving(async () => {
-      const result = await updateDeliveryDetailAction(delivery.deliveryId, { portal, floor, notes });
-      if (result.error) {
-        setError(result.error);
-        return;
-      }
-      router.refresh();
-      onClose();
-    });
-  }
-
-  return (
-    <div
-      className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <div
-        className="w-full max-w-md rounded-lg bg-surface-container-low shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between border-b border-outline-variant p-6">
-          <h3 className="font-serif text-headline-sm text-primary">
-            Editar entrega — {delivery.customerName}
-          </h3>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Cerrar"
-            className="rounded-full p-2 transition-colors hover:bg-surface-variant"
-          >
-            <span className="material-symbols-outlined">close</span>
-          </button>
-        </div>
-        <div className="space-y-4 p-6">
-          {error && (
-            <p
-              role="alert"
-              className="rounded-DEFAULT bg-error-container px-4 py-3 font-sans text-label-md text-on-error-container"
-            >
-              {error}
-            </p>
-          )}
-          <div className="grid grid-cols-2 gap-3">
-            <label className="block">
-              <span className="font-sans text-label-md text-on-surface-variant">Portal</span>
-              <input
-                type="text"
-                value={portal}
-                onChange={(e) => setPortal(e.target.value)}
-                className="mt-1 block w-full rounded-lg border border-outline-variant bg-surface p-3 font-sans text-body-md shadow-inset focus:border-primary focus:ring-2 focus:ring-primary"
-              />
-            </label>
-            <label className="block">
-              <span className="font-sans text-label-md text-on-surface-variant">Piso</span>
-              <input
-                type="text"
-                value={floor}
-                onChange={(e) => setFloor(e.target.value)}
-                className="mt-1 block w-full rounded-lg border border-outline-variant bg-surface p-3 font-sans text-body-md shadow-inset focus:border-primary focus:ring-2 focus:ring-primary"
-              />
-            </label>
-          </div>
-          <label className="block">
-            <span className="font-sans text-label-md text-on-surface-variant">Observaciones</span>
-            <textarea
-              rows={3}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              className="mt-1 block w-full rounded-lg border border-outline-variant bg-surface p-3 font-sans text-body-md shadow-inset focus:border-primary focus:ring-2 focus:ring-primary"
-            />
-          </label>
-          <div className="flex justify-end gap-4 pt-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-lg border border-primary px-6 py-3 font-sans text-label-md text-primary transition-colors hover:bg-surface-variant"
-            >
-              Cancelar
-            </button>
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={isSaving}
-              className="rounded-lg bg-primary px-8 py-3 font-sans text-label-md text-on-primary shadow-lg transition-all hover:opacity-90 active:scale-95"
-            >
-              {isSaving ? "Guardando..." : "Guardar cambios"}
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

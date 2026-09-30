@@ -26,7 +26,6 @@ function readZoneForm(formData: FormData) {
     name: String(formData.get("name") ?? "").trim(),
     description: String(formData.get("description") ?? "").trim(),
     postalCodes: parseListField(formData.get("postalCodes")),
-    deliveryDays: parseListField(formData.get("deliveryDays")),
     isActive: formData.get("isActive") === "on",
     centerLat: parseOptionalNumber(formData.get("centerLat")),
     centerLng: parseOptionalNumber(formData.get("centerLng")),
@@ -42,7 +41,6 @@ export async function createDeliveryZoneAction(
     name,
     description,
     postalCodes,
-    deliveryDays,
     isActive,
     centerLat,
     centerLng,
@@ -52,13 +50,15 @@ export async function createDeliveryZoneAction(
   if (!name) {
     return { error: "El nombre de la zona es obligatorio." };
   }
+  if (centerLat == null || centerLng == null) {
+    return { error: "Haz click en el mapa para fijar el centro de la zona." };
+  }
 
   const supabase = await createClient();
   const { error } = await supabase.from("delivery_zones").insert({
     name,
     description: description || null,
     postal_codes: postalCodes,
-    delivery_days: deliveryDays,
     is_active: isActive,
     center_lat: centerLat,
     center_lng: centerLng,
@@ -83,7 +83,6 @@ export async function updateDeliveryZoneAction(
     name,
     description,
     postalCodes,
-    deliveryDays,
     isActive,
     centerLat,
     centerLng,
@@ -101,8 +100,7 @@ export async function updateDeliveryZoneAction(
       name,
       description: description || null,
       postal_codes: postalCodes,
-      delivery_days: deliveryDays,
-      is_active: isActive,
+        is_active: isActive,
       center_lat: centerLat,
       center_lng: centerLng,
       radius_meters: radiusMeters,
@@ -137,4 +135,25 @@ export async function toggleDeliveryZoneActiveAction(zoneId: string, nextActive:
     console.error("[toggleDeliveryZoneActiveAction] Supabase error:", error);
   }
   revalidatePath("/admin/zonas");
+}
+
+/** Guarda el nuevo centro tras arrastrar el marcador de la zona en el mapa. */
+export async function moveDeliveryZoneCenterAction(
+  zoneId: string,
+  lat: number,
+  lng: number
+): Promise<DeliveryZoneActionState> {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("delivery_zones")
+    .update({ center_lat: lat, center_lng: lng })
+    .eq("id", zoneId);
+
+  if (error) {
+    console.error("[moveDeliveryZoneCenterAction] Supabase error:", error);
+    return { error: "No se pudo mover la zona." };
+  }
+
+  revalidatePath("/admin/zonas");
+  return { error: null };
 }

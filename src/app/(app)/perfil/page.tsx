@@ -9,6 +9,9 @@ import {
   pauseSubscriptionAction,
   resumeSubscriptionAction,
 } from "@/lib/supabase/subscription-actions";
+import { updateMyDeliveryDaysAction } from "@/lib/supabase/profile-actions";
+import { upcomingDeliveryDates } from "@/lib/logistics/types";
+import { DeliveryDaysForm } from "@/components/shared/DeliveryDaysForm";
 import { EditProfileModal } from "./EditProfileModal";
 
 const subscriptionStatusLabel: Record<string, { label: string; className: string }> = {
@@ -19,13 +22,6 @@ const subscriptionStatusLabel: Record<string, { label: string; className: string
     className: "bg-surface-container-highest text-on-surface-variant",
   },
   past_due: { label: "Pago pendiente", className: "bg-error-container text-on-error-container" },
-};
-
-const deliveryStatusLabel: Record<string, { label: string; chip: string; dot: string }> = {
-  pending: { label: "Pendiente", chip: "bg-orange-100 text-orange-800", dot: "bg-orange-600" },
-  in_transit: { label: "En camino", chip: "bg-secondary-fixed text-on-secondary-fixed-variant", dot: "bg-secondary" },
-  delivered: { label: "Entregado", chip: "bg-green-100 text-green-800", dot: "bg-green-600" },
-  failed: { label: "Fallido", chip: "bg-error-container text-on-error-container", dot: "bg-error" },
 };
 
 export default async function PerfilPage() {
@@ -53,16 +49,11 @@ export default async function PerfilPage() {
       .maybeSingle(),
   ]);
 
-  const deliveries = subscription
-    ? (
-        await supabase
-          .from("deliveries")
-          .select("*")
-          .eq("subscription_id", subscription.id)
-          .order("scheduled_date", { ascending: false })
-          .limit(10)
-      ).data ?? []
-    : [];
+  const deliveryDays = profile?.delivery_days ?? [];
+  const upcoming =
+    subscription?.status === "active" ? upcomingDeliveryDates(deliveryDays, 5) : [];
+  const breadsPerDelivery =
+    subscription?.subscription_items.reduce((sum, item) => sum + item.quantity, 0) ?? 0;
 
   const memberSince = profile?.created_at
     ? new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric" }).format(
@@ -243,51 +234,58 @@ export default async function PerfilPage() {
           </section>
         </div>
 
-        {/* Columna derecha: historial de entregas */}
-        <div className="lg:col-span-8">
+        {/* Columna derecha: dias de entrega y proximos repartos */}
+        <div className="flex flex-col gap-gutter lg:col-span-8">
           <section>
-            <h2 className="mb-6 font-serif text-headline-sm text-primary">
-              Historial de Entregas
-            </h2>
-            {deliveries.length === 0 ? (
+            <h2 className="mb-2 font-serif text-headline-sm text-primary">Mis días de entrega</h2>
+            <p className="mb-6 font-sans text-body-md text-on-surface-variant">
+              Elige qué días de la semana quieres recibir tu pan en casa. Repartimos todos los
+              días, antes de las 8:00.
+            </p>
+            <Card className="border border-outline-variant/30">
+              <DeliveryDaysForm action={updateMyDeliveryDaysAction} initialDays={deliveryDays} />
+            </Card>
+          </section>
+
+          <section>
+            <h2 className="mb-6 font-serif text-headline-sm text-primary">Próximas entregas</h2>
+            {upcoming.length === 0 ? (
               <Card className="border border-outline-variant/30 text-center">
                 <p className="font-sans text-body-md text-on-surface-variant">
-                  Todavía no hay entregas programadas para tu suscripción.
+                  {subscription?.status !== "active"
+                    ? "Tus entregas aparecerán aquí cuando tengas una suscripción activa."
+                    : "Selecciona al menos un día de entrega para programar tus repartos."}
                 </p>
               </Card>
             ) : (
               <div className="flex flex-col gap-4">
-                {deliveries.map((delivery) => {
-                  const deliveryStatus =
-                    deliveryStatusLabel[delivery.status] ?? deliveryStatusLabel.pending;
-                  const date = new Date(delivery.scheduled_date);
+                {upcoming.map((iso) => {
+                  const date = new Date(`${iso}T00:00:00Z`);
                   return (
                     <div
-                      key={delivery.id}
+                      key={iso}
                       className="flex flex-col justify-between gap-4 rounded-lg border border-outline-variant/20 bg-surface-container-lowest p-4 transition-colors hover:bg-surface-container-low md:flex-row md:items-center"
                     >
                       <div className="flex items-center gap-4">
                         <div className="rounded-md bg-surface-container-highest p-3 text-center font-sans font-bold leading-tight text-primary">
                           <span className="block text-label-sm uppercase">
-                            {date.toLocaleDateString("es-ES", { month: "short" })}
+                            {date.toLocaleDateString("es-ES", { month: "short", timeZone: "UTC" })}
                           </span>
-                          <span className="text-headline-sm">{date.getDate()}</span>
+                          <span className="text-headline-sm">{date.getUTCDate()}</span>
                         </div>
                         <div>
-                          <p className="font-sans text-body-lg font-medium text-on-surface">
-                            {subscription?.subscription_plans?.name ?? "Suscripción"}
+                          <p className="font-sans text-body-lg font-medium capitalize text-on-surface">
+                            {date.toLocaleDateString("es-ES", { weekday: "long", timeZone: "UTC" })}
                           </p>
                           <p className="font-sans text-label-sm text-on-surface-variant">
-                            Precio del plan &middot;{" "}
-                            {formatPrice(subscription?.subscription_plans?.price_cents ?? 0)}
+                            {breadsPerDelivery} {breadsPerDelivery === 1 ? "barra" : "barras"} ·
+                            entrega a domicilio
                           </p>
                         </div>
                       </div>
-                      <span
-                        className={`flex w-fit items-center gap-1 rounded-full px-3 py-1 font-sans text-label-sm font-bold ${deliveryStatus.chip}`}
-                      >
-                        <span className={`h-1.5 w-1.5 rounded-full ${deliveryStatus.dot}`} />
-                        {deliveryStatus.label}
+                      <span className="flex w-fit items-center gap-1 rounded-full bg-orange-100 px-3 py-1 font-sans text-label-sm font-bold text-orange-800">
+                        <span className="h-1.5 w-1.5 rounded-full bg-orange-600" />
+                        Programada
                       </span>
                     </div>
                   );

@@ -10,7 +10,8 @@ const navLinks = [
   { href: "/admin", label: "Dashboard", icon: "dashboard" },
   { href: "/admin/suscriptores", label: "Suscriptores", icon: "group" },
   { href: "/admin/catalogo", label: "Catalogo", icon: "bakery_dining" },
-  { href: "/admin/zonas", label: "Zonas de envio", icon: "distance" },
+  { href: "/admin/planes", label: "Planes", icon: "event_repeat" },
+  { href: "/admin/zonas", label: "Zonas y puntos", icon: "distance" },
   { href: "/admin/logistica", label: "Logistica", icon: "local_shipping" },
 ];
 

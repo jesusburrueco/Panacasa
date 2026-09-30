@@ -3,10 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { FadeIn } from "@/components/shared/FadeIn";
 import { Parallax } from "@/components/shared/Parallax";
-import {
-  FulfillmentChooser,
-  type PickupPointSummary,
-} from "@/components/landing/FulfillmentChooser";
+import { DeliveryChecker } from "@/components/shared/DeliveryChecker";
 
 const heroMobileImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuDg0tWBQOPDc23k2ibEiJcJz47qfhVIpXIICR1DMmm1nYyH9h34UlzYFVXKpre3eKqIDrwy-eM80EDGTGbic9KorE-QcBWdkAWAKUrpM89q3OpEoeWC978_BOnTXq2b03dORNl7NlfsXxpiFYua7ZkgVIaRqEkMHSLA2mUGpz1HeawH81HACyCxRsmL6x8bDz0B_sMy3sIBBTVqS87N_B-3hNM-31iJfRbnppGgrOaPfTHTTkw3oEcW77lkGANG5h3rXolCeyav2dA";
@@ -45,15 +42,15 @@ const differentiators = [
     icon: "calendar_month",
     title: "Suscripción flexible",
     description:
-      "Tú tienes el control. Recibe tu pack semanal o quincenalmente. ¿Te vas de viaje? Pausa o cancela desde tu perfil con un solo clic, sin compromisos.",
-    checks: ["Semanal o quincenal", "Pausa o cancela cuando quieras"],
+      "Tú tienes el control. Elige qué días de la semana quieres recibir tu pan y cámbialos cuando quieras. ¿Te vas de viaje? Pausa o cancela desde tu perfil con un solo clic.",
+    checks: ["Tú eliges tus días de entrega", "Pausa o cancela cuando quieras"],
   },
   {
     icon: "local_shipping",
-    title: "Logística inteligente",
+    title: "Entrega a domicilio",
     description:
-      "Envío a domicilio antes de las 8:00 para que desayunes con pan caliente, o recogida local en nuestros puntos asociados sin gastos de envío.",
-    checks: ["Envío a domicilio", "Recogida en punto local"],
+      "Repartimos todos los días, antes de las 8:00, para que desayunes con pan recién hecho sin salir de casa.",
+    checks: ["Reparto diario antes de las 8:00", "Directo a tu puerta"],
   },
 ];
 
@@ -73,20 +70,13 @@ const secretPoints = [
 async function getLandingData() {
   const supabase = await createClient();
 
-  const [{ data: products }, { data: pickupPoints }] = await Promise.all([
-    supabase
-      .from("products")
-      .select("name, image_url")
-      .eq("is_active", true)
-      .not("image_url", "is", null)
-      .order("created_at", { ascending: false })
-      .limit(3),
-    supabase
-      .from("pickup_points")
-      .select("id, name, address")
-      .eq("status", "abierto")
-      .order("name"),
-  ]);
+  const { data: products } = await supabase
+    .from("products")
+    .select("name, image_url")
+    .eq("is_active", true)
+    .not("image_url", "is", null)
+    .order("created_at", { ascending: false })
+    .limit(3);
 
   // Rellena el mosaico con fotos del catalogo y completa con las de respaldo.
   const mosaic = fallbackMosaic.map((fallback, i) => {
@@ -94,17 +84,14 @@ async function getLandingData() {
     return product?.image_url ? { src: product.image_url, alt: product.name } : fallback;
   });
 
-  return {
-    mosaic,
-    pickupPoints: (pickupPoints ?? []) satisfies PickupPointSummary[],
-  };
+  return { mosaic };
 }
 
 const ctaBase =
   "inline-flex items-center justify-center gap-2 rounded-full px-10 py-4 font-sans text-label-md transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]";
 
 export default async function LandingPage() {
-  const { mosaic, pickupPoints } = await getLandingData();
+  const { mosaic } = await getLandingData();
 
   return (
     <main className="flex flex-1 flex-col">
@@ -327,18 +314,43 @@ export default async function LandingPage() {
         </FadeIn>
       </section>
 
-      {/* Recogida o Envio */}
+      {/* Entrega a domicilio */}
       <section id="entrega" className="bg-surface-container-low py-section-gap md:py-24">
-        <div className="mx-auto w-full max-w-[1440px] px-margin-mobile md:px-margin-desktop">
-          <FadeIn className="mx-auto mb-12 max-w-2xl text-center">
-            <h2 className="mb-4 font-serif text-headline-md text-primary">Recogida o Envío</h2>
-            <p className="font-sans text-body-lg text-on-surface-variant">
-              Elige la comodidad de recibir pan recién horneado en tu puerta o disfruta del paseo
-              recogiendo tu suscripción en tu obrador de confianza.
-            </p>
+        <div className="mx-auto grid w-full max-w-[1440px] grid-cols-1 items-center gap-gutter px-margin-mobile md:grid-cols-2 md:gap-16 md:px-margin-desktop">
+          <FadeIn className="relative">
+            <div
+              aria-hidden
+              className="absolute inset-0 -rotate-2 rounded-xl bg-surface-container-high/60"
+            />
+            <div className="relative flex flex-col items-center gap-6 rounded-xl bg-surface-container px-6 py-14 text-center shadow-soft md:py-20">
+              <span className="flex h-32 w-32 items-center justify-center rounded-full bg-primary-fixed shadow-soft md:h-40 md:w-40">
+                <span className="material-symbols-outlined text-[56px] text-primary">
+                  local_shipping
+                </span>
+              </span>
+              <p className="font-serif text-headline-sm text-primary">
+                De nuestro horno a tu puerta
+              </p>
+              <ul className="flex flex-wrap justify-center gap-2">
+                {["Todos los días", "Antes de las 8:00", "Tú eliges los días"].map((label) => (
+                  <li
+                    key={label}
+                    className="rounded-full bg-surface px-4 py-1.5 font-sans text-label-sm text-on-surface-variant shadow-soft"
+                  >
+                    {label}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </FadeIn>
-          <FadeIn delay={120}>
-            <FulfillmentChooser pickupPoints={pickupPoints} />
+          <FadeIn delay={120} className="space-y-6">
+            <h2 className="font-serif text-headline-md text-primary">Entrega a domicilio</h2>
+            <p className="font-sans text-body-lg text-on-surface-variant">
+              Repartimos cada mañana en tu barrio y te lo dejamos en casa antes de las 8:00, aún
+              caliente para el desayuno. Desde tu perfil eliges qué días quieres recibirlo.
+              Comprueba si ya llegamos a tu código postal.
+            </p>
+            <DeliveryChecker />
           </FadeIn>
         </div>
       </section>

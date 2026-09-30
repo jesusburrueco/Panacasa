@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { sortDays } from "@/lib/constants";
 
 export interface ProfileActionState {
   error: string | null;
@@ -50,4 +51,62 @@ export async function updateProfileAction(
 
   revalidatePath("/perfil");
   return { error: null };
+}
+
+export interface DeliveryDaysActionState {
+  error: string | null;
+  saved: boolean;
+}
+
+function readDeliveryDays(formData: FormData) {
+  return sortDays(formData.getAll("days").map(String));
+}
+
+export async function updateMyDeliveryDaysAction(
+  _prevState: DeliveryDaysActionState,
+  formData: FormData
+): Promise<DeliveryDaysActionState> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login?redirect=/perfil");
+  }
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ delivery_days: readDeliveryDays(formData) })
+    .eq("id", user.id);
+
+  if (error) {
+    console.error("[updateMyDeliveryDaysAction] Supabase error:", error);
+    return { error: "No se pudieron guardar tus días de entrega.", saved: false };
+  }
+
+  revalidatePath("/perfil");
+  return { error: null, saved: true };
+}
+
+/** Edicion desde el admin (RLS: solo admins pueden actualizar perfiles ajenos). */
+export async function adminUpdateDeliveryDaysAction(
+  profileId: string,
+  _prevState: DeliveryDaysActionState,
+  formData: FormData
+): Promise<DeliveryDaysActionState> {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("profiles")
+    .update({ delivery_days: readDeliveryDays(formData) })
+    .eq("id", profileId);
+
+  if (error) {
+    console.error("[adminUpdateDeliveryDaysAction] Supabase error:", error);
+    return { error: "No se pudieron guardar los días de entrega.", saved: false };
+  }
+
+  revalidatePath(`/admin/suscriptores/${profileId}`);
+  revalidatePath("/admin/logistica");
+  return { error: null, saved: true };
 }

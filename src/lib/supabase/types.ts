@@ -13,6 +13,44 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      delivery_points: {
+        Row: {
+          id: string;
+          zone_id: string | null;
+          name: string;
+          address: string | null;
+          lat: number;
+          lng: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          zone_id?: string | null;
+          name: string;
+          address?: string | null;
+          lat: number;
+          lng: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          zone_id?: string | null;
+          name?: string;
+          address?: string | null;
+          lat?: number;
+          lng?: number;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "delivery_points_zone_id_fkey";
+            columns: ["zone_id"];
+            isOneToOne: false;
+            referencedRelation: "delivery_zones";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       delivery_zones: {
         Row: {
           id: string;
@@ -105,6 +143,7 @@ export interface Database {
           delivery_zone_id: string | null;
           role: string;
           created_at: string;
+          delivery_days: string[] | null;
         };
         Insert: {
           id: string;
@@ -117,6 +156,7 @@ export interface Database {
           delivery_zone_id?: string | null;
           role?: string;
           created_at?: string;
+          delivery_days?: string[] | null;
         };
         Update: {
           id?: string;
@@ -129,6 +169,7 @@ export interface Database {
           delivery_zone_id?: string | null;
           role?: string;
           created_at?: string;
+          delivery_days?: string[] | null;
         };
         Relationships: [
           {
@@ -199,6 +240,9 @@ export interface Database {
           stripe_price_id: string | null;
           is_active: boolean;
           created_at: string;
+          delivery_days_of_week: string[];
+          breads_per_day: number;
+          weekly_price_cents: number | null;
         };
         Insert: {
           id?: string;
@@ -210,6 +254,9 @@ export interface Database {
           stripe_price_id?: string | null;
           is_active?: boolean;
           created_at?: string;
+          delivery_days_of_week?: string[];
+          breads_per_day?: number;
+          weekly_price_cents?: number | null;
         };
         Update: {
           id?: string;
@@ -221,6 +268,9 @@ export interface Database {
           stripe_price_id?: string | null;
           is_active?: boolean;
           created_at?: string;
+          delivery_days_of_week?: string[];
+          breads_per_day?: number;
+          weekly_price_cents?: number | null;
         };
         Relationships: [];
       };

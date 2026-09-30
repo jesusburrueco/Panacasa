@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 type CoverageResult =
   | { status: "idle" }
   | { status: "checking" }
-  | { status: "covered"; zoneName: string; deliveryDays: string[] }
+  | { status: "covered"; zoneName: string }
   | { status: "not-covered" }
   | { status: "error" };
 
@@ -25,7 +25,7 @@ export function DeliveryChecker({ className }: { className?: string }) {
     const supabase = createClient();
     const { data, error } = await supabase
       .from("delivery_zones")
-      .select("name, delivery_days")
+      .select("name")
       .eq("is_active", true)
       .contains("postal_codes", [code])
       .limit(1)
@@ -37,7 +37,7 @@ export function DeliveryChecker({ className }: { className?: string }) {
     }
 
     if (data) {
-      setResult({ status: "covered", zoneName: data.name, deliveryDays: data.delivery_days });
+      setResult({ status: "covered", zoneName: data.name });
     } else {
       setResult({ status: "not-covered" });
     }
@@ -88,15 +88,8 @@ export function DeliveryChecker({ className }: { className?: string }) {
         >
           <span className="material-symbols-outlined text-green-700">check_circle</span>
           <p className="font-sans text-body-md text-green-800">
-            ¡Buenas noticias! Repartimos en la zona <strong>{result.zoneName}</strong>
-            {result.deliveryDays.length > 0 && (
-              <>
-                {" "}
-                los días{" "}
-                <span className="capitalize">{result.deliveryDays.join(", ")}</span>
-              </>
-            )}
-            .
+            ¡Buenas noticias! Repartimos a domicilio en <strong>{result.zoneName}</strong> todos
+            los días. Tú eliges qué días recibir tu pan.
           </p>
         </div>
       )}
