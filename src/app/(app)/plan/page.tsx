@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { DeliveryChecker } from "@/components/shared/DeliveryChecker";
 import { CustomPlanContact } from "@/components/shared/CustomPlanContact";
 import { PlanForm } from "./PlanForm";
+import { MyPlan } from "./MyPlan";
 
 export default async function PlanPage({
   searchParams,
@@ -18,37 +18,35 @@ export default async function PlanPage({
 
   // /plan es publico: se puede ver y configurar sin sesion. El login solo
   // se exige al confirmar la suscripcion (ver createSubscriptionAction).
-  const [{ data: plans }, { data: products }, { data: activeSubscription }] = await Promise.all([
-    supabase.from("subscription_plans").select("*").eq("is_active", true).order("price_cents"),
-    supabase.from("products").select("*").eq("is_active", true).order("name"),
-    user
-      ? supabase
-          .from("subscriptions")
-          .select("id, status, subscription_plans(name)")
-          .eq("user_id", user.id)
-          .eq("status", "active")
-          .maybeSingle()
-      : Promise.resolve({ data: null }),
-  ]);
+  const [{ data: plans }, { data: products }, { data: subscription }, { data: profile }] =
+    await Promise.all([
+      supabase.from("subscription_plans").select("*").eq("is_active", true).order("price_cents"),
+      supabase.from("products").select("*").eq("is_active", true).order("name"),
+      user
+        ? supabase
+            .from("subscriptions")
+            .select(
+              "id, status, subscription_plans(*), subscription_items(id, quantity, products(id, name, slug, image_url))"
+            )
+            .eq("user_id", user.id)
+            .in("status", ["active", "paused", "past_due"])
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .maybeSingle()
+        : Promise.resolve({ data: null }),
+      user
+        ? supabase.from("profiles").select("delivery_days").eq("id", user.id).single()
+        : Promise.resolve({ data: null }),
+    ]);
 
-  if (activeSubscription) {
+  // Con una suscripcion en curso, /plan pasa a ser "Mi plan".
+  if (subscription) {
     return (
-      <main className="flex flex-1 flex-col items-center justify-center gap-6 px-margin-mobile py-24 text-center md:px-margin-desktop">
-        <span className="material-symbols-outlined rounded-full bg-primary-fixed p-4 text-4xl text-primary">
-          task_alt
-        </span>
-        <h1 className="font-serif text-headline-md text-primary">Ya tienes un plan activo</h1>
-        <p className="max-w-md font-sans text-body-lg text-on-surface-variant">
-          Estás suscrito al plan {activeSubscription.subscription_plans?.name ?? ""}.
-          Gestiona tus panes y tu entrega desde tu perfil.
-        </p>
-        <Link
-          href="/perfil"
-          className="rounded-full bg-primary px-8 py-4 font-sans text-label-md text-on-primary shadow-soft transition-all hover:brightness-110 active:scale-95"
-        >
-          Ir a mi perfil
-        </Link>
-      </main>
+      <MyPlan
+        subscription={subscription}
+        deliveryDays={profile?.delivery_days ?? []}
+        plans={plans ?? []}
+      />
     );
   }
 

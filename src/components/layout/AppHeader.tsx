@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { signOutAction } from "@/lib/supabase/actions";
 import { ContactButton } from "@/components/shared/ContactButton";
+import { CartButton } from "@/components/cart/CartButton";
 
 const navLinks = [
   { href: "/catalogo", label: "Catalogo" },
@@ -74,13 +75,7 @@ export function AppHeader() {
           >
             <span className="material-symbols-outlined">notifications</span>
           </button>
-          <Link
-            href="/pedido"
-            aria-label="Cesta"
-            className="rounded-full p-2 text-primary transition-colors hover:bg-surface-container-low"
-          >
-            <span className="material-symbols-outlined">shopping_basket</span>
-          </Link>
+          <CartButton />
           <Link
             href="/perfil"
             aria-label="Mi perfil"

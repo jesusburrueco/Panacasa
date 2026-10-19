@@ -1,11 +1,14 @@
 export interface AlbaranItemLine {
   productName: string;
   quantity: number;
+  /** Linea de un pedido extra (carrito), no de la suscripcion. */
+  isExtra?: boolean;
 }
 
-/** Un cliente con entrega en la fecha del albaran. */
+/** Un cliente con entrega en la fecha del albaran (suscripcion y/o pedido extra). */
 export interface AlbaranCustomerRow {
-  subscriptionId: string;
+  /** profiles.id del cliente. */
+  customerId: string;
   customerName: string;
   phone: string | null;
   items: AlbaranItemLine[];
@@ -50,6 +53,8 @@ export interface AlbaranSummary {
   weekday: string;
   totalBarras: number;
   totalClientes: number;
+  /** Unidades que vienen de pedidos extra (ya incluidas en totalBarras). */
+  totalExtraUnidades: number;
   breakdownByProduct: AlbaranProductBreakdown[];
   zones: AlbaranZoneGroup[];
 }
@@ -110,4 +115,18 @@ export function formatDateEs(dateIso: string): string {
     year: "numeric",
     timeZone: "UTC",
   });
+}
+
+/**
+ * Proxima fecha de reparto para un pedido nuevo: el reparto es antes de las
+ * 8:00, asi que el de hoy ya no admite cambios y se empieza por manana.
+ */
+export function nextOrderDeliveryDate(days: readonly string[]): string | null {
+  if (days.length === 0) return null;
+  const tomorrow = addDaysIso(todayIsoMadrid(), 1);
+  for (let offset = 0; offset < 7; offset++) {
+    const date = addDaysIso(tomorrow, offset);
+    if (days.includes(weekdayNameEs(date))) return date;
+  }
+  return null;
 }

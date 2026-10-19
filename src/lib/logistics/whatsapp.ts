@@ -30,7 +30,8 @@ export function buildRouteMessage({
     lines.push("");
     lines.push(`${group.address} (${group.totalBarras})`);
     for (const customer of group.customers) {
-      const items = customer.items.map((item) => `${item.quantity}x ${item.productName}`).join(", ");
+      const items = customer.items
+        .map((item) => `${item.quantity}x ${item.productName}${item.isExtra ? " (extra)" : ""}`).join(", ");
       lines.push(`- ${customer.customerName}: ${items || "sin panes"}`);
     }
   }

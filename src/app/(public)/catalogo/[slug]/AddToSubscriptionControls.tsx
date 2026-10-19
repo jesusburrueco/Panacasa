@@ -2,9 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useCart, type CartProduct } from "@/components/cart/CartProvider";
 
-export function AddToSubscriptionControls({ productSlug }: { productSlug: string }) {
+export function AddToSubscriptionControls({ product }: { product: CartProduct }) {
   const [quantity, setQuantity] = useState(1);
+  const cart = useCart();
+  const productSlug = product.slug;
+
+  function addToCart() {
+    cart.setQuantity(product, cart.quantityOf(product.productId) + quantity);
+    if (cart.isAuthenticated) cart.open();
+  }
 
   return (
     <div className="mt-12 flex flex-col gap-6 border-t border-outline-variant pt-10">
@@ -38,9 +46,8 @@ export function AddToSubscriptionControls({ productSlug }: { productSlug: string
         </Link>
         <button
           type="button"
-          disabled
-          title="Próximamente disponible"
-          className="flex flex-1 cursor-not-allowed items-center justify-center gap-3 rounded-full border-2 border-primary/40 px-8 py-4 font-sans text-label-md uppercase tracking-widest text-primary/40"
+          onClick={addToCart}
+          className="flex flex-1 items-center justify-center gap-3 rounded-full border-2 border-primary px-8 py-4 font-sans text-label-md uppercase tracking-widest text-primary transition-all hover:bg-primary/5 active:scale-95"
         >
           <span className="material-symbols-outlined">shopping_cart</span>
           Compra única

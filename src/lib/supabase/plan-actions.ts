@@ -9,28 +9,62 @@ export interface PlanActionState {
   error: string | null;
 }
 
-const planSchema = z.object({
-  name: z.string().trim().min(1, "El nombre del plan es obligatorio."),
-  description: z.string().trim().max(280, "La descripción debe ser corta (máx. 280 caracteres)."),
-  weeklyPrice: z.coerce
-    .number({ error: "Introduce un precio semanal válido." })
-    .min(0, "El precio no puede ser negativo."),
-  days: z
-    .array(z.enum(ALL_DAYS as [string, ...string[]]))
-    .min(1, "Selecciona al menos un día de reparto."),
-  breadsPerDay: z.coerce
-    .number()
-    .int()
-    .min(1, "Elige entre 1 y 3 barras por día.")
-    .max(MAX_BREADS_PER_DAY, "Para más de 3 barras diarias el cliente debe contactar directamente."),
-  isActive: z.boolean(),
-});
+/** Campo de precio en euros opcional: vacio -> null. */
+function optionalPrice(label: string) {
+  return z.preprocess(
+    (value) => {
+      const raw = String(value ?? "").trim().replace(",", ".");
+      return raw === "" ? null : raw;
+    },
+    z.coerce
+      .number({ error: `Introduce un ${label} válido.` })
+      .min(0, `El ${label} no puede ser negativo.`)
+      .nullable()
+  );
+}
+
+const toCents = (euros: number | null) => (euros == null ? null : Math.round(euros * 100));
+
+const planSchema = z
+  .object({
+    name: z.string().trim().min(1, "El nombre del plan es obligatorio."),
+    description: z.string().trim().max(280, "La descripción debe ser corta (máx. 280 caracteres)."),
+    priceWeekdays: optionalPrice("precio lunes a viernes"),
+    priceFullWeek: optionalPrice("precio lunes a lunes"),
+    promoWeekdays: optionalPrice("precio promo lunes a viernes"),
+    promoFullWeek: optionalPrice("precio promo lunes a lunes"),
+    commercialDayPrice: optionalPrice("precio comercial por día"),
+    commercialDayPromo: optionalPrice("precio comercial con oferta"),
+    promoActive: z.boolean(),
+    days: z
+      .array(z.enum(ALL_DAYS as [string, ...string[]]))
+      .min(1, "Selecciona al menos un día de reparto."),
+    breadsPerDay: z.coerce
+      .number()
+      .int()
+      .min(1, "Elige entre 1 y 3 barras por día.")
+      .max(MAX_BREADS_PER_DAY, "Para más de 3 barras diarias el cliente debe contactar directamente."),
+    isActive: z.boolean(),
+  })
+  .refine((plan) => plan.priceWeekdays != null || plan.priceFullWeek != null, {
+    message: "Indica al menos un precio regular (lunes a viernes o lunes a lunes).",
+  })
+  .refine(
+    (plan) => !plan.promoActive || plan.promoWeekdays != null || plan.promoFullWeek != null,
+    { message: "Para activar la promo indica al menos un precio promocional." }
+  );
 
 function readPlanForm(formData: FormData) {
   const result = planSchema.safeParse({
     name: formData.get("name") ?? "",
     description: formData.get("description") ?? "",
-    weeklyPrice: String(formData.get("weeklyPrice") ?? "").replace(",", "."),
+    priceWeekdays: formData.get("priceWeekdays"),
+    priceFullWeek: formData.get("priceFullWeek"),
+    promoWeekdays: formData.get("promoWeekdays"),
+    promoFullWeek: formData.get("promoFullWeek"),
+    commercialDayPrice: formData.get("commercialDayPrice"),
+    commercialDayPromo: formData.get("commercialDayPromo"),
+    promoActive: formData.get("promoActive") === "on",
     days: formData.getAll("days").map(String),
     breadsPerDay: formData.get("breadsPerDay"),
     isActive: formData.get("isActive") === "on",
@@ -40,8 +74,11 @@ function readPlanForm(formData: FormData) {
     return { error: result.error.issues[0]?.message ?? "Datos del plan no válidos.", values: null };
   }
 
-  const { name, description, weeklyPrice, days, breadsPerDay, isActive } = result.data;
-  const weeklyPriceCents = Math.round(weeklyPrice * 100);
+  const { name, description, days, breadsPerDay, isActive, promoActive } = result.data;
+  const priceWeekdaysCents = toCents(result.data.priceWeekdays);
+  const priceFullWeekCents = toCents(result.data.priceFullWeek);
+  // Precio semanal de referencia (dashboard, listados): el L-V si existe.
+  const weeklyPriceCents = (priceWeekdaysCents ?? priceFullWeekCents)!;
 
   return {
     error: null,
@@ -51,6 +88,13 @@ function readPlanForm(formData: FormData) {
       delivery_days_of_week: sortDays(days),
       breads_per_day: breadsPerDay,
       weekly_price_cents: weeklyPriceCents,
+      price_weekdays_cents: priceWeekdaysCents,
+      price_full_week_cents: priceFullWeekCents,
+      promo_weekdays_cents: toCents(result.data.promoWeekdays),
+      promo_full_week_cents: toCents(result.data.promoFullWeek),
+      commercial_day_price_cents: toCents(result.data.commercialDayPrice),
+      commercial_day_promo_cents: toCents(result.data.commercialDayPromo),
+      promo_active: promoActive,
       // Columnas originales, mantenidas en sincronia para el resto de la app
       // (dashboard, perfil, checkout): cada entrega lleva `breads_per_day`
       // barras y el cobro es semanal.

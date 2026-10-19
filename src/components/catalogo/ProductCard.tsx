@@ -2,15 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Tables } from "@/lib/supabase/types";
 import { formatPrice } from "@/lib/utils";
+import { AddToCartControls } from "@/components/cart/AddToCartControls";
 
 export type Product = Tables<"products">;
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <Link
-      href={`/catalogo/${product.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-lg bg-surface-container-lowest shadow-soft transition-transform duration-300 hover:scale-[1.02]"
-    >
+    // El enlace al detalle cubre la tarjeta (::after) para que los controles
+    // del carrito no queden anidados dentro de un <a>.
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-lg bg-surface-container-lowest shadow-soft transition-transform duration-300 hover:scale-[1.02]">
       <div className="relative h-64 overflow-hidden bg-surface-container-high">
         {product.image_url && (
           <Image
@@ -29,23 +29,34 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       <div className="flex flex-grow flex-col p-6">
-        <h3 className="font-serif text-headline-sm text-primary">{product.name}</h3>
+        <h3 className="font-serif text-headline-sm text-primary">
+          <Link href={`/catalogo/${product.slug}`} className="after:absolute after:inset-0">
+            {product.name}
+          </Link>
+        </h3>
         {product.tags?.length > 0 && (
           <span className="mt-1 font-sans text-label-sm text-on-surface-variant">
             {product.tags[0]}
           </span>
         )}
 
-        <div className="mt-auto flex items-center justify-between pt-6">
+        <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-6">
           <span className="font-sans text-body-lg font-bold text-primary">
             {formatPrice(product.price_cents)}
           </span>
-          <span className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 font-sans text-label-md text-on-primary transition-colors group-hover:bg-primary-container">
-            <span className="material-symbols-outlined text-[20px]">shopping_basket</span>
-            Añadir
-          </span>
+          <div className="relative z-10">
+            <AddToCartControls
+              product={{
+                productId: product.id,
+                name: product.name,
+                slug: product.slug,
+                priceCents: product.price_cents,
+                imageUrl: product.image_url,
+              }}
+            />
+          </div>
         </div>
       </div>
-    </Link>
+    </article>
   );
 }

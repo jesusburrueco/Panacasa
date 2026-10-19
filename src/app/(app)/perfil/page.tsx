@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { createClient } from "@/lib/supabase/server";
-import { formatPrice } from "@/lib/utils";
+import { getPlanPrice, modalityFromDays, modalityLabel } from "@/lib/plan-pricing";
+import { PlanPriceTag } from "@/components/plan/PlanPriceTag";
 import {
   cancelSubscriptionAction,
   pauseSubscriptionAction,
@@ -50,6 +50,7 @@ export default async function PerfilPage() {
   ]);
 
   const deliveryDays = profile?.delivery_days ?? [];
+  const modality = modalityFromDays(deliveryDays);
   const upcoming =
     subscription?.status === "active" ? upcomingDeliveryDates(deliveryDays, 5) : [];
   const breadsPerDelivery =
@@ -85,8 +86,11 @@ export default async function PerfilPage() {
 
         <div className="flex gap-4">
           {profile && <EditProfileModal profile={profile} deliveryZones={deliveryZones ?? []} />}
-          <Link href="/plan">
-            <Button variant="primary">Gestionar Entrega</Button>
+          <Link
+            href="/plan"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 font-sans text-label-md font-semibold text-on-primary shadow-soft transition-all duration-200 hover:brightness-110 active:scale-95"
+          >
+            Gestionar Entrega
           </Link>
         </div>
       </header>
@@ -164,14 +168,16 @@ export default async function PerfilPage() {
                 <h3 className="mb-2 font-serif text-headline-sm">
                   {subscription.subscription_plans?.name}
                 </h3>
-                <div className="mb-6 flex items-baseline gap-2">
-                  <span className="font-serif text-display-lg-mobile text-on-tertiary-fixed-variant">
-                    {formatPrice(subscription.subscription_plans?.price_cents ?? 0)}
-                  </span>
-                  <span className="font-sans text-label-md">
-                    / {subscription.subscription_plans?.delivery_frequency}
-                  </span>
-                </div>
+                {subscription.subscription_plans && (
+                  <>
+                    <PlanPriceTag
+                      price={getPlanPrice(subscription.subscription_plans, modality)}
+                      size="lg"
+                      className="mb-2"
+                    />
+                    <p className="mb-6 font-sans text-label-md">{modalityLabel(modality)}</p>
+                  </>
+                )}
                 <ul className="mb-8 space-y-3">
                   {subscription.subscription_items.map((item, index) => (
                     <li key={index} className="flex items-center gap-3">
@@ -182,6 +188,13 @@ export default async function PerfilPage() {
                     </li>
                   ))}
                 </ul>
+                <Link
+                  href="/plan"
+                  className="mb-6 inline-flex items-center gap-1 font-sans text-label-md underline-offset-4 hover:underline"
+                >
+                  Ver mi plan
+                  <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </Link>
                 <div className="flex flex-wrap gap-3">
                   {subscription.status === "active" && (
                     <form action={pauseSubscriptionAction.bind(null, subscription.id)}>

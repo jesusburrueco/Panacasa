@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState, useTransition } from "react";
+import { useActionState, useEffect, useRef, useState, useTransition, type ReactNode } from "react";
 import { cn, formatPrice } from "@/lib/utils";
 import type { Tables } from "@/lib/supabase/types";
 import {
@@ -19,6 +19,7 @@ import {
   updatePlanAction,
   type PlanActionState,
 } from "@/lib/supabase/plan-actions";
+import { PLAN_MODALITIES, getPlanPrice } from "@/lib/plan-pricing";
 
 type Plan = Tables<"subscription_plans">;
 
@@ -59,7 +60,7 @@ export function PlanesManager({ plans }: { plans: Plan[] }) {
         <div className="overflow-hidden rounded-lg bg-surface-container-low shadow-soft">
           {/* Cabecera de tabla (solo desktop) */}
           <div className="hidden grid-cols-[2fr_1fr_1.6fr_1fr_1fr_auto] gap-4 border-b border-outline-variant px-6 py-4 lg:grid">
-            {["Plan", "Precio semanal", "Días de reparto", "Barras/día", "Estado", ""].map(
+            {["Plan", "Precios / semana", "Días de reparto", "Barras/día", "Estado", ""].map(
               (heading) => (
                 <span
                   key={heading}
@@ -92,14 +93,7 @@ export function PlanesManager({ plans }: { plans: Plan[] }) {
                     )}
                   </div>
 
-                  <div>
-                    <span className="font-serif text-headline-sm text-on-surface">
-                      {plan.weekly_price_cents != null
-                        ? formatPrice(plan.weekly_price_cents)
-                        : "—"}
-                    </span>
-                    <span className="font-sans text-label-sm text-on-surface-variant"> / semana</span>
-                  </div>
+                  <PlanPricesSummary plan={plan} />
 
                   <div className="space-y-2">
                     <DayChips days={days} />
@@ -156,6 +150,38 @@ export function PlanesManager({ plans }: { plans: Plan[] }) {
 
       {modalPlan !== undefined && (
         <PlanModal plan={modalPlan} onClose={() => setModalPlan(undefined)} />
+      )}
+    </div>
+  );
+}
+
+function PlanPricesSummary({ plan }: { plan: Plan }) {
+  return (
+    <div className="space-y-1">
+      {PLAN_MODALITIES.map((modality) => {
+        const price = getPlanPrice(plan, modality.value);
+        return (
+          <p key={modality.value} className="flex items-baseline gap-2 font-sans text-label-md">
+            <span className="w-8 text-label-sm text-on-surface-variant">{modality.short}</span>
+            {price.regularCents == null ? (
+              <span className="text-outline">—</span>
+            ) : price.promoCents != null ? (
+              <>
+                <span className="text-tertiary">{formatPrice(price.promoCents)}</span>
+                <s className="text-label-sm text-on-surface-variant">
+                  {formatPrice(price.regularCents)}
+                </s>
+              </>
+            ) : (
+              <span className="text-on-surface">{formatPrice(price.regularCents)}</span>
+            )}
+          </p>
+        );
+      })}
+      {plan.promo_active && (
+        <span className="inline-block rounded-full bg-tertiary-container px-2 py-0.5 font-sans text-[11px] font-semibold uppercase tracking-wider text-on-tertiary-container">
+          Promo activa
+        </span>
       )}
     </div>
   );
@@ -257,7 +283,7 @@ function PlanModal({ plan, onClose }: { plan: Plan | null; onClose: () => void }
         role="dialog"
         aria-modal="true"
         aria-labelledby="plan-modal-title"
-        className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-lg bg-surface-container-low shadow-2xl"
+        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-surface-container-low shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-outline-variant p-6">
@@ -296,25 +322,72 @@ function PlanModal({ plan, onClose }: { plan: Plan | null; onClose: () => void }
             />
           </label>
 
-          <label className="block">
-            <span className="font-sans text-label-md text-on-surface-variant">
-              Precio semanal (€)
-            </span>
-            <input
-              name="weeklyPrice"
-              type="number"
-              min="0"
-              step="0.01"
-              required
+          <PriceSection
+            title="Precios regulares"
+            description="Precio semanal según la modalidad de reparto."
+          >
+            <PriceField
+              name="priceWeekdays"
+              label="Lunes a Viernes (€/semana)"
               placeholder="12.50"
-              defaultValue={
-                plan?.weekly_price_cents != null
-                  ? (plan.weekly_price_cents / 100).toFixed(2)
-                  : undefined
-              }
-              className={inputClass}
+              cents={plan?.price_weekdays_cents ?? plan?.weekly_price_cents}
             />
-          </label>
+            <PriceField
+              name="priceFullWeek"
+              label="Lunes a Lunes (€/semana)"
+              placeholder="16.90"
+              cents={plan?.price_full_week_cents}
+            />
+          </PriceSection>
+
+          <PriceSection
+            title="Precios promocionales"
+            description="Con la promo activa, el precio regular se muestra tachado."
+          >
+            <PriceField
+              name="promoWeekdays"
+              label="Promo Lunes a Viernes (€/semana)"
+              placeholder="9.90"
+              cents={plan?.promo_weekdays_cents}
+            />
+            <PriceField
+              name="promoFullWeek"
+              label="Promo Lunes a Lunes (€/semana)"
+              placeholder="13.90"
+              cents={plan?.promo_full_week_cents}
+            />
+            <label className="relative inline-flex w-fit cursor-pointer items-center gap-3 sm:col-span-2">
+              <input
+                name="promoActive"
+                type="checkbox"
+                defaultChecked={plan?.promo_active ?? false}
+                className="peer sr-only"
+              />
+              <div className="relative h-6 w-11 rounded-full bg-surface-variant transition-colors peer-checked:bg-tertiary peer-focus-visible:ring-2 peer-focus-visible:ring-primary" />
+              <div className="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition-transform peer-checked:translate-x-5" />
+              <span className="font-sans text-label-md text-on-surface-variant">
+                Promoción activa
+              </span>
+            </label>
+          </PriceSection>
+
+          <PriceSection
+            title="Precios comerciales"
+            description='Lectura comercial por día ("Solo 0,90 € al día").'
+          >
+            <PriceField
+              name="commercialDayPrice"
+              label="Precio por día (€)"
+              placeholder="0.90"
+              cents={plan?.commercial_day_price_cents}
+            />
+            <PriceField
+              name="commercialDayPromo"
+              label="Precio por día con oferta (€)"
+              placeholder="0.70"
+              cents={plan?.commercial_day_promo_cents}
+            />
+          </PriceSection>
 
           <fieldset>
             <legend className="font-sans text-label-md text-on-surface-variant">
@@ -466,5 +539,50 @@ function PlanModal({ plan, onClose }: { plan: Plan | null; onClose: () => void }
         </form>
       </div>
     </div>
+  );
+}
+
+function PriceSection({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description: string;
+  children: ReactNode;
+}) {
+  return (
+    <fieldset className="rounded-lg border border-outline-variant/60 p-4">
+      <legend className="px-1 font-serif text-body-lg text-primary">{title}</legend>
+      <p className="mb-3 font-sans text-label-sm text-on-surface-variant">{description}</p>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{children}</div>
+    </fieldset>
+  );
+}
+
+function PriceField({
+  name,
+  label,
+  placeholder,
+  cents,
+}: {
+  name: string;
+  label: string;
+  placeholder: string;
+  cents: number | null | undefined;
+}) {
+  return (
+    <label className="block">
+      <span className="font-sans text-label-sm text-on-surface-variant">{label}</span>
+      <input
+        name={name}
+        type="number"
+        min="0"
+        step="0.01"
+        placeholder={placeholder}
+        defaultValue={cents != null ? (cents / 100).toFixed(2) : undefined}
+        className={inputClass}
+      />
+    </label>
   );
 }

@@ -147,7 +147,15 @@ export default async function ProductoDetailPage({
               )}
             </div>
 
-            <AddToSubscriptionControls productSlug={product.slug} />
+            <AddToSubscriptionControls
+              product={{
+                productId: product.id,
+                name: product.name,
+                slug: product.slug,
+                priceCents: product.price_cents,
+                imageUrl: product.image_url,
+              }}
+            />
             <p className="mt-6 text-center font-sans text-label-sm italic text-on-surface-variant/70 sm:text-left">
               * Entrega a domicilio los días que elijas en tu perfil.
             </p>

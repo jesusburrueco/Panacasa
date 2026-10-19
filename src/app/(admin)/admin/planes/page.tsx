@@ -16,8 +16,8 @@ export default async function AdminPlanesPage() {
           Planes de suscripción
         </h1>
         <p className="max-w-xl font-sans text-body-lg text-on-surface-variant">
-          Define qué días se reparte, cuántas barras recibe el cliente cada día y el precio
-          semanal de cada plan.
+          Define qué días se reparte, cuántas barras recibe el cliente cada día y los precios
+          regulares, promocionales y comerciales de cada plan.
         </p>
       </div>
 

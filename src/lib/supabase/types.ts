@@ -243,6 +243,13 @@ export interface Database {
           delivery_days_of_week: string[];
           breads_per_day: number;
           weekly_price_cents: number | null;
+          price_weekdays_cents: number | null;
+          price_full_week_cents: number | null;
+          promo_weekdays_cents: number | null;
+          promo_full_week_cents: number | null;
+          commercial_day_price_cents: number | null;
+          commercial_day_promo_cents: number | null;
+          promo_active: boolean;
         };
         Insert: {
           id?: string;
@@ -257,6 +264,13 @@ export interface Database {
           delivery_days_of_week?: string[];
           breads_per_day?: number;
           weekly_price_cents?: number | null;
+          price_weekdays_cents?: number | null;
+          price_full_week_cents?: number | null;
+          promo_weekdays_cents?: number | null;
+          promo_full_week_cents?: number | null;
+          commercial_day_price_cents?: number | null;
+          commercial_day_promo_cents?: number | null;
+          promo_active?: boolean;
         };
         Update: {
           id?: string;
@@ -271,6 +285,13 @@ export interface Database {
           delivery_days_of_week?: string[];
           breads_per_day?: number;
           weekly_price_cents?: number | null;
+          price_weekdays_cents?: number | null;
+          price_full_week_cents?: number | null;
+          promo_weekdays_cents?: number | null;
+          promo_full_week_cents?: number | null;
+          commercial_day_price_cents?: number | null;
+          commercial_day_promo_cents?: number | null;
+          promo_active?: boolean;
         };
         Relationships: [];
       };
@@ -351,6 +372,119 @@ export interface Database {
           },
           {
             foreignKeyName: "subscription_items_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      cart_items: {
+        Row: {
+          id: string;
+          user_id: string;
+          product_id: string;
+          quantity: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          product_id: string;
+          quantity?: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          product_id?: string;
+          quantity?: number;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "cart_items_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      extra_orders: {
+        Row: {
+          id: string;
+          user_id: string;
+          status: string;
+          total_cents: number;
+          delivery_date: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          status?: string;
+          total_cents: number;
+          delivery_date: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          status?: string;
+          total_cents?: number;
+          delivery_date?: string;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "extra_orders_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      extra_order_items: {
+        Row: {
+          id: string;
+          order_id: string;
+          product_id: string;
+          quantity: number;
+          price_cents: number;
+        };
+        Insert: {
+          id?: string;
+          order_id: string;
+          product_id: string;
+          quantity: number;
+          price_cents: number;
+        };
+        Update: {
+          id?: string;
+          order_id?: string;
+          product_id?: string;
+          quantity?: number;
+          price_cents?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "extra_order_items_order_id_fkey";
+            columns: ["order_id"];
+            isOneToOne: false;
+            referencedRelation: "extra_orders";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "extra_order_items_product_id_fkey";
             columns: ["product_id"];
             isOneToOne: false;
             referencedRelation: "products";

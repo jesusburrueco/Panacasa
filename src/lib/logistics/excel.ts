@@ -153,7 +153,8 @@ export async function buildAlbaranWorkbook(summary: AlbaranSummary): Promise<Exc
             sheet.getCell(row, 6).value = customer.phone ?? "";
           }
           sheet.getCell(row, 3).value = item.quantity;
-          sheet.getCell(row, 4).value = item.productName;
+          sheet.getCell(row, 4).value =
+            "isExtra" in item && item.isExtra ? `${item.productName} (extra)` : item.productName;
           applyGridBorder(sheet, row);
           row++;
         });

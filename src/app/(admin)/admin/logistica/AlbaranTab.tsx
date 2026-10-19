@@ -195,6 +195,13 @@ export function AlbaranTab({
             {isNavigating
               ? "Calculando…"
               : `${weekdayLabel}: clientes activos con entrega los ${weekdayLabel.toLowerCase()}.`}
+            {!isNavigating && albaran.totalExtraUnidades > 0 && (
+              <>
+                {" "}
+                Incluye {albaran.totalExtraUnidades}{" "}
+                {albaran.totalExtraUnidades === 1 ? "unidad" : "unidades"} de pedidos extra.
+              </>
+            )}
           </p>
         </div>
 
@@ -371,7 +378,7 @@ export function AlbaranTab({
                           className="border-t-2 border-outline-variant [&>tr+tr]:border-t [&>tr+tr]:border-outline-variant/40"
                         >
                           {rows.map(({ customer, item, firstOfCustomer }, index) => (
-                            <tr key={`${customer.subscriptionId}-${item.productName}-${index}`}>
+                            <tr key={`${customer.customerId}-${item.productName}-${index}`}>
                               {index === 0 && (
                                 <td
                                   rowSpan={rows.length}
@@ -384,7 +391,14 @@ export function AlbaranTab({
                                 {firstOfCustomer ? customer.customerName : ""}
                               </td>
                               <td className="px-4 py-2 font-sans text-body-md">{item.quantity}</td>
-                              <td className="px-4 py-2 font-sans text-body-md">{item.productName}</td>
+                              <td className="px-4 py-2 font-sans text-body-md">
+                                {item.productName}
+                                {"isExtra" in item && item.isExtra && (
+                                  <span className="ml-2 rounded-full bg-tertiary-container px-2 py-0.5 font-sans text-[11px] font-semibold uppercase tracking-wider text-on-tertiary-container">
+                                    Extra
+                                  </span>
+                                )}
+                              </td>
                               {index === 0 && (
                                 <td
                                   rowSpan={rows.length}
