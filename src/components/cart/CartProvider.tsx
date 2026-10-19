@@ -28,6 +28,8 @@ interface CartContextValue {
   quantityOf: (productId: string) => number;
   setQuantity: (product: CartProduct, quantity: number) => void;
   confirmOrder: () => void;
+  /** Sustituye el carrito por el que devuelve el servidor (p. ej. al cancelar un pedido). */
+  replaceLines: (lines: CartLine[]) => void;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -101,6 +103,11 @@ export function CartProvider({
   }, []);
 
   const open = useCallback(() => setIsOpen(true), []);
+  const replaceLines = useCallback((next: CartLine[]) => {
+    requestId.current++;
+    setLines(next);
+    setConfirmedDate(null);
+  }, []);
   const close = useCallback(() => {
     setIsOpen(false);
     setConfirmedDate(null);
@@ -118,6 +125,7 @@ export function CartProvider({
     quantityOf,
     setQuantity,
     confirmOrder,
+    replaceLines,
   };
 
   return (

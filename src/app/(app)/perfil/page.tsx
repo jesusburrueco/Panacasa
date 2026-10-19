@@ -10,7 +10,9 @@ import {
   resumeSubscriptionAction,
 } from "@/lib/supabase/subscription-actions";
 import { updateMyDeliveryDaysAction } from "@/lib/supabase/profile-actions";
-import { upcomingDeliveryDates } from "@/lib/logistics/types";
+import { todayIsoMadrid, upcomingDeliveryDates } from "@/lib/logistics/types";
+import { getPendingExtraOrders } from "@/lib/supabase/cart-queries";
+import { PendingExtraOrders } from "@/components/cart/PendingExtraOrders";
 import { DeliveryDaysForm } from "@/components/shared/DeliveryDaysForm";
 import { EditProfileModal } from "./EditProfileModal";
 
@@ -35,7 +37,13 @@ export default async function PerfilPage() {
     redirect("/login?redirect=/perfil");
   }
 
-  const [{ data: profile }, { data: deliveryZones }, { data: subscription }] = await Promise.all([
+  const today = todayIsoMadrid();
+  const [
+    { data: profile },
+    { data: deliveryZones },
+    { data: subscription },
+    extraOrders,
+  ] = await Promise.all([
     supabase.from("profiles").select("*, delivery_zones(name)").eq("id", user.id).single(),
     supabase.from("delivery_zones").select("*").eq("is_active", true).order("name"),
     supabase
@@ -47,6 +55,7 @@ export default async function PerfilPage() {
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle(),
+    getPendingExtraOrders(user.id, today),
   ]);
 
   const deliveryDays = profile?.delivery_days ?? [];
@@ -252,8 +261,8 @@ export default async function PerfilPage() {
           <section>
             <h2 className="mb-2 font-serif text-headline-sm text-primary">Mis días de entrega</h2>
             <p className="mb-6 font-sans text-body-md text-on-surface-variant">
-              Elige qué días de la semana quieres recibir tu pan en casa. Repartimos todos los
-              días, antes de las 8:00.
+              Elige si quieres recibir tu pan de lunes a viernes o todos los días. Repartimos
+              antes de las 8:00.
             </p>
             <Card className="border border-outline-variant/30">
               <DeliveryDaysForm action={updateMyDeliveryDaysAction} initialDays={deliveryDays} />
@@ -306,6 +315,8 @@ export default async function PerfilPage() {
               </div>
             )}
           </section>
+
+          <PendingExtraOrders orders={extraOrders} today={today} />
         </div>
       </div>
     </main>

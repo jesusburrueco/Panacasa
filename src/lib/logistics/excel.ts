@@ -154,7 +154,7 @@ export async function buildAlbaranWorkbook(summary: AlbaranSummary): Promise<Exc
           }
           sheet.getCell(row, 3).value = item.quantity;
           sheet.getCell(row, 4).value =
-            "isExtra" in item && item.isExtra ? `${item.productName} (extra)` : item.productName;
+            "isExtra" in item && item.isExtra ? `${item.productName} (EXTRA)` : item.productName;
           applyGridBorder(sheet, row);
           row++;
         });

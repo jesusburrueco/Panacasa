@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { sortDays } from "@/lib/constants";
+import { deliveryModeDays, parseDeliveryMode } from "@/lib/constants";
 
 export interface ProfileActionState {
   error: string | null;
@@ -58,9 +58,16 @@ export interface DeliveryDaysActionState {
   saved: boolean;
 }
 
+/** Solo se aceptan las dos opciones: lunes a viernes o todos los dias. */
 function readDeliveryDays(formData: FormData) {
-  return sortDays(formData.getAll("days").map(String));
+  const mode = parseDeliveryMode(formData.get("deliveryMode"));
+  return mode ? deliveryModeDays(mode) : null;
 }
+
+const invalidDays: DeliveryDaysActionState = {
+  error: "Elige \"Lunes a Viernes\" o \"Todos los días\".",
+  saved: false,
+};
 
 export async function updateMyDeliveryDaysAction(
   _prevState: DeliveryDaysActionState,
@@ -75,9 +82,12 @@ export async function updateMyDeliveryDaysAction(
     redirect("/login?redirect=/perfil");
   }
 
+  const days = readDeliveryDays(formData);
+  if (!days) return invalidDays;
+
   const { error } = await supabase
     .from("profiles")
-    .update({ delivery_days: readDeliveryDays(formData) })
+    .update({ delivery_days: days })
     .eq("id", user.id);
 
   if (error) {
@@ -86,6 +96,7 @@ export async function updateMyDeliveryDaysAction(
   }
 
   revalidatePath("/perfil");
+  revalidatePath("/plan");
   return { error: null, saved: true };
 }
 
@@ -95,10 +106,13 @@ export async function adminUpdateDeliveryDaysAction(
   _prevState: DeliveryDaysActionState,
   formData: FormData
 ): Promise<DeliveryDaysActionState> {
+  const days = readDeliveryDays(formData);
+  if (!days) return invalidDays;
+
   const supabase = await createClient();
   const { error } = await supabase
     .from("profiles")
-    .update({ delivery_days: readDeliveryDays(formData) })
+    .update({ delivery_days: days })
     .eq("id", profileId);
 
   if (error) {

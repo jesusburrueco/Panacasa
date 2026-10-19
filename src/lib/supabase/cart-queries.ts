@@ -30,3 +30,54 @@ export async function getCartLines(userId: string): Promise<CartLine[]> {
       : []
   );
 }
+
+export interface PendingExtraOrder {
+  id: string;
+  deliveryDate: string;
+  totalCents: number;
+  items: {
+    id: string;
+    quantity: number;
+    priceCents: number;
+    name: string;
+    slug: string | null;
+    imageUrl: string | null;
+  }[];
+}
+
+/** Pedidos extra pendientes del usuario con entrega de hoy en adelante. */
+export async function getPendingExtraOrders(
+  userId: string,
+  fromDate: string
+): Promise<PendingExtraOrder[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("extra_orders")
+    .select(
+      "id, delivery_date, total_cents, extra_order_items ( id, quantity, price_cents, products ( name, slug, image_url ) )"
+    )
+    .eq("user_id", userId)
+    .eq("status", "pending")
+    .gte("delivery_date", fromDate)
+    .order("delivery_date")
+    .order("created_at");
+
+  if (error) {
+    console.error("[getPendingExtraOrders] Supabase error:", error);
+    return [];
+  }
+
+  return (data ?? []).map((order) => ({
+    id: order.id,
+    deliveryDate: order.delivery_date,
+    totalCents: order.total_cents,
+    items: order.extra_order_items.map((item) => ({
+      id: item.id,
+      quantity: item.quantity,
+      priceCents: item.price_cents,
+      name: item.products?.name ?? "Producto",
+      slug: item.products?.slug ?? null,
+      imageUrl: item.products?.image_url ?? null,
+    })),
+  }));
+}

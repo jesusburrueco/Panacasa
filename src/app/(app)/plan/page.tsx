@@ -3,6 +3,8 @@ import { DeliveryChecker } from "@/components/shared/DeliveryChecker";
 import { CustomPlanContact } from "@/components/shared/CustomPlanContact";
 import { PlanForm } from "./PlanForm";
 import { MyPlan } from "./MyPlan";
+import { getPendingExtraOrders } from "@/lib/supabase/cart-queries";
+import { todayIsoMadrid } from "@/lib/logistics/types";
 
 export default async function PlanPage({
   searchParams,
@@ -40,12 +42,16 @@ export default async function PlanPage({
     ]);
 
   // Con una suscripcion en curso, /plan pasa a ser "Mi plan".
-  if (subscription) {
+  if (subscription && user) {
+    const today = todayIsoMadrid();
+    const extraOrders = await getPendingExtraOrders(user.id, today);
     return (
       <MyPlan
         subscription={subscription}
         deliveryDays={profile?.delivery_days ?? []}
         plans={plans ?? []}
+        extraOrders={extraOrders}
+        today={today}
       />
     );
   }

@@ -1,10 +1,10 @@
-import { ALL_DAYS, WEEKDAYS, type DayOfWeek } from "@/lib/constants";
+import { deliveryModeDays, type DayOfWeek, type DeliveryMode } from "@/lib/constants";
 import type { Tables } from "@/lib/supabase/types";
 
 type Plan = Tables<"subscription_plans">;
 
 /** Modalidad de reparto: lunes a viernes o lunes a lunes (7 dias). */
-export type PlanModality = "weekdays" | "full_week";
+export type PlanModality = DeliveryMode;
 
 export const PLAN_MODALITIES: { value: PlanModality; label: string; short: string }[] = [
   { value: "weekdays", label: "Lunes a Viernes", short: "L-V" },
@@ -16,7 +16,7 @@ export function modalityLabel(modality: PlanModality): string {
 }
 
 export function modalityDays(modality: PlanModality): DayOfWeek[] {
-  return modality === "full_week" ? [...ALL_DAYS] : [...WEEKDAYS];
+  return deliveryModeDays(modality);
 }
 
 /**

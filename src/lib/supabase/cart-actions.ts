@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCartLines } from "@/lib/supabase/cart-queries";
-import { nextOrderDeliveryDate } from "@/lib/logistics/types";
+import { nextOrderDeliveryDate, todayIsoMadrid } from "@/lib/logistics/types";
 import { cartSubtotalCents, type CartLine } from "@/lib/cart";
 
 export interface CartActionResult {
@@ -132,4 +132,78 @@ export async function confirmExtraOrderAction(): Promise<ConfirmExtraOrderResult
   revalidatePath("/admin/pedidos");
   revalidatePath("/admin/logistica");
   return { error: null, lines: [], deliveryDate };
+}
+
+/**
+ * Cancela un pedido extra pendiente del usuario y devuelve sus productos al
+ * carrito (sumando a lo que ya hubiera). El reparto de hoy ya esta en
+ * marcha, asi que solo se cancelan pedidos con entrega a partir de manana.
+ */
+export async function cancelExtraOrderAction(orderId: string): Promise<CartActionResult> {
+  const { supabase, userId } = await requireUserId();
+  if (!userId) return notLoggedIn;
+
+  const { data: order } = await supabase
+    .from("extra_orders")
+    .select("id, status, delivery_date, extra_order_items ( product_id, quantity )")
+    .eq("id", orderId)
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (!order || order.status !== "pending") {
+    return { error: "Este pedido ya no se puede cancelar.", lines: await getCartLines(userId) };
+  }
+  if (order.delivery_date <= todayIsoMadrid()) {
+    return {
+      error: "El reparto de este pedido ya está en marcha y no se puede cancelar.",
+      lines: await getCartLines(userId),
+    };
+  }
+
+  const { error: cancelError } = await supabase
+    .from("extra_orders")
+    .update({ status: "cancelled" })
+    .eq("id", order.id)
+    .eq("user_id", userId)
+    .eq("status", "pending");
+
+  if (cancelError) {
+    console.error("[cancelExtraOrderAction] Supabase error:", cancelError);
+    return { error: "No se pudo cancelar el pedido.", lines: await getCartLines(userId) };
+  }
+
+  const { data: cartRows } = await supabase
+    .from("cart_items")
+    .select("product_id, quantity")
+    .eq("user_id", userId);
+  const current = new Map((cartRows ?? []).map((row) => [row.product_id, row.quantity]));
+
+  const returned = new Map<string, number>();
+  for (const item of order.extra_order_items) {
+    returned.set(item.product_id, (returned.get(item.product_id) ?? 0) + item.quantity);
+  }
+
+  let cartError = null;
+  if (returned.size > 0) {
+    ({ error: cartError } = await supabase.from("cart_items").upsert(
+      Array.from(returned, ([productId, quantity]) => ({
+        user_id: userId,
+        product_id: productId,
+        quantity: Math.min(MAX_QUANTITY, (current.get(productId) ?? 0) + quantity),
+      })),
+      { onConflict: "user_id,product_id" }
+    ));
+    if (cartError) console.error("[cancelExtraOrderAction] cart upsert error:", cartError);
+  }
+
+  revalidatePath("/perfil");
+  revalidatePath("/plan");
+  revalidatePath("/admin/pedidos");
+  revalidatePath("/admin/logistica");
+  return {
+    error: cartError
+      ? "Pedido cancelado, pero no se pudieron devolver los productos al carrito."
+      : null,
+    lines: await getCartLines(userId),
+  };
 }

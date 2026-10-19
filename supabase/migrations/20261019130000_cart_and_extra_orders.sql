@@ -12,7 +12,7 @@ create table if not exists public.cart_items (
 
 create table if not exists public.extra_orders (
   id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references public.profiles (id),
+  user_id uuid not null references public.profiles (id) on delete cascade,
   status text not null default 'pending',
   total_cents integer not null,
   delivery_date date not null,

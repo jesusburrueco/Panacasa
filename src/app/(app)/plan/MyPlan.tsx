@@ -11,6 +11,8 @@ import {
   resumeSubscriptionAction,
 } from "@/lib/supabase/subscription-actions";
 import { ChangePlanPanel } from "./ChangePlanPanel";
+import { PendingExtraOrders } from "@/components/cart/PendingExtraOrders";
+import type { PendingExtraOrder } from "@/lib/supabase/cart-queries";
 import { CancelSubscriptionButton } from "./CancelSubscriptionButton";
 
 type Plan = Tables<"subscription_plans">;
@@ -36,10 +38,14 @@ export function MyPlan({
   subscription,
   deliveryDays,
   plans,
+  extraOrders,
+  today,
 }: {
   subscription: MyPlanSubscription;
   deliveryDays: string[];
   plans: Plan[];
+  extraOrders: PendingExtraOrder[];
+  today: string;
 }) {
   const plan = subscription.subscription_plans;
   const modality = modalityFromDays(deliveryDays);
@@ -170,6 +176,8 @@ export function MyPlan({
               </ul>
             )}
           </section>
+
+          <PendingExtraOrders orders={extraOrders} today={today} />
 
           {/* Dias de entrega */}
           <section>

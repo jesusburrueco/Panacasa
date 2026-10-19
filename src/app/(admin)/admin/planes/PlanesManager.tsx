@@ -4,14 +4,15 @@ import { useActionState, useEffect, useRef, useState, useTransition, type ReactN
 import { cn, formatPrice } from "@/lib/utils";
 import type { Tables } from "@/lib/supabase/types";
 import {
-  ALL_DAYS,
   DAYS_OF_WEEK,
   MAX_BREADS_PER_DAY,
-  WEEKDAYS,
+  deliveryModeDays,
   formatDeliveryDays,
   sortDays,
   type DayOfWeek,
+  type DeliveryMode,
 } from "@/lib/constants";
+import { DeliveryModeSelector } from "@/components/shared/DeliveryModeSelector";
 import {
   createPlanAction,
   deletePlanAction,
@@ -19,7 +20,7 @@ import {
   updatePlanAction,
   type PlanActionState,
 } from "@/lib/supabase/plan-actions";
-import { PLAN_MODALITIES, getPlanPrice } from "@/lib/plan-pricing";
+import { PLAN_MODALITIES, getPlanPrice, modalityFromDays } from "@/lib/plan-pricing";
 
 type Plan = Tables<"subscription_plans">;
 
@@ -254,9 +255,10 @@ function PlanModal({ plan, onClose }: { plan: Plan | null; onClose: () => void }
   const [state, formAction, isPending] = useActionState(action, initialState);
   const wasPending = useRef(false);
 
-  const [days, setDays] = useState<DayOfWeek[]>(() =>
-    plan ? sortDays(plan.delivery_days_of_week) : [...WEEKDAYS]
+  const [deliveryMode, setDeliveryMode] = useState<DeliveryMode>(() =>
+    plan ? modalityFromDays(plan.delivery_days_of_week) : "weekdays"
   );
+  const days = deliveryModeDays(deliveryMode);
   const [breadsPerDay, setBreadsPerDay] = useState(plan?.breads_per_day ?? 1);
 
   useEffect(() => {
@@ -265,12 +267,6 @@ function PlanModal({ plan, onClose }: { plan: Plan | null; onClose: () => void }
     }
     wasPending.current = isPending;
   }, [isPending, state.error, onClose]);
-
-  const toggleDay = (day: DayOfWeek) =>
-    setDays((prev) => sortDays(prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]));
-
-  const sameDays = (preset: readonly DayOfWeek[]) =>
-    preset.length === days.length && preset.every((d) => days.includes(d));
 
   const weeklyTotal = days.length * breadsPerDay;
 
@@ -390,58 +386,13 @@ function PlanModal({ plan, onClose }: { plan: Plan | null; onClose: () => void }
           </PriceSection>
 
           <fieldset>
-            <legend className="font-sans text-label-md text-on-surface-variant">
+            <legend className="mb-2 font-sans text-label-md text-on-surface-variant">
               Días de reparto
             </legend>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {[
-                { label: "Lunes a Viernes", days: WEEKDAYS },
-                { label: "Lunes a Lunes (7 días)", days: ALL_DAYS },
-              ].map((preset) => (
-                <button
-                  key={preset.label}
-                  type="button"
-                  onClick={() => setDays([...preset.days])}
-                  className={cn(
-                    "rounded-full border px-4 py-1.5 font-sans text-label-sm transition-colors",
-                    sameDays(preset.days)
-                      ? "border-tertiary bg-tertiary-container text-on-tertiary-container"
-                      : "border-outline-variant text-on-surface-variant hover:bg-surface-variant"
-                  )}
-                >
-                  {preset.label}
-                </button>
-              ))}
-            </div>
-            <div className="mt-3 grid grid-cols-7 gap-1.5">
-              {DAYS_OF_WEEK.map((day) => {
-                const selected = days.includes(day.value);
-                return (
-                  <label key={day.value} className="cursor-pointer">
-                    <input
-                      type="checkbox"
-                      name="days"
-                      value={day.value}
-                      checked={selected}
-                      onChange={() => toggleDay(day.value)}
-                      className="peer sr-only"
-                    />
-                    <span
-                      title={day.label}
-                      className={cn(
-                        "flex flex-col items-center rounded-DEFAULT py-2 font-sans transition-all peer-focus-visible:ring-2 peer-focus-visible:ring-primary",
-                        selected
-                          ? "bg-primary text-on-primary shadow-soft"
-                          : "bg-surface text-on-surface-variant hover:bg-surface-variant"
-                      )}
-                    >
-                      <span className="text-label-md">{day.short}</span>
-                      <span className="text-[10px] opacity-80">{day.label.slice(0, 3)}</span>
-                    </span>
-                  </label>
-                );
-              })}
-            </div>
+            <DeliveryModeSelector name="deliveryMode" value={deliveryMode} onChange={setDeliveryMode} />
+            {days.map((day) => (
+              <input key={day} type="hidden" name="days" value={day} />
+            ))}
           </fieldset>
 
           <fieldset>

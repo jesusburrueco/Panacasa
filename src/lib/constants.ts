@@ -62,3 +62,47 @@ export function formatDeliveryDays(days: readonly string[]): string {
     .map((value) => DAYS_OF_WEEK.find((day) => day.value === value)?.label ?? value)
     .join(", ");
 }
+
+/**
+ * Los dias de entrega solo admiten dos opciones: lunes a viernes o todos los
+ * dias. Coinciden con las modalidades de precio de los planes (L-V / L-L).
+ */
+export type DeliveryMode = "weekdays" | "full_week";
+
+export const DELIVERY_MODES: {
+  value: DeliveryMode;
+  label: string;
+  description: string;
+  days: readonly DayOfWeek[];
+}[] = [
+  {
+    value: "weekdays",
+    label: "Lunes a Viernes",
+    description: "5 entregas a la semana, en días laborables.",
+    days: WEEKDAYS,
+  },
+  {
+    value: "full_week",
+    label: "Todos los días",
+    description: "7 entregas a la semana, fines de semana incluidos.",
+    days: ALL_DAYS,
+  },
+];
+
+export function deliveryModeDays(mode: DeliveryMode): DayOfWeek[] {
+  return [...(mode === "full_week" ? ALL_DAYS : WEEKDAYS)];
+}
+
+/** Opcion que corresponde exactamente a `days`, o null si no encaja en ninguna. */
+export function deliveryModeFromDays(days: readonly string[]): DeliveryMode | null {
+  const sorted = sortDays(days);
+  if (sorted.length === ALL_DAYS.length) return "full_week";
+  if (sorted.length === WEEKDAYS.length && WEEKDAYS.every((day) => sorted.includes(day))) {
+    return "weekdays";
+  }
+  return null;
+}
+
+export function parseDeliveryMode(value: unknown): DeliveryMode | null {
+  return value === "weekdays" || value === "full_week" ? value : null;
+}

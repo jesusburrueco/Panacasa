@@ -3,10 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { WEEKDAYS, sortDays } from "@/lib/constants";
 import {
   modalityDays,
-  modalityFromDays,
   planSupportsModality,
   type PlanModality,
 } from "@/lib/plan-pricing";
@@ -17,22 +15,6 @@ export interface SubscriptionActionState {
 
 function readModality(formData: FormData): PlanModality {
   return formData.get("modality") === "full_week" ? "full_week" : "weekdays";
-}
-
-/**
- * Ajusta los dias de entrega del cliente a la modalidad elegida, respetando
- * su seleccion actual cuando ya encaja (la modalidad se deduce de ellos).
- */
-function deliveryDaysForModality(
-  current: readonly string[] | null | undefined,
-  modality: PlanModality
-): string[] {
-  const days = sortDays(current ?? []);
-  if (modality === "weekdays") {
-    const weekdaysOnly = days.filter((day) => WEEKDAYS.includes(day));
-    return weekdaysOnly.length > 0 ? weekdaysOnly : modalityDays("weekdays");
-  }
-  return modalityFromDays(days) === "full_week" ? days : modalityDays("full_week");
 }
 
 interface SelectedItem {
@@ -101,16 +83,10 @@ export async function createSubscriptionAction(
   }
 
   // Los albaranes solo miran profiles.delivery_days y la modalidad (L-V o
-  // L-L) se deduce de ellos: se ajustan a la modalidad elegida (editables
-  // despues desde "Mis dias de entrega").
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("delivery_days")
-    .eq("id", user.id)
-    .single();
+  // L-L) se deduce de ellos: se fijan a los dias de la modalidad elegida.
   await supabase
     .from("profiles")
-    .update({ delivery_days: deliveryDaysForModality(profile?.delivery_days, modality) })
+    .update({ delivery_days: modalityDays(modality) })
     .eq("id", user.id);
 
   revalidatePath("/perfil");
@@ -218,14 +194,9 @@ export async function changePlanAction(
       : supabase.from("subscription_items").delete().eq("id", item.id));
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("delivery_days")
-    .eq("id", user.id)
-    .single();
   await supabase
     .from("profiles")
-    .update({ delivery_days: deliveryDaysForModality(profile?.delivery_days, modality) })
+    .update({ delivery_days: modalityDays(modality) })
     .eq("id", user.id);
 
   revalidatePath("/perfil");
